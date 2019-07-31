@@ -157,7 +157,7 @@ public class DataWrapper {
 				throw new NoSuchElementException("Except: [Material(:byte)], [amount]  Set: " + s + "(invade Material)"); 
 			}
 		}
-		return null;
+		return require;
 	}
 
 	@SuppressWarnings("unchecked")

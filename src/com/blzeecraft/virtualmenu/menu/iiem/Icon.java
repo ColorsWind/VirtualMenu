@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.menu.iiem;
 import java.util.List;
 import java.util.Map;
 
-
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +30,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class Icon extends ViewItem implements IConfig {
-	
+
 	// action
 	@Node(key = "COMMAND", type = DataType.COMMAND_LIST)
 	protected Map<ClickType, List<AbstractAction>> command;
@@ -153,7 +153,7 @@ public class Icon extends ViewItem implements IConfig {
 				} else {
 					p.sendMessage(String.format(requiredMessage, required.amount));
 				}
-
+				return;
 			}
 		}
 		if (command != null) {
@@ -177,6 +177,20 @@ public class Icon extends ViewItem implements IConfig {
 		return command != null;
 	}
 	
+	@Override
+	public void apply() throws IllegalArgumentException {
+		super.apply();
+		if (priceMessage != null) {
+			priceMessage = ChatColor.translateAlternateColorCodes('&', priceMessage);
+		}
+		if (pointsMessage != null) {
+			pointsMessage = ChatColor.translateAlternateColorCodes('&', pointsMessage);
+		}
+		if (requiredMessage != null) {
+			requiredMessage = ChatColor.translateAlternateColorCodes('&', requiredMessage);
+		}
+	}
+
 
 	
 	@Override

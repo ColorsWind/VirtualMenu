@@ -9,8 +9,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.blzeecraft.virtualmenu.config.DataType;
-import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;
 
 import lombok.Data;
@@ -22,11 +20,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true)
 @ToString(callSuper=true)
 public class RequireItem extends Item {
-	
-	
-	
-	@Node(key = "showname", type = DataType.STRING)
-	protected String showname;
 	
 	protected ILog parent;
 	
