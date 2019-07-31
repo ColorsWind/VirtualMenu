@@ -92,7 +92,6 @@ public class Icon extends ViewItem implements IConfig {
 				item.setItemMeta(meta);
 			}
 		}
-		p.getInventory().addItem(item);
 		return item;
 	}
 	

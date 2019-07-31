@@ -121,7 +121,7 @@ public class DataWrapper {
 				} catch (IllegalArgumentException e) {
 					throw new NoSuchElementException("Except: [ClickType]: [action] Set: " + en.getKey() + "(invalid ClickType)"); 
 				}
-				DataWrapper wrapper = new DataWrapper(all);
+				DataWrapper wrapper = new DataWrapper(en.getValue());
 				List<AbstractAction> list = wrapper.asActionList(parent);
 				map.put(type, list);
 			}
