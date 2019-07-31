@@ -1,13 +1,13 @@
-package com.blzeecraft.virtualmenu.chest.icon;
+package com.blzeecraft.virtualmenu.menu.iiem;
 
 import java.util.TreeSet;
 
 import org.bukkit.entity.Player;
 
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

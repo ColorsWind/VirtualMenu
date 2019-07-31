@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
-import com.blzeecraft.virtualmenu.chest.icon.ViewPlayer;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.ViewPlayer;
 import com.blzeecraft.virtualmenu.packet.packets.PacketCloseWindow;
 import com.blzeecraft.virtualmenu.packet.packets.PacketOpenWindow;
 import com.blzeecraft.virtualmenu.packet.packets.PacketSetSlot;

@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 
 public class BoundHandler implements Listener {
 	protected final BoundManager manager;

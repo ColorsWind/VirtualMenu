@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.chest.icon;
+package com.blzeecraft.virtualmenu.menu.iiem;
 
 import java.util.List;
 import java.util.Map;
@@ -13,12 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.bridge.EconomyBridge;
 import com.blzeecraft.virtualmenu.bridge.PlayerPointsBridge;
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
-import com.blzeecraft.virtualmenu.chest.RequireItem;
-import com.blzeecraft.virtualmenu.chest.RequireItem.Result;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.iiem.RequireItem.Result;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 import com.blzeecraft.virtualmenu.settings.Settings;
 

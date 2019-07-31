@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.chest;
+package com.blzeecraft.virtualmenu.menu.iiem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.blzeecraft.virtualmenu.chest.icon.Item;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;

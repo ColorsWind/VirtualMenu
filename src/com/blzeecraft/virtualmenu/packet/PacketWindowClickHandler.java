@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.packet.packets.PacketSetSlot;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;

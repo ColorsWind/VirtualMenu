@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.chest.icon;
+package com.blzeecraft.virtualmenu.menu.iiem;
 
 
 import org.bukkit.entity.Player;

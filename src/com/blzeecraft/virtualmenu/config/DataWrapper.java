@@ -18,10 +18,10 @@ import org.bukkit.event.inventory.ClickType;
 
 import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.action.ActionManager;
-import com.blzeecraft.virtualmenu.chest.RequireItem;
-import com.blzeecraft.virtualmenu.chest.icon.ExtendedIcon;
-import com.blzeecraft.virtualmenu.chest.icon.OverrideIcon;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.iiem.OverrideIcon;
+import com.blzeecraft.virtualmenu.menu.iiem.RequireItem;
 
 import lombok.Data;
 import lombok.NonNull;

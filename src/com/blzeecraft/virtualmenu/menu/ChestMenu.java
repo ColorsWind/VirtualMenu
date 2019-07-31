@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.chest;
+package com.blzeecraft.virtualmenu.menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,13 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
-import com.blzeecraft.virtualmenu.chest.icon.ExtendedIcon;
-import com.blzeecraft.virtualmenu.chest.icon.Icon;
-import com.blzeecraft.virtualmenu.chest.icon.ViewPlayer;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.iiem.Icon;
 import com.blzeecraft.virtualmenu.packet.EnumInventoryType;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 

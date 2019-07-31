@@ -10,9 +10,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 
 import lombok.Getter;
 

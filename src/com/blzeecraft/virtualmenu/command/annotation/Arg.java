@@ -3,9 +3,9 @@ package com.blzeecraft.virtualmenu.command.annotation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
-import com.blzeecraft.virtualmenu.chest.MenuManager;
 import com.blzeecraft.virtualmenu.command.IArgConverter;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.MenuManager;
 
 public enum Arg {
 	

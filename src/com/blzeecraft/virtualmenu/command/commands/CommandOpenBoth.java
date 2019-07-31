@@ -4,12 +4,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
-import com.blzeecraft.virtualmenu.chest.ChestMenu;
 import com.blzeecraft.virtualmenu.command.BothSubCommand;
 import com.blzeecraft.virtualmenu.command.annotation.Arg;
 import com.blzeecraft.virtualmenu.command.annotation.Args;
 import com.blzeecraft.virtualmenu.command.annotation.Help;
 import com.blzeecraft.virtualmenu.command.annotation.Name;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.settings.Settings;
 
 @Args({Arg.MENU, Arg.PLAYER})
