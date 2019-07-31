@@ -1,0 +1,9 @@
+# 格式 
+# <material>: 
+#   <action>: <menu>
+# material参考https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# 可用的action: RIGHT_SHIFT, LEFT_SHIFT, DROP_SHIFT, RIGHT_CLICK, LEFT_CLICK, DROP_ITEM
+# 下面是一个例子 下界之星 潜行右击打开 example菜单 丢弃打开example2菜单
+NETHER_STAR:
+  RIGHT_SHIFT: example
+  DROP_ITEM: example

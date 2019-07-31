@@ -1,0 +1,17 @@
+name: VirtualMenu
+main: com.blzeecraft.virtualmenu.VirtualMenuPlugin
+version: 0.0.1
+softdepend: [PlaceHolderAPI, PlayerPoints, Vault]
+depend: [ProtocolLib]
+api-version: 1.13
+commands:
+  virtualmenu:
+    description: Main command for VirtualMenu.
+    usage: /<command> <reload/info/builder/open>
+    aliases: [vm]
+    permission: chestcommandspro.admin
+
+permissions:
+  virtualmenu.admin:
+    description: Gives access to all virtualmenu commands
+    default: op
