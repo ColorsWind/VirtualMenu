@@ -43,7 +43,6 @@ public class MenuManager {
 				menus.put(name, menu);
 			}
 		}
-		System.out.println(menus);
 	}
 	
 	@lombok.SneakyThrows

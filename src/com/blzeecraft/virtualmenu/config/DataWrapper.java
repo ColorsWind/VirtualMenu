@@ -172,7 +172,6 @@ public class DataWrapper {
 						ConfigReader.read(OverrideIcon.class, oi, (Map<String, Object>)o);
 						set.add(oi);
 					} else {
-						System.out.println(o.getClass());
 						throw new IllegalArgumentException("Expect: List of OverideIcon Set: " + asString() + "(Sth isn\'t Map)");
 					}
 				}
