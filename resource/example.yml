@@ -1,9 +1,3 @@
-######################
-#+                  +#
-#   MENU SETTINGS    #
-#+                  +#
-######################
-
 menu-settings:
 
   # 菜单名称
@@ -30,8 +24,6 @@ X1Y1:
   LORE:
   - '支持皮革，旗帜，刷怪蛋等'
   - '支持更多但未测试'
-  - '同时兼容ChestCommand自动隐藏Attr'
-  - '即物品描述不会出现非设定的内容'
   - '&c&l本功能需要ProtocolLib'
   AMOUNT: 1
   NBT: "CgAACgAHZGlzcGxheQMABWNvbG9yADNMsgAA\r\n"
@@ -46,15 +38,15 @@ X2Y1:
   - 'LEFT 左击 SHIFT_LEFT 潜心键+左击'
   - 'RIGHT 右击 SHIFT_RIGHT 潜心键+右击'
   - 'DROP 丢弃键'
-  - '&c&o本功能与自带的COMMAND兼容'
-  - '&c&o本功能需要启用ListenerInjector(见配置文件)'
   DATA-VALUE: 0
   KEEP-OPEN: true
-  LEFT: 'tell: 左击'
-  SHIFT_LEFT: 'tell: 潜心键+左击'
-  RIGHT: 'tell: 右击'
-  SHIFT_RIGHT: 'tell: 潜心键+右击'
-  DROP: 'tell: 丢弃'
+  COMMAND:
+    DEFAULT: 'tell; 默认操作'
+    LEFT: 'tell: 左击'
+    SHIFT_LEFT: 'tell: 潜心键+左击'
+    RIGHT: 'tell: 右击'
+    SHIFT_RIGHT: 'tell: 潜心键+右击'
+    DROP: 'tell: 丢弃'
   AMOUNT: 1
   NBT: "CgAACQASU3RvcmVkRW5jaGFudG1lbnRzCgAAAAECAANsdmwAAQIAAmlkACEAAA==\r\n"
   POSITION-X: 2
@@ -69,7 +61,7 @@ X3Y1:
   - 'Essentials(因为papi的附件需要)'
   - '2.输入/papi ecloud download essentials下载papi的附件'
   - '3.将菜单文件PLACEHOLDERAPI改成true'
-  - '4.输入/ccp reload 重载插件'
+  - '4.输入/vm reload 重载插件'
   - '支持Papi变量自动刷新'
   - '需要设定菜单的auto-refresh'
   KEEP-OPEN: true
@@ -113,11 +105,11 @@ X4Y1:
   POSITION-Y: 1
 X5Y1:
   ID: SLIME_BLOCK
-  COMMAND: 'ccp builder'
+  COMMAND: 'vm builder'
   DATA-VALUE: 0
   NAME: '&9&lGUI菜单物品创建器'
   LORE:
-  - '/ccp builder (name) 创建(指定)菜单'
+  - '/vm builder (name) 创建(指定)菜单'
   - '(name)为可选参数，用于区分未编辑完的菜单物品'
   - '编辑完毕后菜单物品将会保存在插件目录menu文件夹'
   - '点击这里创建一个随机菜单'
@@ -129,10 +121,10 @@ X5Y1:
 X6Y1:
   ID: SIGN
   DATA-VALUE: 0
-  COMMAND: 'ccp info'
+  COMMAND: 'vm info'
   NAME: '&2&l物品信息查看器'
   LORE:
-  - '/ccp info 查看手持物品的信息'
+  - '/vm info 查看手持物品的信息'
   - '控制台也会按照配置文件的格式输出一样的信息'
   AMOUNT: 1
   KEEP-OPEN: true
@@ -153,16 +145,15 @@ X7Y1:
   POSITION-Y: 1
 
 X9Y1:
-  ID: COMMAND
+  ID: SAND
   DATA-VALUE: 0
-  NAME: '&6&l简便的设置'
+  NAME: '&9&l更好的物品需求'
   LORE:
-  - '以下内容在在ChestCommands'
-  - 'NBT,PlaceHolderAPI,多动作指令'
-  - '以下内容在ChestCommandPro里设置'
-  - '高级绑定，以及插件的基本设置'
-  - '&c&o输入/ccp reload 重载插件'
-  AMOUNT: 1
+  - '同上兼容原REQUIRED-ITEM格式'
+  AMOUNT: 64
+  REQUIRED-ITEM:
+    ID: sand
+    NAME: '&a测试用沙子'
   KEEP-OPEN: true
   POSITION-X: 9
   POSITION-Y: 1
