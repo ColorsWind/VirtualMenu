@@ -17,7 +17,6 @@ public class ConfigReader {
 	
 	public static <T extends IConfig> T read(Class<? extends IConfig> clazz,
 			T origin, ConfigurationSection sect) throws ClassCastException {
-		System.out.println(sect);
 		return read(clazz, origin, sect.getValues(false));
 	}
 	
