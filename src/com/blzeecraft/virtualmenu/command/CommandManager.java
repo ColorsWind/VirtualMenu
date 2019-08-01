@@ -6,6 +6,7 @@ import java.util.Set;
 import com.blzeecraft.virtualmenu.InsensitiveMap;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.command.commands.CommandBuilder;
+import com.blzeecraft.virtualmenu.command.commands.CommandEditor;
 import com.blzeecraft.virtualmenu.command.commands.CommandInfo;
 import com.blzeecraft.virtualmenu.command.commands.CommandOpenBoth;
 import com.blzeecraft.virtualmenu.command.commands.CommandOpenPlayer;
@@ -41,6 +42,7 @@ public class CommandManager {
 		registerCommand(new CommandOpenBoth(pl));
 		registerCommand(new CommandOpenPlayer(pl));
 		registerCommand(new CommandBuilder(pl));
+		registerCommand(new CommandEditor(pl));
 	}
 
 	private boolean registerCommand(SubCommand command) {

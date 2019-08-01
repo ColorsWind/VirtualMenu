@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
+import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.settings.Settings;
 import com.blzeecraft.virtualmenu.utils.NBTUtils;
 import com.blzeecraft.virtualmenu.utils.ReflectUtils;
@@ -22,6 +23,8 @@ import lombok.Getter;
 
 @Getter
 public class MenuBuilder {
+	public static final String EDITOR = "Edit menu: ";
+	public static final String NEW_MENU = "New menu...";
 	@Getter
 	protected static MenuBuilder instance;
 
@@ -49,22 +52,34 @@ public class MenuBuilder {
 			dir.mkdir();
 		}
 	}
-
+	
 	public Inventory createInventory(Player p) {
-		return this.createInventory(p, new MenuHolder());
+		return this.createInventory(p, NEW_MENU, 54, new  MenuHolder());
 	}
 
-	public Inventory createInventory(Player p, MenuHolder holder) {
-		Inventory inv = Bukkit.createInventory(holder, 54, "Editor");
+	public Inventory createInventory(Player p, ChestMenu menu) {
+		Inventory inv = this.createInventory(p, EDITOR + menu.getName(), menu.getSlots(), new MenuHolder(menu.getName(), menu.getTitle()));
+		inv.setContents(menu.getContents());
 		return inv;
 	}
 
+	public Inventory createInventory(Player p, String title, int slot, MenuHolder holder) {
+		Inventory inv = Bukkit.createInventory(holder, slot, title);
+		return inv;
+	}
+	
+	
+
 
 	@SuppressWarnings("deprecation")
-	public String saveInventory(Inventory inv, String name) {
+	public String saveInventory(MenuHolder holder, Inventory inv, String name) {
 		name = fillName(name);
 		File f = new File(dir, name);
 		FileConfiguration cs = YamlConfiguration.loadConfiguration(dir);
+		ConfigurationSection mSettings = cs.createSection("menu-settings");
+		String title = holder.getTitle();
+		mSettings.set("title",  title == null ? "" : title);
+		mSettings.set("row", inv.getSize() /9);
 		ItemStack[] contents = inv.getContents();
 		for (int i = 0; i < contents.length; i++) {
 			if (contents[i] != null) {
@@ -113,7 +128,7 @@ public class MenuBuilder {
 			name = String.valueOf(System.currentTimeMillis());
 		}
 		if (!name.toLowerCase().endsWith(".yml")) {
-			name = name + ".yml";
+			name = name + "." + System.currentTimeMillis() + ".yml";
 		}
 		return name;
 	}

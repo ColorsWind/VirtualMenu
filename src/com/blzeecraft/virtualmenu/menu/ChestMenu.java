@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -167,6 +168,14 @@ public class ChestMenu implements IConfig {
 	@Override
 	public String getLogPrefix() {
 		return ILog.sub(name, "menu-settings");
+	}
+
+	public ItemStack[] getContents() {
+		ItemStack[] contents = new ItemStack[getSlots()];
+		for(Entry<Integer, ExtendedIcon> en : icons.entrySet()) {
+			contents[en.getKey()] = en.getValue().getCacheItem();
+		}
+		return contents;
 	}
 
 }

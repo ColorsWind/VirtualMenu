@@ -27,7 +27,7 @@ public class MenuHandler implements Listener {
 			MenuHolder mHolder = (MenuHolder) holder;
 			String name = mHolder.getName();
 			try {
-				name = builder.saveInventory(inv, name);
+				name = builder.saveInventory(mHolder, inv, name);
 				Settings.sendMessage((CommandSender) e.getPlayer(), "保存菜单到: ./plugins/VirtualMenuPlugin/builder/" + name);
 			} catch (RuntimeException ex) {
 				Settings.sendMessage((CommandSender) e.getPlayer(), "保存菜单失败(控制台差距完整报错):" + ex.getMessage());

@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class MenuHolder implements InventoryHolder {
 	private final String name;
+	private final String title;
 
 	@Override
 	public Inventory getInventory() {
@@ -15,12 +16,14 @@ public class MenuHolder implements InventoryHolder {
 	}
 
 	public MenuHolder() {
-		this(null);
+		this(null, null);
 	}
 
-	public MenuHolder(String name) {
+	public MenuHolder(String name, String title) {
 		super();
 		this.name = name;
+		this.title = title;
+
 	}
 	
 	
