@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.menu;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -33,7 +34,11 @@ public class MenuManager {
 	
 	
 	public void readMenu() {
-		menus.clear();
+		Iterator<ChestMenu> it = menus.values().iterator();
+		while(it.hasNext()) {
+			it.next().stopUpdateTask();
+			it.remove();
+		}
 		File folder = new File(pl.getDataFolder(), "menu");
 		for(File file : folder.listFiles()) {
 			String name = file.getName();

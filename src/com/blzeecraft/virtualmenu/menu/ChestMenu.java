@@ -131,6 +131,9 @@ public class ChestMenu implements IConfig {
 	}
 
 	protected void startUpdateTask() {
+		if (period <= 0) {
+			return;
+		}
 		stopUpdateTask();
 		this.updateTask = Bukkit.getScheduler().runTaskTimerAsynchronously(VirtualMenuPlugin.getInstance(), new Runnable() {
 
