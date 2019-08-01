@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.bound;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -8,7 +9,9 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.HandlerList;
 
+import com.blzeecraft.virtualmenu.InsensitiveMap;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
@@ -26,15 +29,17 @@ public class BoundManager implements ILog {
 	
 	protected final VirtualMenuPlugin pl;
 	protected final Map<Material, Map<Action, ChestMenu>> bounds;
+	protected final InsensitiveMap<ChestMenu> menus;
 	protected final BoundHandler handler;
 	
 	public BoundManager(VirtualMenuPlugin pl) {
 		this.pl = pl;
+		this.menus = new InsensitiveMap<>();
 		this.bounds = new EnumMap<>(Material.class);
 		this.handler = new BoundHandler(this);
 	}
 	
-	public void read() {
+	public void readBoundAction() {
 		FileConfiguration boundConfig = YamlConfiguration.loadConfiguration(pl.getFileManager().getBoundFile());
 		bounds.clear();
 		l1:for(String path : boundConfig.getKeys(false)) {
@@ -67,11 +72,23 @@ public class BoundManager implements ILog {
 		}
 	}
 	
-	public void register() {
+	public void registerListener() {
 		Bukkit.getPluginManager().registerEvents(handler, pl);
 	}
 	
-	public ChestMenu get(Material type, Action action) {
+
+	
+	public void addBound(List<String> boundCommand, ChestMenu chestMenu) {
+		for(String cmd : boundCommand) {
+			ChestMenu menu = menus.putIfAbsent(cmd, chestMenu);
+			if(menu != null) {
+				throw new IllegalArgumentException(menu.getName() + "已经注册了命令:" + cmd);
+			}
+		}
+		
+	}
+	
+	public ChestMenu getByAction(Material type, Action action) {
 		Map<Action, ChestMenu> map = bounds.get(type);
 		if (map != null) {
 			return map.get(action);
@@ -79,13 +96,22 @@ public class BoundManager implements ILog {
 		return null;
 	}
 	
-	public Map<Action, ChestMenu> get(Material m) {
-		return bounds.get(m);
+	public ChestMenu getByCommand(String cmd) {
+		return menus.get(cmd);
 	}
+	
 
 	@Override
 	public String getLogPrefix() {
 			return "#Bound";
 	}
+
+	public void unregister() {
+		HandlerList.unregisterAll(handler);
+		menus.clear();
+		bounds.clear();
+		
+	}
+
 
 }

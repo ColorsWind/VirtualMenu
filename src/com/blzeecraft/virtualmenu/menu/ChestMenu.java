@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.menu;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,8 +40,12 @@ public class ChestMenu implements IConfig {
 	@Node(key = "auto-refresh", type = DataType.INT)
 	protected int period;
 
+	@Node(key = "command", type = DataType.STRING_LIST)
+	protected List<String> boundCommand;
+	
 	protected final String name;
 	protected final ConcurrentMap<Integer, ExtendedIcon> icons;
+
 	
 	protected volatile BukkitTask updateTask;
 	protected ConcurrentMap<Player, ViewPlayer> views;
@@ -73,10 +78,7 @@ public class ChestMenu implements IConfig {
 		return name;
 	}
 
-	public void applyColor() {
-		title = ChatColor.translateAlternateColorCodes('&', title);
 
-	}
 
 	public void click(int slot, Player p, ClickType type, ItemStack clickedItem) {
 		ViewPlayer viewer = views.get(p);
@@ -159,6 +161,7 @@ public class ChestMenu implements IConfig {
 
 	@Override
 	public void apply() {
+		title = ChatColor.translateAlternateColorCodes('&', title);
 		ArrayList<ExtendedIcon> tmp_dynamic = new ArrayList<>();
 		for(ExtendedIcon icon : icons.values()) {
 			if (icon.isPlaceholderapi()) {
@@ -166,6 +169,9 @@ public class ChestMenu implements IConfig {
 			}
 		}
 		dynamic.addAll(tmp_dynamic);
+		if (boundCommand != null) {
+			VirtualMenuPlugin.getInstance().getBoundManager().addBound(boundCommand, this);
+		}
 	}
 
 	@Override

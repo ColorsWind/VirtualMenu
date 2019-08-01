@@ -56,8 +56,8 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 		menuManager = MenuManager.init(this);
 		menuManager.readMenu();
 		boundManager = BoundManager.init(this);
-		boundManager.read();
-		boundManager.register();
+		boundManager.readBoundAction();
+		boundManager.registerListener();
 		packetManager = PacketManager.init(this);
 		packetManager.registerListener();
 		menuBuilder = MenuBuilder.init(this);

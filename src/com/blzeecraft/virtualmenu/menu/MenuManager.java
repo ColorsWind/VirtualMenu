@@ -58,7 +58,6 @@ public class MenuManager {
 			ConfigurationSection sect = yaml.getConfigurationSection(path);
 			if ("menu-settings".equals(path)) {
 				ConfigReader.read(ChestMenu.class, menu, sect);
-				menu.applyColor();
 			} else {
 				ExtendedIcon icon = new ExtendedIcon(menu, path);
 				ConfigReader.read(ExtendedIcon.class, icon, sect);
