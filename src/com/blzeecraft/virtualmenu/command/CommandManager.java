@@ -8,6 +8,7 @@ import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.command.commands.CommandBuilder;
 import com.blzeecraft.virtualmenu.command.commands.CommandEditor;
 import com.blzeecraft.virtualmenu.command.commands.CommandInfo;
+import com.blzeecraft.virtualmenu.command.commands.CommandList;
 import com.blzeecraft.virtualmenu.command.commands.CommandOpenBoth;
 import com.blzeecraft.virtualmenu.command.commands.CommandOpenPlayer;
 import com.blzeecraft.virtualmenu.command.commands.CommandReload;
@@ -43,6 +44,7 @@ public class CommandManager {
 		registerCommand(new CommandOpenPlayer(pl));
 		registerCommand(new CommandBuilder(pl));
 		registerCommand(new CommandEditor(pl));
+		registerCommand(new CommandList(pl));
 	}
 
 	private boolean registerCommand(SubCommand command) {

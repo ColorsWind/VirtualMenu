@@ -14,6 +14,7 @@ import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
 
 import lombok.Getter;
 
+@Getter
 public class MenuManager {
 	@Getter
 	private static MenuManager instance;
