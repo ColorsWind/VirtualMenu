@@ -78,8 +78,6 @@ public class ChestMenu implements IConfig {
 		return name;
 	}
 
-
-
 	public void click(int slot, Player p, ClickType type, ItemStack clickedItem) {
 		ViewPlayer viewer = views.get(p);
 		Icon icon = viewer.getIcon(slot);

@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.packet;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -33,13 +34,20 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 			PacketContainer packet = e.getPacket();
 			int windowId = packet.getIntegers().read(0);
 			int slot = packet.getIntegers().read(1);
+			System.out.println(slot);
+			//不处理点击PlayerInventory的数据包
+			//若点击了PlayerInventory的物品，那么slot > menu.slot
 			if (windowId == menu.getID() && slot <= menu.getSlots()) {
+				//预处理开始
 				int button = packet.getIntegers().read(2);
 				ClickMode mode = packet.getEnumModifier(ClickMode.class, 5).read(0);
 				ItemStack clickedItem = packet.getItemModifier().read(0);
 				ClickType type = getClickType(mode, button);
 				e.setReadOnly(false);
 				e.setCancelled(true);
+				
+				
+				//重设玩家背包显示
 				ItemStack[] items = manager.cacheItems.get(p);
 				ItemStack item = null;
 				if (items == null) {
@@ -48,17 +56,35 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 					item = items[slot];
 				}
 				PacketSetSlot keep = new PacketSetSlot(menu.getID(), slot, item);
-				try {
-					keep.send(p);
-				} catch (InvocationTargetException ec) {
-					ec.printStackTrace();
-				}
 				PacketSetSlot reset = new PacketSetSlot(-1, -1, new ItemStack(Material.AIR));
-				try {
-					reset.send(p);
-				} catch (InvocationTargetException ex) {
-					ex.printStackTrace();
+				if(e.isAsync()) {
+					Bukkit.getScheduler().runTask(plugin, new Runnable() {
+
+						@Override
+						public void run() {
+							try {
+								keep.send(p);
+								reset.send(p);
+							} catch (InvocationTargetException ec) {
+								ec.printStackTrace();
+							}
+							if(mode == ClickMode.QUICK_MOVE) {
+								p.updateInventory();
+							}
+						}});
+				} else {
+					try {
+						keep.send(p);
+						reset.send(p);
+					} catch (InvocationTargetException ec) {
+						ec.printStackTrace();
+					}
+					if(mode == ClickMode.QUICK_MOVE) {
+						p.updateInventory();
+					}
 				}
+				
+				//执行命令
 				menu.click(slot, p, type, clickedItem);
 			}
 		}
