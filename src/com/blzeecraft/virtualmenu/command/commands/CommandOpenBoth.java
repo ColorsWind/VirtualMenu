@@ -12,9 +12,9 @@ import com.blzeecraft.virtualmenu.command.annotation.Name;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.settings.Settings;
 
-@Args({Arg.MENU, Arg.PLAYER})
+@Args({ Arg.MENU, Arg.PLAYER })
 @Name("open")
-@Help("/vm open <menu> <player> open <menu> for <player>")
+@Help("/vm open <菜单> <玩家> 为其他玩家打开菜单")
 public class CommandOpenBoth extends BothSubCommand {
 
 	public CommandOpenBoth(VirtualMenuPlugin pl) {
@@ -27,7 +27,8 @@ public class CommandOpenBoth extends BothSubCommand {
 		ChestMenu menu = (ChestMenu) args[0];
 		Player p = (Player) args[1];
 		pl.getPacketManager().openInventory(menu, p);
-		Settings.sendMessage(sender, "为 " + p.getName() + " 打开菜单 " + menu.getName());
+		Settings.sendMessage(sender,
+				new StringBuilder("为 ").append(p.getName()).append(" 打开菜单 ").append(menu.getName()).toString());
 	}
 
 }

@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.settings.Settings;
 
 @Args({})
 @Name("reload")
-@Help("/vm reload reload config and menus")
+@Help("/vm reload 重载菜单和配置文件")
 public class CommandReload extends BothSubCommand {
 
 	public CommandReload(VirtualMenuPlugin pl) {
@@ -31,7 +31,7 @@ public class CommandReload extends BothSubCommand {
 		packetManager.registerListener();
 		boundManager.readBoundAction();
 		boundManager.registerListener();
-		Settings.sendMessage(sender, "Successfully reloaded config and menus");
+		Settings.sendMessage(sender, "成功重载菜单和配置文件");
 	}
 
 

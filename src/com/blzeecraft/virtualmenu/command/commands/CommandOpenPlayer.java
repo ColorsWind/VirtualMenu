@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.settings.Settings;
 
 @Args({Arg.MENU})
 @Name("open")
-@Help("/vm open <menu> open <menu>")
+@Help("/vm open <menu> 为自己打开菜单")
 public class CommandOpenPlayer extends PlayerSubCommand {
 
 	public CommandOpenPlayer(VirtualMenuPlugin pl) {
