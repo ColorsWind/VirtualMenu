@@ -24,11 +24,18 @@ public class PlayerPointsBridge {
 
 
 	public static boolean hasPoints(Player player, int minimum) {
-		return playerPoints.getAPI().look(player.getUniqueId()) >= minimum;
+		if (hasValidPlugin()) {
+			return playerPoints.getAPI().look(player.getUniqueId()) >= minimum;
+		}
+		return false;
+		
 	}
 
 	public static boolean takePoints(Player player, int points) {
-		return  playerPoints.getAPI().take(player.getUniqueId(), points);
+		if(hasValidPlugin()) {
+			return  playerPoints.getAPI().take(player.getUniqueId(), points);
+		}
+		return false;
 
 	}
 

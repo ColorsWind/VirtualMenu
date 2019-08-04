@@ -26,11 +26,17 @@ public class EconomyBridge {
 	}
 
 	public static boolean hasMoney(Player player, double money) {
-		return econ.has(player, money);
+		if (hasValidEconomy()) {
+			return econ.has(player, money);
+		}
+		return false;
 	}
 
 	public static boolean takeMoney(Player player, double amount) {
-		EconomyResponse response = econ.withdrawPlayer(player, amount);
-		return response.transactionSuccess();
+		if(hasValidEconomy()) {
+			EconomyResponse response = econ.withdrawPlayer(player, amount);
+			return response.transactionSuccess();
+		}
+		return false;
 	}
 }

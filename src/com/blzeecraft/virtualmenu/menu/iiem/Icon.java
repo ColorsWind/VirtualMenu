@@ -16,6 +16,7 @@ import com.blzeecraft.virtualmenu.bridge.PlayerPointsBridge;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
+import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.menu.iiem.RequireItem.Result;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
@@ -188,6 +189,12 @@ public class Icon extends ViewItem implements IConfig {
 		}
 		if (requiredMessage != null) {
 			requiredMessage = ChatColor.translateAlternateColorCodes('&', requiredMessage);
+		}
+		if(!EconomyBridge.hasValidEconomy() && price > 0D) {
+			PluginLogger.severe(this, "设置了金钱消耗但没有找到经济插件");
+		}
+		if(!PlayerPointsBridge.hasValidPlugin() && points > 0) {
+			PluginLogger.severe(this, "设置了点券消耗但没有找到PlayerPoints插件");
 		}
 	}
 
