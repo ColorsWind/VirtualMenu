@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.command;
 
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,54 +27,43 @@ public class CommandHandler implements CommandExecutor {
 		int length = args.length;
 		if (length >= 1) {
 			String key = args[0];
-			int clength = length - 1;
-			String[] cargs = new String[clength];
-			System.arraycopy(args, 1, cargs, 0, clength);
-			PlayerSubCommand psc = manager.pSubCommands.get(key);
-			//优先从psc中查找命令
-			if (psc == null) {
-				//psc中找不到命令，尝试从bsc中查找
-				BothSubCommand bsc = manager.bSubCommands.get(key);
-				if (bsc == null) {
-					//psc，bsc都找不到命令
-					sendNoSubCommand(sender);
-				} else {
-					//bsc中找到命令，检查参数个数
-					if (checkLength(bsc, clength)) {
-						//参数个数正确，尝试转换参数
-						ConvertArgs ca = bsc.new ConvertArgs(cargs);
-						if (ca.getErrorIndex() == -1) {
-							//成功转换
-							bsc.onCommand(sender, ca.getConvertArgs());
-						} else {
-							//转换失败
-							sendErrorMessage(sender, ca.getErrorMessage());
-						}
-					} else {
-						//参数长度错误
-						sendLengthError(sender);
-					}
-				}
+			List<SubCommand> cmds = manager.subCommands.get(key);
+			if(cmds == null) {
+				// 找不到命令
+				sendNoSubCommand(sender);
 			} else {
-				//psc找到命令，检查是否为玩家
-				if (sender instanceof Player) {
-					//是玩家,下一步检查参数个数
-					Player p = (Player) sender;
-					if (checkLength(psc, clength)) {
-						//参数个数正确，尝试转换参数
-						ConvertArgs ca = psc.new ConvertArgs(cargs);
+				// 找到命令，开始筛选合适的命令
+				for(SubCommand cmd : cmds) {
+					int clength = length - 1;
+					if (cmd.requireArgs.length == clength) {
+						// 参数个数合适，尝试转换参数
+						String[] cargs = new String[clength];
+						System.arraycopy(args, 1, cargs, 0, clength);
+						ConvertArgs ca = cmd.new ConvertArgs(cargs);
 						if (ca.getErrorIndex() == -1) {
 							//成功转换
-							psc.onCommand(p, ca.getConvertArgs());
+							if(cmd instanceof PlayerSubCommand) {
+								// 玩家命令
+								if (sender instanceof Player) {
+									// 命令发出者是玩家
+									((PlayerSubCommand) cmd).onCommand((Player) sender, ca.getConvertArgs());
+								} else {
+									// 命令发出者不是玩家(有可能是控制台发出)
+									senderPlayerOnly(sender, cmds);
+								}
+							} else if (cmd instanceof BothSubCommand) {
+								// 通用命令
+								((BothSubCommand) cmd).onCommand(sender, ca.getConvertArgs());
+							}
 						} else {
 							//转换失败
-							sendErrorMessage(sender, ca.getErrorMessage());
+							sendErrorMessage(sender, ca.getErrorMessage(), cmds);
 						}
-					} else {
-						//参数长度错误
-						sendLengthError(sender);
-					}
+
+						return true;
+					} 
 				}
+				sendLengthError(sender, cmds);
 			}
 		} else {
 			sendHelp(sender);
@@ -80,29 +71,38 @@ public class CommandHandler implements CommandExecutor {
 		return true;
 	}
 
-	private void sendErrorMessage(CommandSender sender, String message) {
+	private void senderPlayerOnly(CommandSender sender, List<SubCommand> advice) {
+		Settings.sendMessage(sender, "该命令只能由玩家发出");
+		sendHelp(sender, advice);
+	}
+
+	private void sendErrorMessage(CommandSender sender, String message, List<SubCommand> advice) {
 		Settings.sendMessage(sender, message);
-		sendHelp(sender);
+		sendHelp(sender, advice);
 		
 	}
-	private void sendLengthError(CommandSender sender) {
+	private void sendLengthError(CommandSender sender, List<SubCommand> advice) {
 		Settings.sendMessage(sender, "参数数量错误");
-		sendHelp(sender);
+		sendHelp(sender, advice);
 		
 	}
-	private boolean checkLength(SubCommand bsc, int length) {
-		return bsc.requireArgs.length == length;
-	}
+
 	private void sendNoSubCommand(CommandSender sender) {
 		Settings.sendMessage(sender, "找不到命令");
 		sendHelp(sender);
 	}
 	public void sendHelp(CommandSender sender) {
 		Settings.sendMessage(sender, "~~~~VirtualMenu命令列表~~~");
-		for(SubCommand sc : manager.subCommands) {
+		for(SubCommand sc : manager.registered) {
 			Settings.sendMessage(sender, sc.help);
-		}
-		
+		} 
+	}
+	
+	public void sendHelp(CommandSender sender, List<SubCommand> advice) {
+		Settings.sendMessage(sender, "~~~~VirtualMenu相关命令~~~");
+		for(SubCommand sc : advice) {
+			Settings.sendMessage(sender, sc.help);
+		} 
 	}
 
 }

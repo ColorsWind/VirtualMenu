@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.command;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.blzeecraft.virtualmenu.InsensitiveMap;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
@@ -24,16 +24,14 @@ public class CommandManager {
 	}
 
 	private final VirtualMenuPlugin pl;
-	protected final InsensitiveMap<BothSubCommand> bSubCommands;
-	protected final InsensitiveMap<PlayerSubCommand> pSubCommands;
-	protected final Set<SubCommand> subCommands;
+	protected final InsensitiveMap<List<SubCommand>> subCommands;
+	protected final List<SubCommand> registered;
 	protected final CommandHandler executor;
 	
 	public CommandManager(VirtualMenuPlugin pl) {
 		this.pl = pl;
-		this.bSubCommands = new InsensitiveMap<>();
-		this.pSubCommands = new InsensitiveMap<>();
-		this.subCommands = new HashSet<>();
+		this.subCommands = new InsensitiveMap<>();
+		this.registered = new ArrayList<>();
 		this.executor = new CommandHandler(pl, this);
 	}
 	
@@ -48,20 +46,16 @@ public class CommandManager {
 	}
 
 	private boolean registerCommand(SubCommand command) {
-		subCommands.add(command);
-		if (command instanceof BothSubCommand) {
-			for(String key : command.name) {
-				bSubCommands.put(key, (BothSubCommand) command);
+		List<SubCommand> cmds = new ArrayList<>();
+		for(String key : command.name) {
+			List<SubCommand> origin = subCommands.putIfAbsent(key, cmds);
+			if (origin != null) {
+				origin.add(command);
+			} else {
+				cmds.add(command);
 			}
-			return true;
-		} else if (command instanceof PlayerSubCommand) {
-			for(String key : command.name) {
-				pSubCommands.put(key, (PlayerSubCommand) command);
-			}
-			return true;
 		}
-		return false;
-		
+		return registered.add(command);
 	}
 
 	public void registerHandlers() {
