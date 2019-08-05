@@ -53,7 +53,7 @@ public class RequireItem extends Item {
 	
 	
 	
-	public Result take(Inventory inv) {
+	public Result preTake(Inventory inv) {
 		int total = this.amount;
 		ItemStack[] contents = inv.getContents();
 		HashMap<Integer, ItemStack> modify = new HashMap<>();
@@ -72,11 +72,12 @@ public class RequireItem extends Item {
 					item.setType(Material.AIR);
 					total = 0;
 					modify.put(i, item);
-					return new Result(inv, modify, 0);
+					return new Result(inv, modify, total);
 				} else {
 					item.setAmount(0);
 					total = 0;
-					return new Result(inv, modify, 0);
+					modify.put(i, item);
+					return new Result(inv, modify, total);
 				}
 			}
 		}

@@ -144,7 +144,7 @@ public class Icon extends ViewItem implements IConfig {
 		}
 		if (required != null) {
 			PlayerInventory inv = p.getInventory();
-			Result result = required.take(inv);
+			Result result = required.preTake(inv);
 			if (result.hasItem()) {
 				result.take();
 			} else {
