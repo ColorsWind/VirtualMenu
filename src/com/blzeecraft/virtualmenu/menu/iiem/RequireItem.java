@@ -60,6 +60,7 @@ public class RequireItem extends Item {
 		for(int i=0;i<contents.length;i++) {
 			ItemStack item = contents[i];
 			if (match(item)) {
+				item = item.clone();
 				int amount = item.getAmount();
 				int newAmount = amount - total;
 				if (newAmount < 0) {
