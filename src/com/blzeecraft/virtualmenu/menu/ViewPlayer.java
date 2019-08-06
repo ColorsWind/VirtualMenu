@@ -29,6 +29,7 @@ public class ViewPlayer {
 		this.player = player;
 		lastClick = -1;
 		viewIcons = new Icon[menu.getSlots()];
+		System.out.println(menu.getIcons().keySet());
 		for(Entry<Integer, ExtendedIcon> en : menu.getIcons().entrySet()) {
 			viewIcons[en.getKey()] = en.getValue().getIcon(player);
 		}

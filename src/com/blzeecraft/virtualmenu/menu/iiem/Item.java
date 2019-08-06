@@ -16,6 +16,7 @@ import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.utils.NBTUtils;
+import com.blzeecraft.virtualmenu.utils.ReflectUtils;
 import com.blzeecraft.virtualmenu.utils.XMaterial;
 
 import lombok.Data;
@@ -60,12 +61,12 @@ public class Item implements IConfig {
 			amount = 1;
 		}
 		if (type == null) {
-			throw new IllegalArgumentException("Expect: ID: [Material(:byte)]  Set: null (NOT SET)");
+			throw new IllegalArgumentException("期望: ID: [Material(:byte)]  设置: null (没有设置)");
 		}
 		StringTokenizer str = new StringTokenizer(type, ":");
 		String name = str.nextToken();
 		try {
-			Material m = Material.valueOf(name);
+			Material m = ReflectUtils.getMaterial(name);
 			if (str.hasMoreTokens()) {
 				byte data = Byte.parseByte(str.nextToken());
 				cacheItem = new ItemStack(m, amount, data);
@@ -73,12 +74,20 @@ public class Item implements IConfig {
 				cacheItem = new ItemStack(m, amount);
 			}
 		} catch (IllegalArgumentException e) {
-			PluginLogger.fine(this, "Cannot find: Material." + name + ". Try to use XMaterial to search.");
-			XMaterial m = XMaterial.matchXMaterial(type);
+			PluginLogger.fine(this, "找不到: ID为:" + name + "的物品. 尝试使用 XMaterial 进行搜索.");
+			XMaterial m = null;
+			try {
+				m = XMaterial.matchXMaterial(type);
+			} catch (IllegalArgumentException ex) {
+			}
 			if (m == null) {
-				throw new IllegalArgumentException("Expect: ID: [Material(:byte)]  Set: " + name + " (INVAILD MATERIAL)");
+				cacheItem = new ItemStack(Material.BEDROCK, 1);
+				ItemMeta meta = cacheItem.getItemMeta();
+				meta.setDisplayName("§c无效Material:" + type);
+				cacheItem.setItemMeta(meta);
+				throw new IllegalArgumentException("期望: ID: [Material/ID(:byte)]  设置: " + name + " (无效ID)");
 			} else {
-				PluginLogger.fine(this, "Use Material." + m.parseMaterial() + " as type");
+				PluginLogger.fine(this, "使用 Material." + m.parseMaterial() + " 作为type,可能不准确");
 			}
 			cacheItem = m.parseItem();
 			cacheItem.setAmount(amount);

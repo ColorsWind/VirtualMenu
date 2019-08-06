@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 
@@ -14,6 +15,21 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReflectUtils {
+	
+	public static Material getMaterial(String name) {
+		try {
+			int id = Integer.valueOf(name);
+			Method m = Material.class.getMethod("getMaterial", int.class);
+			Material type =  (Material) m.invoke(null, id);
+			if (type != null) {
+				return type;
+			}
+		} catch (NoSuchMethodException | NumberFormatException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return Material.valueOf(name);
+	}
 	
 	public static ItemStack getItemInHand(Player p, boolean b) { 
 		try {

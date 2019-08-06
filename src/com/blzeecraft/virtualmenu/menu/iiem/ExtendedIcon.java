@@ -42,7 +42,7 @@ public class ExtendedIcon extends Icon {
 
 	@Override
 	public String getLogPrefix() {
-		return ILog.sub(menu.getLogPrefix(), name);
+		return ILog.sub(menu.getName(), name);
 	}
 
 	public Icon getIcon(Player p) {
