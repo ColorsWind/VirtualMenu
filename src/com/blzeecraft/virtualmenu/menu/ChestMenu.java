@@ -21,6 +21,7 @@ import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.Icon;
 import com.blzeecraft.virtualmenu.packet.EnumInventoryType;
@@ -59,6 +60,9 @@ public class ChestMenu implements IConfig {
 	}
 
 	public boolean addIcon(ExtendedIcon icon) {
+		if (icon.getSlot() >= getSlots()) {
+			PluginLogger.severe(icon, "物品的位置超过了箱子的大小,请检查menu-settings");
+		}
 		return icons.put(icon.getSlot(), icon) == null;
 	}
 
