@@ -11,25 +11,25 @@ public class ActionOpCommand extends AbstractAction {
 
 	public ActionOpCommand(ILog parent, String raw) {
 		super(parent, raw, ActionType.OP_COMMAND);
-		PluginLogger.warning(this, "tag \"op:\" is deprected due to safety problem, DO NOT USE IT.");
+		PluginLogger.warning(this, "op:存在安全隐患,请尽量使用console:代替");
 	}
 
 	@Override
 	public void execute(Player p) {
 		//危险操作
 		p.performCommand(raw.replace("<player>", p.getName()));
-//		if (p.isOp()) {
-//			p.performCommand(raw.replace("<player>", p.getName()));
-//		} else {
-//			try {
-//				p.setOp(true);
-//				p.performCommand(raw.replace("<player>", p.getName()));
-//			} catch (Throwable e) {
-//				e.printStackTrace();
-//			} finally {
-//				p.setOp(false);
-//			}
-//		}
+		if (p.isOp()) {
+			p.performCommand(raw.replace("<player>", p.getName()));
+		} else {
+			try {
+				p.setOp(true);
+				p.performCommand(raw.replace("<player>", p.getName()));
+			} catch (Throwable e) {
+				e.printStackTrace();
+			} finally {
+				p.setOp(false);
+			}
+		}
 	}
 
 }
