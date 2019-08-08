@@ -24,7 +24,7 @@ public class CommandOpenPlayer extends PlayerSubCommand {
 	public void onCommand(Player sender, Object[] args) {
 		ChestMenu menu = (ChestMenu) args[0];
 		pl.getPacketManager().openInventory(menu, sender);
-		Settings.sendMessage(sender, "open menu " + menu.getName());
+		Settings.sendMessage(sender, "打开菜单 " + menu.getName());
 	}
 
 }
