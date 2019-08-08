@@ -42,10 +42,11 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 				int button = packet.getIntegers().read(2);
 				ClickMode mode = packet.getEnumModifier(ClickMode.class, 5).read(0);
 				ItemStack clickedItem = packet.getItemModifier().read(0);
-				ClickType type = getClickType(mode, button);
+				ClickType type = getClickType(mode, button, slot);
 				e.setReadOnly(false);
 				e.setCancelled(true);
 				
+
 				
 				//重设玩家背包显示
 				ItemStack[] items = manager.cacheItems.get(p);
@@ -90,37 +91,68 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 		}
 	}
 	
-	public ClickType getClickType(ClickMode mode, int button){
-		if(mode == ClickMode.PICKUP){
-			if(button == 0)
-			{
+	public ClickType getClickType(ClickMode mode, int button, int slot){
+		switch(mode) {
+		case PICKUP: 
+			if (button == 0) {
 				return ClickType.LEFT;
-			}else{
+			} else if (button == 1) {
 				return ClickType.RIGHT;
 			}
-		}else if(mode == ClickMode.QUICK_MOVE){
-			if(button == 0){
+			break;
+		case QUICK_MOVE:
+			if (button == 0) {
 				return ClickType.SHIFT_LEFT;
-			}else{
+			} else if (button == 1) {
 				return ClickType.SHIFT_RIGHT;
 			}
-		}else if(mode == ClickMode.SWAP){
+			break;
+		case SWAP:
 			return ClickType.NUMBER_KEY;
-		}else if(mode == ClickMode.CLONE && button == 2){
+		case CLONE:
 			return ClickType.MIDDLE;
-		}else if(mode == ClickMode.THROW){
-			if(button == 0){
-				return ClickType.DROP;
-			}else if(button == 1){
-				return ClickType.CONTROL_DROP;
+		case THROW:
+			if (slot >= 0) {
+				if (button == 0) {
+					return ClickType.DROP;
+				} else if (button == 1) {
+					return ClickType.CONTROL_DROP;
+				}
+			} else if (slot == -999) {
+				if (button == 0) {
+					return ClickType.WINDOW_BORDER_LEFT;
+				} else if (button == 1) {
+					return ClickType.WINDOW_BORDER_RIGHT;
+				}
 			}
-		}else if(mode == ClickMode.PICKUP_ALL){
+			break;
+		case QUICK_CRAFT:
+			if (slot >= 0) {
+				if (button == 1) {
+					return ClickType.LEFT;
+				} else if (button == 5) {
+					return ClickType.RIGHT;
+				}
+			} else if (slot == -999) {
+				switch(button) {
+				case 0:
+				case 1:
+				case 2:
+					return ClickType.LEFT;
+				case 4:
+				case 5:
+				case 6:
+					return ClickType.RIGHT;
+				case 8:
+				case 9:
+				case 10:
+					return ClickType.MIDDLE;
+				}
+			}
+		case PICKUP_ALL:
 			return ClickType.DOUBLE_CLICK;
-		}else if(mode == ClickMode.QUICK_CRAFT){
-			return null;
 		}
 		return ClickType.UNKNOWN;
-			
 	}
 
 }
