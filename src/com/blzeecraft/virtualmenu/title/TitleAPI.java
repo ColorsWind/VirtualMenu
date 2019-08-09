@@ -9,22 +9,19 @@ public class TitleAPI {
 	public static final ITitleAPI API = getAPI();
 	
 	public static ITitleAPI getAPI() {
+		// 较高版本的Bukkit已经自带了sendActionbar等方法
 		try {
 			Player.class.getMethod("sendActionBar", String.class);
 			return new TitleBukkit();
 		} catch (Exception e) {
 		}
-		try {
-			Player.class.getMethod("sendActionBar", String.class);
-			return new TitleBukkit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// 较老版本的Bukkit使用ProtocolLib
 		try {
 			GameMode.class.getField("SPECTATOR");
 			return new TitlePacket();
 		} catch (Exception e) {
 		}
+		// 版本在1.7.10或以下的使用sendMessage代替
 		return new TitleLegacy();
 	}
 	
