@@ -160,9 +160,12 @@ public class ChestMenu implements IConfig {
 	public Collection<ViewPlayer> getViewPlayers() {
 		return views.values();
 	}
-
+	
 	@Override
 	public void apply() {
+		if (title == null) {
+			title = "未设置标题";
+		}
 		title = ChatColor.translateAlternateColorCodes('&', title);
 		ArrayList<ExtendedIcon> tmp_dynamic = new ArrayList<>();
 		for(ExtendedIcon icon : icons.values()) {

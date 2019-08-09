@@ -78,7 +78,7 @@ public class MenuBuilder {
 		FileConfiguration cs = YamlConfiguration.loadConfiguration(dir);
 		ConfigurationSection mSettings = cs.createSection("menu-settings");
 		String title = holder.getTitle();
-		mSettings.set("title",  title == null ? "" : title);
+		mSettings.set("name",  title == null ? "" : title);
 		mSettings.set("row", inv.getSize() /9);
 		ItemStack[] contents = inv.getContents();
 		for (int i = 0; i < contents.length; i++) {
@@ -126,9 +126,11 @@ public class MenuBuilder {
 	private String fillName(String name) {
 		if (name == null || name.isEmpty()) {
 			name = String.valueOf(System.currentTimeMillis());
+		} else {
+			name = name + ".";
 		}
 		if (!name.toLowerCase().endsWith(".yml")) {
-			name = name + "." + System.currentTimeMillis() + ".yml";
+			name = + System.currentTimeMillis() + ".yml";
 		}
 		return name;
 	}
