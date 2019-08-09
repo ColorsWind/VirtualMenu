@@ -102,7 +102,7 @@ public class Item implements IConfig {
 			try {
 				cacheItem = NBTUtils.setItemNBT(cacheItem, nbt);
 			} catch (IOException e) {
-				PluginLogger.severe(this, "Error while setting item nbt: " + e.toString());
+				PluginLogger.severe(this, "设置物品NBT时出现异常: " + e.toString());
 				e.printStackTrace();
 			}
 		}
