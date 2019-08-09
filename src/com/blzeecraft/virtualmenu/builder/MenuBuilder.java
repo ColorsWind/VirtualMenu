@@ -79,7 +79,7 @@ public class MenuBuilder {
 		ConfigurationSection mSettings = cs.createSection("menu-settings");
 		String title = holder.getTitle();
 		mSettings.set("name",  title == null ? "" : title);
-		mSettings.set("row", inv.getSize() /9);
+		mSettings.set("rows", inv.getSize() /9);
 		ItemStack[] contents = inv.getContents();
 		for (int i = 0; i < contents.length; i++) {
 			if (contents[i] != null) {

@@ -61,7 +61,7 @@ public class ChestMenu implements IConfig {
 
 	public boolean addIcon(ExtendedIcon icon) {
 		if (icon.getSlot() >= getSlots()) {
-			PluginLogger.severe(icon, "物品的位置超过了箱子的大小,请检查menu-settings.row");
+			PluginLogger.severe(icon, "物品的位置超过了箱子的大小,请检查menu-settings.rows");
 		}
 		return icons.put(icon.getSlot(), icon) == null;
 	}
