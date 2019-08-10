@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.EventType;
 import com.blzeecraft.virtualmenu.menu.ViewPlayer;
 import com.blzeecraft.virtualmenu.packet.packets.PacketCloseWindow;
 import com.blzeecraft.virtualmenu.packet.packets.PacketOpenWindow;
@@ -64,10 +65,10 @@ public class PacketManager {
 		ItemStack[] item = v.getContents(p);
 		PacketWindowItems items = new PacketWindowItems(menu.getID(), item);
 		cacheItems.put(p, item);
-		
 		try {
 			open.send(p);
 			items.send(p);
+			menu.click(EventType.OPEN, -999, p, null, null);
 			return true;
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
@@ -77,13 +78,11 @@ public class PacketManager {
 	
 	public boolean closeInventory(Player p) {
 		ChestMenu menu = openMenus.get(p);
-		menu.removeViewer(p);
 		if (menu != null) {
 			PacketCloseWindow close = new PacketCloseWindow(menu.getID());
 			try {
 				close.send(p);
-				openMenus.remove(p);
-				cacheItems.remove(p);
+				cleanData(p);
 				return true;
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
@@ -97,9 +96,7 @@ public class PacketManager {
 			PacketCloseWindow close = new PacketCloseWindow(menu.getID());
 			try {
 				close.send(p);
-				openMenus.remove(p);
-				cacheItems.remove(p);
-				menu.removeViewer(p);
+				cleanData(p);
 				return true;
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
@@ -108,6 +105,7 @@ public class PacketManager {
 		return false;
 	}
 
+	
 	public void unregisterHandler() {
 		ProtocolLibrary.getProtocolManager().removePacketListeners(pl);
 		HandlerList.unregisterAll(closeHandler);
@@ -121,12 +119,19 @@ public class PacketManager {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
+			en.getValue().click(EventType.CLOSE, -999, en.getKey(), null, null);
 			it.remove();
 		}
 	}
 
+	/**
+	 * 出非插件卸载，否则玩家关闭菜单都会调用这个方法
+	 * @param p
+	 * @see #unregisterHandler()
+	 */
 	public void cleanData(Player p) {
 		ChestMenu menu = openMenus.remove(p);
+		menu.click(EventType.CLOSE, -999, p, null, null);
 		if (menu != null) {
 			menu.removeViewer(p);
 		}

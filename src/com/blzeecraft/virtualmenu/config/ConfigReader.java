@@ -63,6 +63,9 @@ public class ConfigReader {
 							case STRING_LIST:
 								f.set(origin, dw.asStringList());
 								break;
+							case EVENTS:
+								f.set(origin, dw.asEvents(origin));
+								break;
 							case COMMAND_LIST:
 								f.set(origin, dw.asActionMap(origin));
 								break;

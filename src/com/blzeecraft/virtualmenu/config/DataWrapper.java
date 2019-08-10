@@ -19,6 +19,7 @@ import org.bukkit.event.inventory.ClickType;
 import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.action.ActionManager;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.menu.EventType;
 import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.OverrideIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.RequireItem;
@@ -119,7 +120,7 @@ public class DataWrapper {
 				try {
 					type = ClickType.valueOf(en.getKey());
 				} catch (IllegalArgumentException e) {
-					throw new NoSuchElementException("Except: [ClickType]: [action] Set: " + en.getKey() + "(invalid ClickType)"); 
+					throw new IllegalArgumentException("期望: [ClickType]: [action] 设置: " + en.getKey() + "(无效的ClickType)"); 
 				}
 				DataWrapper wrapper = new DataWrapper(en.getValue());
 				List<AbstractAction> list = wrapper.asActionList(parent);
@@ -150,11 +151,11 @@ public class DataWrapper {
 				require.setAmount(i);
 				require.apply();
 			} catch (NoSuchElementException e) {
-				throw new NoSuchElementException("Except: [Material(:byte)], [amount]  Set: " + s + "(not contain \", \""); 
+				throw new NoSuchElementException("期望: [Material(:byte)], [amount]  设置: " + s + "(参数数量不足"); 
 			} catch (NumberFormatException e) {
-				throw new NumberFormatException("Except: [Material(:byte)], [amount]  Set: " + s + "(amount isn\'t int)");
+				throw new NumberFormatException("期望: [Material(:byte)], [amount]  设置: " + s + "(amount不是一个整数)");
 			}  catch (IllegalArgumentException e) {
-				throw new NoSuchElementException("Except: [Material(:byte)], [amount]  Set: " + s + "(invade Material)"); 
+				throw new IllegalArgumentException("期望: [Material(:byte)], [amount]  设置: " + s + "(无效的Material)"); 
 			}
 		}
 		return require;
@@ -172,16 +173,32 @@ public class DataWrapper {
 						ConfigReader.read(OverrideIcon.class, oi, (Map<String, Object>)o);
 						set.add(oi);
 					} else {
-						throw new IllegalArgumentException("Expect: List of OverideIcon Set: " + asString() + "(Sth isn\'t Map)");
+						throw new IllegalArgumentException("期望: 重载Icon的一个列表 设置: " + asString() + "(重载Icon格式错误)");
 					}
 				}
 				return set;
 			} else {
-				throw new IllegalArgumentException("Expect: List of OverideIcon Set: " + asString() + "(not a List)");
+				throw new IllegalArgumentException("期望: 重载Icon的一个列表 设置: " + asString() + "(不是一个列表)");
 			}
 		} else {
-			throw new IllegalArgumentException("Only ExtendedIcon can have OrrideIcon");
+			throw new IllegalArgumentException("只有原Icon可以拥有重载Icon");
 		}
+	}
+
+	public EnumMap<EventType, List<AbstractAction>> asEvents(ILog parent) {
+		EnumMap<EventType, List<AbstractAction>> emp = new EnumMap<>(EventType.class);
+		Map<String, Object> map = ((ConfigurationSection) origin).getValues(false);
+		for(Entry<String, Object> en : map.entrySet()) {
+			try {
+				EventType type = EventType.valueOf(en.getKey());
+				DataWrapper dw = new DataWrapper(en.getValue());
+				List<AbstractAction> actions = dw.asActionList(() -> ILog.sub(parent.getLogPrefix(), type.name()));
+				emp.put(type, actions);
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("期望: [EventType]: [action]  设置: " + en.getKey() + "(无效的EventType)"); 
+			}
+		}
+		return emp;
 	}
 
 

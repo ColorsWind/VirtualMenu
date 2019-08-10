@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.menu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
+import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
@@ -43,6 +45,8 @@ public class ChestMenu implements IConfig {
 
 	@Node(key = "command", type = DataType.STRING_LIST)
 	protected List<String> boundCommand;
+	@Node(key = "events", type = DataType.EVENTS)
+	protected Map<EventType, List<AbstractAction>> events;
 	
 	protected final String name;
 	protected final ConcurrentMap<Integer, ExtendedIcon> icons;
@@ -82,32 +86,33 @@ public class ChestMenu implements IConfig {
 		return name;
 	}
 
-	public void click(int slot, Player p, ClickType type, ItemStack clickedItem) {
-		ViewPlayer viewer = views.get(p);
-		Icon icon = viewer.getIcon(slot);
-		if (icon == null) {
-			return;
-		}
-		if (!icon.hasAction()) {
-			if (!icon.isKeepOpen()) {
-				PacketManager.getInstance().closeInventory(p, this);
+	public void click(EventType event, int slot, Player p, ClickType type, ItemStack clickedItem) {
+		if (event == EventType.CLICK) {
+			ViewPlayer viewer = views.get(p);
+			Icon icon = viewer.getIcon(slot);
+			if (icon == null) {
+				return;
 			}
-			return;
-		}
-		if(viewer.canClick()) {
-			if (Bukkit.isPrimaryThread()) {
-				icon.onClick(p, type);
-			} else {
-				Bukkit.getScheduler().runTask(VirtualMenuPlugin.getInstance(), new Runnable() {
-
-					@Override
-					public void run() {
-						icon.onClick(p, type);
-
+			if (!icon.hasAction()) {
+				if (!icon.isKeepOpen()) {
+					PacketManager.getInstance().closeInventory(p, this);
+				}
+				return;
+			}
+			if(viewer.canClick()) {
+				VirtualMenuPlugin.getInstance().runOnPrimaryThread(() -> icon.onClick(p, type));
+			}
+		} else {
+			if (events != null) {
+				VirtualMenuPlugin.getInstance().runOnPrimaryThread(() -> {
+					List<AbstractAction> action = events.get(event);
+					if (action != null) {
+						AbstractAction.run(action, p);
 					}
 				});
 			}
 		}
+		
 
 	}
 	

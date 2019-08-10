@@ -2,7 +2,6 @@ package com.blzeecraft.virtualmenu.packet;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -10,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
+import com.blzeecraft.virtualmenu.menu.EventType;
 import com.blzeecraft.virtualmenu.packet.packets.PacketSetSlot;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -34,10 +34,9 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 			PacketContainer packet = e.getPacket();
 			int windowId = packet.getIntegers().read(0);
 			int slot = packet.getIntegers().read(1);
-			System.out.println(slot);
 			//不处理点击PlayerInventory的数据包
-			//若点击了PlayerInventory的物品，那么slot > menu.slot
-			if (windowId == menu.getID() && slot <= menu.getSlots()) {
+			//若点击了PlayerInventory的物品，那么slot >= menu.slot
+			if (windowId == menu.getID() && slot < menu.getSlots()) {
 				//预处理开始
 				int button = packet.getIntegers().read(2);
 				ClickMode mode = packet.getEnumModifier(ClickMode.class, 5).read(0);
@@ -46,8 +45,17 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 				e.setReadOnly(false);
 				e.setCancelled(true);
 				
-
-				
+				//优先判定slot=-999
+				if (slot < 0) {
+					if (mode == ClickMode.CLONE) {
+						menu.click(EventType.MIDDLE, slot, p, type, clickedItem);
+					} else if (button == 0) {
+						menu.click(EventType.LEFT, slot, p, type, clickedItem);
+					} else if (button == 1) {
+						menu.click(EventType.RIGHT, slot, p, type, clickedItem);
+					}
+					return;
+				}			
 				//重设玩家背包显示
 				ItemStack[] items = manager.cacheItems.get(p);
 				ItemStack item = null;
@@ -58,22 +66,7 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 				}
 				PacketSetSlot keep = new PacketSetSlot(menu.getID(), slot, item);
 				PacketSetSlot reset = new PacketSetSlot(-1, -1, new ItemStack(Material.AIR));
-				if(e.isAsync()) {
-					Bukkit.getScheduler().runTask(plugin, new Runnable() {
-
-						@Override
-						public void run() {
-							try {
-								keep.send(p);
-								reset.send(p);
-							} catch (InvocationTargetException ec) {
-								ec.printStackTrace();
-							}
-							if(mode == ClickMode.QUICK_MOVE) {
-								p.updateInventory();
-							}
-						}});
-				} else {
+				manager.pl.runOnPrimaryThread(() ->{
 					try {
 						keep.send(p);
 						reset.send(p);
@@ -83,10 +76,9 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 					if(mode == ClickMode.QUICK_MOVE) {
 						p.updateInventory();
 					}
-				}
-				
+				});
 				//执行命令
-				menu.click(slot, p, type, clickedItem);
+				menu.click(EventType.CLICK, slot, p, type, clickedItem);
 			}
 		}
 	}

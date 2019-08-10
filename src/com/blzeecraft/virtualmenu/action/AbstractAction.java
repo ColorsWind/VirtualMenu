@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.action;
 
+import java.util.List;
 import org.bukkit.entity.Player;
-
 import com.blzeecraft.virtualmenu.logger.ILog;
 
 import lombok.Getter;
@@ -31,5 +31,16 @@ public abstract class AbstractAction implements ILog {
 	
 
 	public abstract void execute(Player p);
+
+	public static void run(List<AbstractAction> cmds, Player p) {
+		try {
+			for (AbstractAction cmd : cmds) {
+				cmd.execute(p);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 }

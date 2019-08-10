@@ -160,14 +160,9 @@ public class Icon extends ViewItem implements IConfig {
 		if (command != null) {
 			List<AbstractAction> cmds = command.get(type);
 			if (cmds != null) {
-				try {
-					for (AbstractAction cmd : cmds) {
-						cmd.execute(p);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				AbstractAction.run(cmds, p);
 			}
+			
 		}
 		if (!keepOpen) {
 			PacketManager.getInstance().closeInventory(p, menu);

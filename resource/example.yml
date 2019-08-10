@@ -1,18 +1,29 @@
 menu-settings:
 
-  # 菜单名称
-  name: '&9&lVirtualMenu'
+  # 【必须】菜单名称
+  name: '&9&lVirtualMenu测试菜单'
 
-  # 箱子的行数
+  # 【必须】箱子的行数
   rows: 1
-
+ 
 
   # 【可选】刷新间隔，同时也会刷新PlaceHolderAPI的变量
   # 单位是tick
   auto-refresh: 10
 
+  # 【可选】有关整个菜单的事件
+  events:
+    # 点击菜单左边的边界外
+    left: 'tell: 点击左边边界外'
+    # 点击菜单右边的边界外
+    right: 'tell: 点击右边边界外'
+    # 打开菜单时
+    open: 'tell: 打开菜单(此项在menu-settings.event.open中配置)'
+    # 关闭菜单时
+    # 及时玩家不关闭菜单直接退出游戏,仍然会触发关闭菜单
+    close: 'say: 玩家<player> 关闭了测试菜单'
 
-  # 【可选】可在ChestCommandsPro bound.yml设置，有更多功能
+  # 【可选】可在./plugins/VirtualMenu/bound.yml设置，有更多功能
 
 
 

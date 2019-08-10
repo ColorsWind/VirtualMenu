@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.blzeecraft.virtualmenu.action.ActionManager;
@@ -80,6 +81,21 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 	@Override
 	public String getLogPrefix() {
 		return "#root";
+	}
+	
+	public void runOnPrimaryThread(Runnable task) {
+		if (Bukkit.isPrimaryThread()) {
+			task.run();
+		} else {
+			Bukkit.getScheduler().runTask(this, new Runnable() {
+
+				@Override
+				public void run() {
+					task.run();
+
+				}
+			});
+		}
 	}
 
 
