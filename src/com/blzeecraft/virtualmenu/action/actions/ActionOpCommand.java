@@ -19,11 +19,11 @@ public class ActionOpCommand extends AbstractAction {
 		//危险操作
 		p.performCommand(raw.replace("<player>", p.getName()));
 		if (p.isOp()) {
-			p.performCommand(raw.replace("<player>", p.getName()));
+			this.execute(p, raw.replace("<player>", p.getName()));
 		} else {
 			try {
 				p.setOp(true);
-				p.performCommand(raw.replace("<player>", p.getName()));
+				this.execute(p, raw.replace("<player>", p.getName()));
 			} catch (Throwable e) {
 				e.printStackTrace();
 			} finally {

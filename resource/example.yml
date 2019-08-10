@@ -5,7 +5,7 @@ menu-settings:
 
   # 【必须】箱子的行数
   rows: 1
- 
+
 
   # 【可选】刷新间隔，同时也会刷新PlaceHolderAPI的变量
   # 单位是tick
@@ -13,15 +13,17 @@ menu-settings:
 
   # 【可选】有关整个菜单的事件
   events:
-    # 点击菜单左边的边界外
-    left: 'tell: 点击左边边界外'
-    # 点击菜单右边的边界外
-    right: 'tell: 点击右边边界外'
+    # 左击菜单的边界外
+    LEFT: 'tell: 点击左击边界外'
+    # 右击菜单的边界外
+    RIGHT: 'tell: 点击右击边界外'
+    # 鼠标中键点击边界外(由于minecraft的bug，只能检测创造模式)
+    MIDDLE: 'tell: 鼠标中键(创造模式)点击边界外'
     # 打开菜单时
-    open: 'tell: 打开菜单(此项在menu-settings.event.open中配置)'
+    OPEN: 'tell: 打开菜单(此项在menu-settings.event.open中配置)'
     # 关闭菜单时
     # 及时玩家不关闭菜单直接退出游戏,仍然会触发关闭菜单
-    close: 'say: 玩家<player> 关闭了测试菜单'
+    CLOSE: 'console:say 玩家<player> 关闭了测试菜单(此项在menu-settings.event.open中配置)'
 
   # 【可选】可在./plugins/VirtualMenu/bound.yml设置，有更多功能
 
@@ -153,6 +155,19 @@ X7Y1:
   AMOUNT: 1
   KEEP-OPEN: true
   POSITION-X: 7
+  POSITION-Y: 1
+
+X8Y1:
+  ID: ICE
+  DATA-VALUE: 0
+  NAME: '&9&l支持CommandPrompter'
+  LORE:
+  - 'https://www.spigotmc.org/resources/commandprompter.47772/'
+  - 'https://www.mcbbs.net/thread-858668-1-1.html'
+  COMMAND: 'say <请输入你需要发送的内容>'
+  AMOUNT: 1
+  KEEP-OPEN: false
+  POSITION-X: 8
   POSITION-Y: 1
 
 X9Y1:

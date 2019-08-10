@@ -14,7 +14,7 @@ public class ActionCommand extends AbstractAction {
 
 	@Override
 	public void execute(Player p) {
-		p.performCommand(raw.replace("<player>", p.getName()));
+		this.execute(p, raw.replace("<player>", p.getName()));
 	}
 
 }
