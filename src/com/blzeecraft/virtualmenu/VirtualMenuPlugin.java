@@ -12,6 +12,8 @@ import com.blzeecraft.virtualmenu.command.CommandManager;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.menu.MenuManager;
+import com.blzeecraft.virtualmenu.net.Metrics;
+import com.blzeecraft.virtualmenu.net.UpdateChecker;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 import com.blzeecraft.virtualmenu.settings.FileManager;
 import com.blzeecraft.virtualmenu.settings.Settings;
@@ -32,7 +34,8 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 	protected Settings settings;
 	protected BoundManager boundManager;
 	protected MenuBuilder menuBuilder;
-
+	protected UpdateChecker updateChecker;
+	protected Metrics metrics;
 	
 	@Override
 	public void onEnable() {
@@ -66,6 +69,15 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 		commandManager = CommandManager.init(this);
 		commandManager.registerCommands();
 		commandManager.registerHandlers();
+		updateChecker = new UpdateChecker(this);
+		updateChecker.startTask();
+		updateChecker.register();
+		metrics = new Metrics(this);
+		if (metrics.isEnabled()) {
+			this.getLogger().info("启用bstats插件使用情况统计");
+		} else {
+			this.getLogger().info("为支持作者,请不要关闭bstats统计");
+		}
 	}
 	
 	@Override
