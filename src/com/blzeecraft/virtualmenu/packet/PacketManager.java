@@ -136,7 +136,7 @@ public class PacketManager {
 	}
 	public void cleanData(Player p, int id) {
 		ChestMenu menu = openMenus.get(p);
-		if (menu.getID() == id) {
+		if (menu != null && menu.getID() == id) {
 			cleanData(p);
 		}
 	}
@@ -148,11 +148,13 @@ public class PacketManager {
 	 */
 	public void cleanData(Player p) {
 		ChestMenu menu = openMenus.remove(p);
-		menu.click(EventType.CLOSE, -999, p, null, null);
 		if (menu != null) {
-			menu.removeViewer(p);
+			menu.click(EventType.CLOSE, -999, p, null, null);
+			if (menu != null) {
+				menu.removeViewer(p);
+			}
+			cacheItems.remove(p);
 		}
-		cacheItems.remove(p);
 	}
 
 	public void updateItem(ViewPlayer v, int slot, ItemStack replace) {
