@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -19,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
+import com.blzeecraft.virtualmenu.settings.Settings;
 
 public class UpdateChecker implements Runnable, Listener {
 	
@@ -55,7 +55,7 @@ public class UpdateChecker implements Runnable, Listener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Bukkit.getScheduler().runTask(pl, () -> Bukkit.getConsoleSender().sendMessage(getReport().toArray(new String[0])));
+		Bukkit.getScheduler().runTask(pl, () -> getReport().forEach(msg -> Settings.sendMessage(Bukkit.getConsoleSender(), msg)));
 	}
 	
 	/**
@@ -65,47 +65,17 @@ public class UpdateChecker implements Runnable, Listener {
 	 * @return
 	 */
 	public boolean isOutdate(String origin, String current) {
-		if (origin.equalsIgnoreCase(current)) {
-			return false;
-		}
-		StringTokenizer o_str = new StringTokenizer(origin);
-		StringTokenizer c_str = new StringTokenizer(current);
-		if (o_str.countTokens() != c_str.countTokens()) {
-			return true;
-		}
-		while(o_str.hasMoreTokens()) {
-			if(!compare(o_str.nextToken(), c_str.nextToken())) {
-				return true;
-			}
-		}
+		if (current != null) {
+			return !origin.equalsIgnoreCase(current);
+		} 
 		return false;
 	}
 
-	/**
-	 * 比较两个小版本
-	 * @param origin
-	 * @param current
-	 * @return true 如果origin较新或一样，false如果current较新
-	 */
-	private boolean compare(String origin, String current) {
-		if (origin.equalsIgnoreCase(current)) {
-			return true;
-		}
-		try {
-			int o = Integer.parseInt(origin);
-			int c = Integer.parseInt(current);
-			if (o >= c) {
-				return true;
-			}
-		} catch (NumberFormatException e) {
-		}
-		return false;
-	}
 
 	private List<String> getReport() {
 		YamlConfiguration yaml = this.yaml.get();
 		ArrayList<String> report = new ArrayList<>();
-		report.add("§b[§dVirtualMenu§b] ~~~~VirtualMenu检查更新~~~");
+		report.add("~~~~VirtualMenu更新检查~~~");
 		if (yaml == null) {
 			report.add("§c无法获取更新，本地插件版本为" + pl.getDescription().getVersion());
 			report.add("§c请检查服务器是否能连接github");
@@ -115,7 +85,8 @@ public class UpdateChecker implements Runnable, Listener {
 			String origin = pl.getDescription().getVersion();
 			String current = yaml.getString("version");
 			report.add("§b成功检查插件更新");
-			report.add("§b本地插件版本为" + pl.getDescription().getVersion() + " 最新版本版本为: " + current);
+			report.add("§b本地插件版本为" + pl.getDescription().getVersion());
+			report.add("§b最新版本为: " + current);
 			if (isOutdate(origin, current)) {
 				this.inform.set(true);
 				report.add("§b插件需要更新");
@@ -140,7 +111,7 @@ public class UpdateChecker implements Runnable, Listener {
 	public void handle(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		if (p.hasPermission("virtualmenu.admin") && inform.get()) {
-			p.sendMessage(getReport().toArray(new String[0]));
+			getReport().forEach(msg -> Settings.sendMessage(p, msg));
 		}
 	}
 

@@ -74,7 +74,7 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 		updateChecker.register();
 		metrics = new Metrics(this);
 		if (metrics.isEnabled()) {
-			this.getLogger().info("启用bstats插件使用情况统计");
+			this.getLogger().info("使用bstats统计插件使用情况");
 		} else {
 			this.getLogger().info("为支持作者,请不要关闭bstats统计");
 		}
