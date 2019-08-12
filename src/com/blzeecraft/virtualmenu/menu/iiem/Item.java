@@ -1,6 +1,5 @@
 package com.blzeecraft.virtualmenu.menu.iiem;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -49,6 +48,12 @@ public class Item implements IConfig {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void apply() throws IllegalArgumentException {
+		// 默认物品
+		cacheItem = new ItemStack(Material.BEDROCK, 1);
+		ItemMeta meta = cacheItem.getItemMeta();
+		meta.setDisplayName("§c无效Material:" + type);
+		cacheItem.setItemMeta(meta);
+		
 		if (displayname != null) {
 			displayname = ChatColor.translateAlternateColorCodes('&', displayname);
 		}
@@ -63,37 +68,46 @@ public class Item implements IConfig {
 		if (type == null) {
 			throw new IllegalArgumentException("期望: ID: [Material(:byte)]  设置: null (没有设置)");
 		}
-		StringTokenizer str = new StringTokenizer(type, ":");
-		String name = str.nextToken();
+		String raw = this.type;
+		StringTokenizer str = new StringTokenizer(raw, ":");
+		this.type = str.nextToken();
+		int id = -1;
 		try {
-			Material m = ReflectUtils.getMaterial(name);
-			if (str.hasMoreTokens()) {
-				byte data = Byte.parseByte(str.nextToken());
-				cacheItem = new ItemStack(m, amount, data);
-			} else {
-				cacheItem = new ItemStack(m, amount);
+			id = Integer.parseInt(type);
+			if (XMaterial.isNewVersion()) {
+				PluginLogger.warning(this, "使用了数字ID,在新版本这不被推荐,请检查菜单确认显示物品符合预期.");
 			}
+		} catch (NumberFormatException e) {
+		}
+		if (str.hasMoreTokens()) {
+			try {
+				this.dataValue = Integer.parseInt(str.nextToken());
+			} catch (NumberFormatException e) {
+				PluginLogger.severe(this, "期望: ID: [ID(:数据值)]  设置: " + raw + " (数据值不是int).");
+			}
+		}
+		try {
+			
+			Material m = id < 0 ? Material.valueOf(type) : ReflectUtils.getMaterial(id);
+			cacheItem = new ItemStack(m, amount, (short)dataValue);
 		} catch (IllegalArgumentException e) {
+			String name = dataValue == 0 ? type : type + ":" + dataValue; 
 			PluginLogger.fine(this, "找不到: ID为:" + name + "的物品. 尝试使用 XMaterial 进行搜索.");
 			XMaterial m = null;
 			try {
-				m = XMaterial.matchXMaterial(type);
+				m = id <0 ? XMaterial.matchXMaterial(type, (byte)dataValue) : XMaterial.matchXMaterial(id, (byte)dataValue);
 			} catch (IllegalArgumentException ex) {
 			}
 			if (m == null) {
-				cacheItem = new ItemStack(Material.BEDROCK, 1);
-				ItemMeta meta = cacheItem.getItemMeta();
-				meta.setDisplayName("§c无效Material:" + type);
-				cacheItem.setItemMeta(meta);
 				throw new IllegalArgumentException("期望: ID: [Material/ID(:byte)]  设置: " + name + " (无效ID)");
 			} else {
 				PluginLogger.fine(this, "使用 Material." + m.parseMaterial() + " 作为type,可能不准确");
 			}
 			cacheItem = m.parseItem();
 			cacheItem.setAmount(amount);
-		}
-		if (dataValue > 0) {
-			cacheItem.setDurability((short) dataValue);
+			if (dataValue > 0) {
+				cacheItem.setDurability((short) dataValue);
+			}
 		}
 		if (enchantments != null) {
 			cacheItem.addUnsafeEnchantments(enchantments);
@@ -101,12 +115,12 @@ public class Item implements IConfig {
 		if (NBTUtils.isVaidNBT(nbt)) {
 			try {
 				cacheItem = NBTUtils.setItemNBT(cacheItem, nbt);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				PluginLogger.severe(this, "设置物品NBT时出现异常: " + e.toString());
 				e.printStackTrace();
 			}
 		}
-		ItemMeta meta = cacheItem.getItemMeta();
+		meta = cacheItem.getItemMeta();
 		if (meta != null) {
 			meta.setDisplayName(displayname);
 			meta.setLore(lore);
