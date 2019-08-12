@@ -1,6 +1,6 @@
 name: VirtualMenu
 main: com.blzeecraft.virtualmenu.VirtualMenuPlugin
-version: 0.0.8-dev
+version: 0.0.9-dev
 softdepend: [PlaceHolderAPI, PlayerPoints, Vault]
 depend: [ProtocolLib]
 api-version: 1.13
