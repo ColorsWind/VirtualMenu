@@ -76,6 +76,11 @@ public class PacketManager {
 		return false;
 	}
 	
+	/**
+	 * 强制关闭玩家打开的菜单
+	 * @param p
+	 * @return
+	 */
 	public boolean closeInventory(Player p) {
 		ChestMenu menu = openMenus.get(p);
 		if (menu != null) {
@@ -91,6 +96,12 @@ public class PacketManager {
 		return false;
 	}
 	
+	/**
+	 * 强制关闭玩家打开的菜单
+	 * @param p
+	 * @param menu
+	 * @return
+	 */
 	public boolean closeInventory(Player p, ChestMenu menu) {
 		if (menu != null) {
 			PacketCloseWindow close = new PacketCloseWindow(menu.getID());
@@ -121,6 +132,12 @@ public class PacketManager {
 			}
 			en.getValue().click(EventType.CLOSE, -999, en.getKey(), null, null);
 			it.remove();
+		}
+	}
+	public void cleanData(Player p, int id) {
+		ChestMenu menu = openMenus.get(p);
+		if (menu.getID() == id) {
+			cleanData(p);
 		}
 	}
 
@@ -168,5 +185,6 @@ public class PacketManager {
 			e.printStackTrace();
 		}
 	}
+
 
 }

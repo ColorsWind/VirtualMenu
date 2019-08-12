@@ -8,6 +8,7 @@ import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 
 
@@ -22,7 +23,9 @@ public class PacketCloseWindowHandler extends PacketAdapter implements Listener 
 	
 	@Override
 	public void onPacketReceiving(PacketEvent e) {
-		manager.cleanData(e.getPlayer());
+		PacketContainer packet = e.getPacket();
+		int id = packet.getIntegers().read(0);
+		manager.cleanData(e.getPlayer(), id);
 	}
 	
 	@EventHandler
