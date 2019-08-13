@@ -21,4 +21,26 @@ public enum EnumInventoryType {
 	public String minecraft() {
 		return this.minecraft;
 	}
+	
+	public int getId(int slot) {
+		if (bukkit == InventoryType.CHEST) {
+			switch(slot) {
+			case 9:
+				return 0;
+			case 18:
+				return 1;
+			case 27:
+				return 2;
+			case 36:
+				return 3;
+			case 45:
+				return 4;
+			case 54:
+			default:
+				return 5;
+			}
+		} else {
+			throw new UnsupportedOperationException("暂时不支持箱子菜单以外的类型");
+		}
+	}
 }

@@ -15,11 +15,19 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReflectUtils {
-	
+
+	public static String getNMSVersion() {
+		return Bukkit.getServer().getClass().getPackage().getName().substring(23);
+	}
+
+	public static Class<?> getNMSClass(String name) throws Exception {
+		return Class.forName("net.minecraft.server." + getNMSVersion() + "." + name);
+	}
+
 	public static Material getMaterial(int id) {
 		try {
 			Method m = Material.class.getMethod("getMaterial", int.class);
-			Material type =  (Material) m.invoke(null, id);
+			Material type = (Material) m.invoke(null, id);
 			if (type != null) {
 				return type;
 			}
@@ -29,8 +37,8 @@ public class ReflectUtils {
 		}
 		throw new IllegalArgumentException();
 	}
-	
-	public static ItemStack getItemInHand(Player p, boolean b) { 
+
+	public static ItemStack getItemInHand(Player p, boolean b) {
 		try {
 			String name = b ? "getItemInMainHand" : "getItemInOffHand";
 			PlayerInventory inv = p.getInventory();
@@ -47,24 +55,25 @@ public class ReflectUtils {
 		}
 		return new ItemStack(Material.AIR);
 	}
-	
+
 	public static Player[] getPlayerOnline() {
 		try {
 			Method method = Bukkit.class.getMethod("getOnlinePlayers");
 			if (method.getReturnType().isArray()) {
 				return (Player[]) method.invoke(null);
 			} else {
-				return ((Collection<?>)method.invoke(null)).toArray(new Player[0]);
+				return ((Collection<?>) method.invoke(null)).toArray(new Player[0]);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new Player[0];
 	}
-	
+
 	public static ItemStack asNMSCopy(ItemStack original) {
 		try {
-			Class<?> clazz = Class.forName(Bukkit.getServer().getClass().getPackage().getName() + ".inventory.CraftItemStack");
+			Class<?> clazz = Class
+					.forName(Bukkit.getServer().getClass().getPackage().getName() + ".inventory.CraftItemStack");
 			Method method = clazz.getMethod("asCraftCopy", ItemStack.class);
 			return (ItemStack) method.invoke(null, original);
 		} catch (Exception e) {
@@ -72,7 +81,5 @@ public class ReflectUtils {
 		}
 		return original;
 	}
-	
-
 
 }
