@@ -70,6 +70,12 @@ public class MenuManager {
 	
 
 	public ChestMenu getMenu(String name) {
+		if (name == null) {
+			return null;
+		}
+		if (name.endsWith(".yml")) {
+			name = name.substring(0, name.length() - 4);
+		}
 		return menus.get(name);
 	}
 

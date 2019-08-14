@@ -7,6 +7,7 @@ import com.blzeecraft.virtualmenu.action.actions.ActionActionbar;
 import com.blzeecraft.virtualmenu.action.actions.ActionCommand;
 import com.blzeecraft.virtualmenu.action.actions.ActionConsoleCommand;
 import com.blzeecraft.virtualmenu.action.actions.ActionOpCommand;
+import com.blzeecraft.virtualmenu.action.actions.ActionOpenMenu;
 import com.blzeecraft.virtualmenu.action.actions.ActionSound;
 import com.blzeecraft.virtualmenu.action.actions.ActionTell;
 import com.blzeecraft.virtualmenu.action.actions.ActionTitle;
@@ -65,6 +66,13 @@ public class ActionManager {
 			return new ActionConsoleCommand(il, raw);
 		}
 	};
+	public static final ActionExecutor<ActionOpenMenu> OPEN_MENU = new ActionExecutor<ActionOpenMenu>() {
+
+		@Override
+		public ActionOpenMenu fromString(ILog il, String raw) {
+			return new ActionOpenMenu(il, raw);
+		}
+	};
 	
 	@Getter
 	protected static ActionManager instance;
@@ -80,6 +88,9 @@ public class ActionManager {
 		String prefix = str.nextToken();
 		if (str.hasMoreTokens()) {
 			String raw = str.nextToken();
+			if (raw.startsWith(" ")) {
+				raw = raw.substring(1);
+			}
 			ActionExecutor<?> executor = executors.get(prefix);
 			if (executor != null) {
 				return executor.fromString(parent, raw);
@@ -96,6 +107,7 @@ public class ActionManager {
 		executors.put("actionbar", ACTIONBAR);
 		executors.put("title", TITLE);
 		executors.put("sound", SOUND);
+		executors.put("open", OPEN_MENU);
 	}
 
 	
