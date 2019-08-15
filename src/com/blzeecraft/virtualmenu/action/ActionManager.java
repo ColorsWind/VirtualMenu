@@ -2,7 +2,8 @@ package com.blzeecraft.virtualmenu.action;
 
 import java.util.StringTokenizer;
 
-import com.blzeecraft.virtualmenu.InsensitiveMap;
+import org.bukkit.Bukkit;
+
 import com.blzeecraft.virtualmenu.action.actions.ActionActionbar;
 import com.blzeecraft.virtualmenu.action.actions.ActionCommand;
 import com.blzeecraft.virtualmenu.action.actions.ActionConsoleCommand;
@@ -11,68 +12,13 @@ import com.blzeecraft.virtualmenu.action.actions.ActionOpenMenu;
 import com.blzeecraft.virtualmenu.action.actions.ActionSound;
 import com.blzeecraft.virtualmenu.action.actions.ActionTell;
 import com.blzeecraft.virtualmenu.action.actions.ActionTitle;
+import com.blzeecraft.virtualmenu.event.CustomActionLoadEvent;
 import com.blzeecraft.virtualmenu.logger.ILog;
+import com.blzeecraft.virtualmenu.logger.PluginLogger;
 
 import lombok.Getter;
 
 public class ActionManager {
-
-	public static final ActionExecutor<ActionSound> SOUND = new ActionExecutor<ActionSound>() {
-
-		@Override
-		public ActionSound fromString(ILog il, String raw) {
-			return new ActionSound(il, raw);
-		}
-	};
-	
-	public static final ActionExecutor<ActionActionbar> ACTIONBAR = new ActionExecutor<ActionActionbar>() {
-
-		@Override
-		public ActionActionbar fromString(ILog il, String raw) {
-			return new ActionActionbar(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionTitle> TITLE = new ActionExecutor<ActionTitle>() {
-
-		@Override
-		public ActionTitle fromString(ILog il, String raw) {
-			return new ActionTitle(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionTell> TELL = new ActionExecutor<ActionTell>() {
-
-		@Override
-		public ActionTell fromString(ILog il, String raw) {
-			return new ActionTell(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionCommand> COMMAND = new ActionExecutor<ActionCommand>() {
-
-		@Override
-		public ActionCommand fromString(ILog il, String raw) {
-			return new ActionCommand(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionOpCommand> OP_COMMAND = new ActionExecutor<ActionOpCommand>() {
-
-		@Override
-		public ActionOpCommand fromString(ILog il, String raw) {
-			return new ActionOpCommand(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionConsoleCommand> CONSOLE_COMMAND = new ActionExecutor<ActionConsoleCommand>() {
-		@Override
-		public ActionConsoleCommand fromString(ILog il, String raw) {
-			return new ActionConsoleCommand(il, raw);
-		}
-	};
-	public static final ActionExecutor<ActionOpenMenu> OPEN_MENU = new ActionExecutor<ActionOpenMenu>() {
-
-		@Override
-		public ActionOpenMenu fromString(ILog il, String raw) {
-			return new ActionOpenMenu(il, raw);
-		}
-	};
 	
 	@Getter
 	protected static ActionManager instance;
@@ -80,8 +26,6 @@ public class ActionManager {
 	public static ActionManager init() {
 		return instance = new ActionManager();
 	}
-	
-	protected InsensitiveMap<ActionExecutor<?>> executors = new InsensitiveMap<>();
 	
 	public AbstractAction fromString(ILog parent, String s) {
 		StringTokenizer str = new StringTokenizer(s, ":");
@@ -91,24 +35,44 @@ public class ActionManager {
 			if (raw.startsWith(" ")) {
 				raw = raw.substring(1);
 			}
-			ActionExecutor<?> executor = executors.get(prefix);
-			if (executor != null) {
-				return executor.fromString(parent, raw);
-			} 
+			AbstractAction action = getAction(prefix.toLowerCase(), raw, parent);
+			if (action != null) {
+				return action;
+			}
 		}
-		return COMMAND.fromString(parent, s);
+		return new ActionCommand(parent, s);
 	}
 
-	public void registerActions() {
-		executors.put("", COMMAND);
-		executors.put("op", OP_COMMAND);
-		executors.put("console", CONSOLE_COMMAND);
-		executors.put("tell", TELL);
-		executors.put("actionbar", ACTIONBAR);
-		executors.put("title", TITLE);
-		executors.put("sound", SOUND);
-		executors.put("open", OPEN_MENU);
+	public AbstractAction getAction(String prefix, String raw, ILog il) {
+		switch(prefix) {
+		case"":
+			return new ActionCommand(il, raw);
+		case"op":
+			return new ActionOpCommand(il, raw);
+		case"console":
+			return new ActionConsoleCommand(il, raw);
+		case"tell":
+			return new ActionTell(il, raw);
+		case"actionbar":
+			return new ActionActionbar(il, raw);
+		case"title":
+			return new ActionTitle(il, raw);
+		case"sound":
+			return new ActionSound(il, raw);
+		case"open":
+			return new ActionOpenMenu(il, raw);
+		default:
+			CustomActionLoadEvent event = new CustomActionLoadEvent(prefix, raw);
+			PluginLogger.finest(il, "尝试注册自定义动作: " + prefix + ":" + raw);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isRegister()) {
+				PluginLogger.finest(il, "成功注册自定义动作: " + prefix + ":" + raw);
+				return event.getAction();
+			}
+			return null;
+		}
 	}
+
 
 	
 

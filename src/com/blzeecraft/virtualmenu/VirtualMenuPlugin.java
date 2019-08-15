@@ -56,7 +56,6 @@ public class VirtualMenuPlugin extends JavaPlugin implements ILog {
 			this.getLogger().info("启用NBT支持");
 		}
 		actionManager = ActionManager.init();
-		actionManager.registerActions();
 		boundManager = BoundManager.init(this);
 		menuManager = MenuManager.init(this);
 		menuManager.readMenu();

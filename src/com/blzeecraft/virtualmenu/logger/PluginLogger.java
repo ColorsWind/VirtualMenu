@@ -26,6 +26,10 @@ public class PluginLogger {
 		instance.logger.fine(buildMsg(il, msg));
 	}
 	
+	public static void finest(ILog il, String msg) {	
+		instance.logger.finest(buildMsg(il, msg));
+	}
+	
 	public static void severe(ILog il, String msg) {
 		instance.logger.severe(buildMsg(il, msg));
 	}
@@ -96,6 +100,9 @@ public class PluginLogger {
 		logger.removeHandler(fh);
 		logger.setFilter(null);
 	}
+
+
+
 
 
 
