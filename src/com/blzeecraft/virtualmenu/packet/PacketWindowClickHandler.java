@@ -11,6 +11,7 @@ import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.menu.EventType;
 import com.blzeecraft.virtualmenu.packet.packets.PacketSetSlot;
+import com.blzeecraft.virtualmenu.packet.packets.PacketWindowItems;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
@@ -64,14 +65,20 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 				} else {
 					item = items[slot];
 				}
-				PacketSetSlot keep = new PacketSetSlot(menu.getID(), slot, item);
+				Packet keep;
+				// 判定菜单是否为纯物品
+				if (menu.getType().isItemMenu()) {
+					keep = new PacketSetSlot(menu.getID(), slot, item);
+				} else {
+					keep = new PacketWindowItems(menu.getID(), items);
+				}
 				PacketSetSlot reset = new PacketSetSlot(-1, -1, new ItemStack(Material.AIR));
 				manager.pl.runOnPrimaryThread(() ->{
 					try {
 						keep.send(p);
 						reset.send(p);
-					} catch (InvocationTargetException ec) {
-						ec.printStackTrace();
+					} catch (InvocationTargetException ex) {
+						ex.printStackTrace();
 					}
 					if(mode == ClickMode.QUICK_MOVE) {
 						p.updateInventory();

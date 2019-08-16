@@ -1,6 +1,6 @@
 package com.blzeecraft.virtualmenu.packet.packets;
 
-import com.blzeecraft.virtualmenu.packet.EnumInventoryType;
+import com.blzeecraft.virtualmenu.packet.MenuType;
 import com.blzeecraft.virtualmenu.packet.Packet;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
@@ -15,15 +15,15 @@ public class PacketOpenWindow extends Packet {
 		villageAndPillage = packet.getStrings().size() == 0;
 	}
 	
-	public PacketOpenWindow(int windowId, String title, EnumInventoryType type, int slots) {
+	public PacketOpenWindow(int windowId, String title, MenuType type) {
 		super(new PacketContainer(PacketType.Play.Server.OPEN_WINDOW));
 		WrappedChatComponent component = WrappedChatComponent.fromText(title);
 		packet.getIntegers().write(0, windowId);
 		if (villageAndPillage) {
-			packet.getIntegers().write(1, type.getId(slots));
+			packet.getIntegers().write(1, type.getIndex());
 		} else {
-			packet.getStrings().write(0, type.minecraft());
-			packet.getIntegers().write(1, slots);
+			packet.getStrings().write(0, type.getMinecraft());
+			packet.getIntegers().write(1, type.getSlot());
 		}
 		packet.getChatComponents().write(0, component);
 		

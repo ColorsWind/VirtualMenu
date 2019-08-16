@@ -26,7 +26,7 @@ import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.Icon;
-import com.blzeecraft.virtualmenu.packet.EnumInventoryType;
+import com.blzeecraft.virtualmenu.packet.MenuType;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 
 import lombok.Data;
@@ -39,6 +39,9 @@ public class ChestMenu implements IConfig {
 
 	@Node(key = "rows", type = DataType.INT)
 	protected int row;
+	
+	@Node(key = "type", type = DataType.MENU_TYPE)
+	protected MenuType type;
 	
 	@Node(key = "auto-refresh", type = DataType.INT)
 	protected int period;
@@ -65,7 +68,7 @@ public class ChestMenu implements IConfig {
 
 	public boolean addIcon(ExtendedIcon icon) {
 		if (icon.getSlot() >= getSlots()) {
-			PluginLogger.severe(icon, "物品的位置超过了箱子的大小,请检查menu-settings.rows");
+			PluginLogger.severe(icon, "物品的位置超过了箱子的大小,请检查menu-settings.rows和type");
 		}
 		return icons.put(icon.getSlot(), icon) == null;
 	}
@@ -74,12 +77,8 @@ public class ChestMenu implements IConfig {
 		return Byte.MAX_VALUE;
 	}
 
-	public EnumInventoryType getType() {
-		return EnumInventoryType.CHEST;
-	}
-
 	public int getSlots() {
-		return row * 9;
+		return type.size();
 	}
 
 	public String getName() {
@@ -172,6 +171,9 @@ public class ChestMenu implements IConfig {
 			title = "未设置标题";
 		}
 		title = ChatColor.translateAlternateColorCodes('&', title);
+		if (type == null) {
+			type = MenuType.fromRow(row);
+		}
 		ArrayList<ExtendedIcon> tmp_dynamic = new ArrayList<>();
 		for(ExtendedIcon icon : icons.values()) {
 			if (icon.isPlaceholderapi()) {

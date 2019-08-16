@@ -36,6 +36,7 @@ public class PacketManager {
 	
 	protected final VirtualMenuPlugin pl;
 	protected final ConcurrentMap<Player, ChestMenu> openMenus;
+	// 保存了目前菜单对玩家显示的物品,更新变量时应该更新这里
 	protected final ConcurrentMap<Player, ItemStack[]> cacheItems;
 	protected PacketCloseWindowHandler closeHandler;
 	protected PacketWindowClickHandler clickHandler;
@@ -60,7 +61,7 @@ public class PacketManager {
 		if (origin == null) {
 			closeInventory(p, origin);
 		}
-		PacketOpenWindow open = new PacketOpenWindow(menu.getID(), menu.getTitle(), menu.getType(), menu.getSlots());
+		PacketOpenWindow open = new PacketOpenWindow(menu.getID(), menu.getTitle(), menu.getType());
 		ViewPlayer v = menu.addViewer(p);
 		ItemStack[] item = v.getContents(p);
 		PacketWindowItems items = new PacketWindowItems(menu.getID(), item);
@@ -142,7 +143,7 @@ public class PacketManager {
 	}
 
 	/**
-	 * 出非插件卸载，否则玩家关闭菜单都会调用这个方法
+	 * 除非插件卸载，否则玩家关闭菜单都会调用这个方法
 	 * @param p
 	 * @see #unregisterHandler()
 	 */

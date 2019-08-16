@@ -5,6 +5,12 @@ menu-settings:
 
   # 【必须】箱子的行数
   rows: 1
+  # 【可选】菜单的类型，此选项将会覆盖rows的设置
+  # 推荐使用的菜单类型：GENERIC_9X1,GENERIC_9X2,GENERIC_9X3,GENERIC_9X4
+  # GENERIC_9X5,GENERIC_9X6,GENERIC_3X3,HOPPER(5*1)
+  # 特殊类型可以参考InventoryType(见下),不推荐使用,但不代表不能用
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/inventory/InventoryType.html
+  type: 'GENERIC_3X3'
 
 
   # 【可选】刷新间隔，同时也会刷新PlaceHolderAPI的变量

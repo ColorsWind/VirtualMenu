@@ -63,6 +63,9 @@ public class ConfigReader {
 							case STRING_LIST:
 								f.set(origin, dw.asStringList());
 								break;
+							case MENU_TYPE:
+								f.set(origin, dw.getMenuType());
+								break;
 							case EVENTS:
 								f.set(origin, dw.asEvents(origin));
 								break;

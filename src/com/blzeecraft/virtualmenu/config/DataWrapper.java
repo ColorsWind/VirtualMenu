@@ -23,6 +23,7 @@ import com.blzeecraft.virtualmenu.menu.EventType;
 import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.OverrideIcon;
 import com.blzeecraft.virtualmenu.menu.iiem.RequireItem;
+import com.blzeecraft.virtualmenu.packet.MenuType;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -199,6 +200,21 @@ public class DataWrapper {
 			}
 		}
 		return emp;
+	}
+
+	/**
+	 * 转为换MenuType
+	 * @return
+	 */
+	public MenuType getMenuType() {
+		if (origin instanceof MenuType) {
+			return (MenuType) origin;
+		}
+		try {
+			return MenuType.valueOf(asString());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("期望: [MenuType] 设置: " + asString() + "(无效的MenuType)");
+		}
 	}
 
 
