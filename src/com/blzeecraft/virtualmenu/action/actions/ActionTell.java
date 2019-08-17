@@ -20,7 +20,7 @@ public class ActionTell extends AbstractAction {
 
 	@Override
 	public void execute(Player p) {
-		p.sendMessage(raw.replace("<player>", p.getName()));
+		p.sendMessage(message.replace("<player>", p.getName()));
 	}
 
 }
