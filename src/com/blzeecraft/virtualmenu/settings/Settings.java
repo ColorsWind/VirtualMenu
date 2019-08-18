@@ -29,6 +29,8 @@ public class Settings implements IConfig {
 	protected String lang_noEnoughPoint;
 	@Node(key = "Lang.NoEnoughtItem", type = DataType.STRING)
 	protected String lang_noEnoughtItem;
+	@Node(key = "Lang.NoEnoughtLevel", type = DataType.STRING)
+	protected String lang_noEnoughtLevel;
 	@Node(key = "Lang.NoPermission", type = DataType.STRING)
 	protected String lang_noPermission;
 	@Node(key = "Lang.InternalError", type = DataType.STRING)

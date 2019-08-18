@@ -44,6 +44,9 @@ public class Icon extends ViewItem implements IConfig {
 
 	@Node(key = "LEVEL", type = DataType.INT)
 	protected int level;
+	
+	@Node(key = "LEVEL-MESSAGE", type = DataType.STRING)
+	protected String levelMessage;
 
 	@Node(key = "PRICE", type = DataType.DOUBLE)
 	protected double price;
@@ -153,6 +156,19 @@ public class Icon extends ViewItem implements IConfig {
 							required.amount, required.cacheItem.getI18NDisplayName()));
 				} else {
 					p.sendMessage(String.format(requiredMessage, required.amount));
+				}
+				return;
+			}
+		}
+		if (level > 0) {
+			int newLevel = p.getLevel() - level;
+			if (newLevel >= 0) {
+				p.setLevel(newLevel);
+			} else {
+				if (levelMessage == null) {
+					p.sendMessage(levelMessage);
+				} else {
+					Settings.sendMessage(p, String.format(Settings.getInstance().getLang_noEnoughtLevel(), level));
 				}
 				return;
 			}
