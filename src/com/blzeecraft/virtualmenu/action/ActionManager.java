@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import org.bukkit.Bukkit;
 
 import com.blzeecraft.virtualmenu.action.actions.ActionActionbar;
+import com.blzeecraft.virtualmenu.action.actions.ActionBungeeCord;
 import com.blzeecraft.virtualmenu.action.actions.ActionCommand;
 import com.blzeecraft.virtualmenu.action.actions.ActionConsoleCommand;
 import com.blzeecraft.virtualmenu.action.actions.ActionOpCommand;
@@ -61,6 +62,8 @@ public class ActionManager {
 			return new ActionSound(il, raw);
 		case"open":
 			return new ActionOpenMenu(il, raw);
+		case"server":
+			return new ActionBungeeCord(il, raw);
 		default:
 			CustomActionLoadEvent event = new CustomActionLoadEvent(prefix, raw);
 			PluginLogger.finest(il, "尝试注册自定义动作: " + prefix + ":" + raw);
