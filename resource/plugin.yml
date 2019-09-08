@@ -1,12 +1,11 @@
 name: VirtualMenu
 main: com.blzeecraft.virtualmenu.VirtualMenuPlugin
-version: 0.0.11-dev
+version: 0.0.12-dev
 softdepend: [PlaceHolderAPI, PlayerPoints, Vault]
 depend: [ProtocolLib]
 api-version: 1.13
 changelog:
-- 'Support more types of menus'
-- 'Now tell has built-in color code support'
+- 'Fix the issue that the op command will be executed twice.'
 commands:
   virtualmenu:
     description: Main command for VirtualMenu.
