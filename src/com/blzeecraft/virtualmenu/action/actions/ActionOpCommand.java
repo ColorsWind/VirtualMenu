@@ -17,7 +17,6 @@ public class ActionOpCommand extends AbstractAction {
 	@Override
 	public void execute(Player p) {
 		//危险操作
-		p.performCommand(raw.replace("<player>", p.getName()));
 		if (p.isOp()) {
 			this.execute(p, raw.replace("<player>", p.getName()));
 		} else {
