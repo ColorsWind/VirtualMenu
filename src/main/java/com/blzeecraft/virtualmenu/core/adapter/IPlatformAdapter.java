@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 
@@ -26,6 +27,8 @@ public interface IPlatformAdapter {
 	void performCommandAsConsole(String command);
 	
 	void updateInventory(IUser<?> user);
+
+	AbstractItem<?> emptyItem();
 	
 	
 }

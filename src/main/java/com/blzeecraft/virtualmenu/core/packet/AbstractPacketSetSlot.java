@@ -2,7 +2,7 @@ package com.blzeecraft.virtualmenu.core.packet;
 
 
 import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.menu.AbstractItem;
+import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import lombok.Getter;
 import lombok.NonNull;

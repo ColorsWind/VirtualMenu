@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
 import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.menu.AbstractItem;
+import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.module.PacketHandler;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;

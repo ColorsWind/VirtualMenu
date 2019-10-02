@@ -3,9 +3,9 @@ package com.blzeecraft.virtualmenu.core.adapter;
 import javax.annotation.Nonnull;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.module.PacketHandler;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
@@ -78,6 +78,11 @@ public class VirtualMenu {
 	
 	public void updateInventory(IUser<?> user) {
 		platformAdapter.updateInventory(user);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> AbstractItem<T> emptyItem() {
+		return (AbstractItem<T>)platformAdapter.emptyItem();
 	}
 
 	private static IPacketAdapter packetAdapter;

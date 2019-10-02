@@ -1,6 +1,5 @@
 package com.blzeecraft.virtualmenu.core.module;
 
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
@@ -21,7 +20,6 @@ public class PacketHandler {
 		if (menu == null) {
 			return;
 		}
-		val windowId = menu.getWindowId();
 		val user = packet.getUser();
 		val rawSlot = packet.getRawSlot();
 		val slot = getSlot(rawSlot, menu.getSize());
@@ -32,14 +30,12 @@ public class PacketHandler {
 			packet.setCancel(true);
 			//下面开始考虑重设背包显示
 			if (menu.isStoreOnly()) {
-				val setSlot = VirtualMenu.createPacketSetSlot(user, packet.getWindowId(), slot, menu.viewItem(user, slot));
-				setSlot.send();
+				menu.update(user, slot);
 				if (type.isShiftClick() || type.isKeyboardClick()) {
 					user.updateInventory();
 				}
 			} else {
-				val windowItems = VirtualMenu.createPacketWindowItems(user, windowId, menu.viewItems(user));
-				windowItems.send();
+				menu.update(user);
 				user.updateInventory();
 			}
 			

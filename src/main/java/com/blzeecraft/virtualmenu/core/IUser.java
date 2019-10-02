@@ -54,6 +54,12 @@ public interface IUser<T> extends IWrappedObject<T> {
 		VirtualMenu.updateInventory(this);
 	}
 	
+	PlayerCache getPlayerCache();
+	
+	void setPlayerCache(PlayerCache cache);
+	
+	
+	
 	
 	
 }
