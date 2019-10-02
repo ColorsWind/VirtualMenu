@@ -12,6 +12,11 @@ import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
 import lombok.val;
 
+/**
+ * 多个 {@link Icon} 复合,用于支持优先级显示 
+ * @author colors_wind
+ *
+ */
 public class MultiIcon implements Icon {
 	protected final List<Icon> icons;
 

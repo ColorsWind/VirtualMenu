@@ -11,6 +11,11 @@ import com.blzeecraft.virtualmenu.core.menu.AbstractPacketMenu;
 
 import lombok.ToString;
 
+/**
+ * 用于缓存玩家关于菜单的信息,玩家打开菜单后,再创建实例.
+ * @author colors_wind
+ *
+ */
 @ToString
 public class PlayerCache {
 	

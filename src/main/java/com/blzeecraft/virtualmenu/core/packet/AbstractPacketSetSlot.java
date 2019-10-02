@@ -8,6 +8,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+/**
+ * 代表设置菜单中的物品时服务端发送给客户的的数据包
+ * @author colors_wind
+ *
+ * @param <T> 被封装的数据包类型
+ */
 @NonNull
 @Getter
 @ToString(callSuper = true)

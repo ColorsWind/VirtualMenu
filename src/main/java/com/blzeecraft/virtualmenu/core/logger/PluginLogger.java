@@ -3,8 +3,15 @@ package com.blzeecraft.virtualmenu.core.logger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
+/**
+ * 插件日志的工厂类
+ * @author colors_wind
+ *
+ */
+@NonNull
 @UtilityClass
 public class PluginLogger {
 	

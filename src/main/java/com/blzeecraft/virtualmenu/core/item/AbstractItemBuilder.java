@@ -5,6 +5,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+/**
+ * 封装的物品构造器
+ * @author colors_wind
+ *
+ * @param <T>
+ */
 public abstract class AbstractItemBuilder<T> {
 	
 	protected String id;

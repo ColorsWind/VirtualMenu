@@ -4,8 +4,14 @@ import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowClick;
+
 import lombok.val;
 
+/**
+ * 数据包监听器
+ * @author colors_wind
+ *
+ */
 public class PacketHandler {
 
 	public void handle(AbstractPacketCloseWindow<?> packet) {

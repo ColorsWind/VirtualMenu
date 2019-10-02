@@ -4,13 +4,18 @@ package com.blzeecraft.virtualmenu.core.packet;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
-import com.blzeecraft.virtualmenu.packet.ClickMode;
 
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * 代表玩家点击菜单时客户端发送给玩家的数据包
+ * @author colors_wind
+ *
+ * @param <T> 被封装的数据包类型
+ */
 @NonNull
 @Getter
 @ToString(callSuper = true)

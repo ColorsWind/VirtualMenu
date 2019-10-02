@@ -9,6 +9,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * 代表一个数据包
+ * @author colors_wind
+ *
+ * @param <T> 被封装的数据包类型
+ */
 @Nonnull
 @ToString
 @Getter

@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
+/**
+ * 代表使玩家打开菜单时服务端发给客户端的数据包
+ * @author colors_wind
+ *
+ * @param <T> 被封装的数据包类型
+ */
 @NonNull
 @Getter
 @ToString(callSuper = true)

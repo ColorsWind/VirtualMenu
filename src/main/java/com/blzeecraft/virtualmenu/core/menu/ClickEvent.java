@@ -5,6 +5,11 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import lombok.Data;
 
+/**
+ * 代表一个玩家点击菜单中的物品的事件
+ * @author colors_wind
+ *
+ */
 @Data
 public class ClickEvent {
 	

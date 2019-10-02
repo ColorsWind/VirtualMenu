@@ -5,6 +5,11 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 
+/**
+ * 服务端平台适配器
+ * @author colors_wind
+ *
+ */
 public interface IPlatformAdapter {
 	
 	

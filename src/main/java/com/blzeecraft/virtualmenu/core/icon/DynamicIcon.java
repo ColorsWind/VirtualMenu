@@ -16,6 +16,11 @@ import com.blzeecraft.virtualmenu.core.menu.ClickType;
 import lombok.ToString;
 import lombok.val;
 
+/**
+ * 动态 {@link Icon}, 这个类是不可变的
+ * @author colors_wind
+ *
+ */
 @ToString(callSuper=true)
 public class DynamicIcon extends SimpleIcon {
 

@@ -11,6 +11,11 @@ import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import lombok.Getter;
 import lombok.val;
 
+/**
+ * 数据包菜单管理器
+ * @author colors_wind
+ *
+ */
 public class PacketManager {
 	@Getter
 	protected static PacketManager instance;

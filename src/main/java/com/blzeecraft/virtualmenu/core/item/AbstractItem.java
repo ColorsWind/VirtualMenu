@@ -7,6 +7,12 @@ import com.blzeecraft.virtualmenu.core.IWrappedObject;
 
 import lombok.Data;
 
+/**
+ * 用于对物品进行包装, 这个类的不可变的.
+ * @author colors_wind
+ *
+ * @param <T>
+ */
 @Data
 public abstract class AbstractItem<T> implements IWrappedObject<T> {
 	protected final T handle;

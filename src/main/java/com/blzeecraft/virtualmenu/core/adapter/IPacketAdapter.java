@@ -9,7 +9,11 @@ import com.blzeecraft.virtualmenu.core.packet.AbstractPacketSetSlot;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowItems;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowOpen;
 
-
+/**
+ * 数据包适配器
+ * @author colors_wind
+ *
+ */
 public interface IPacketAdapter {
 	
 

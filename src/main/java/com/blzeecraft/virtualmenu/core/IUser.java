@@ -8,6 +8,12 @@ import com.blzeecraft.virtualmenu.core.module.PacketManager;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 
+/**
+ * 对玩家进行包装
+ * @author colors_wind
+ *
+ * @param <T> 玩家对应的类型
+ */
 public interface IUser<T> extends IWrappedObject<T> {
 
 	default void sendMessage(BaseComponent... component) {

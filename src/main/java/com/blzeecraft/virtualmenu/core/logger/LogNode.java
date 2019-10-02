@@ -4,6 +4,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 
+/**
+ * 代表一个日志节点, 这个类是不可变的
+ * @author colors_wind
+ *
+ */
 @ToString
 @EqualsAndHashCode
 public final class LogNode {

@@ -8,6 +8,11 @@ import com.blzeecraft.virtualmenu.core.IUser;
 
 import lombok.val;
 
+/**
+ * 代表关于玩家的条件, 这个类是不可变的
+ * @author colors_wind
+ *
+ */
 public class Condition implements Function<IUser<?>, Optional<String>>, Predicate<IUser<?>> {
 
 	public static final Condition ALLOW_ALL = new Condition(u -> Optional.empty());

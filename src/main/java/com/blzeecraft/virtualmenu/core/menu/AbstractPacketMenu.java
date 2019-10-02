@@ -18,6 +18,11 @@ import lombok.ToString;
 import lombok.val;
 
 
+/**
+ * 代表一个菜单
+ * @author colors_wind
+ *
+ */
 @Getter
 @ToString
 @AllArgsConstructor

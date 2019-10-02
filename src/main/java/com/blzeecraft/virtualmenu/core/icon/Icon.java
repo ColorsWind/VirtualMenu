@@ -6,6 +6,11 @@ import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
+/**
+ * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
+ * @author colors_wind
+ *
+ */
 public interface Icon extends Comparable<Icon> {
 	
 

@@ -15,6 +15,11 @@ import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.val;
 
+/**
+ * 简单(静态)的 {@link Icon} 
+ * @author colors_wind
+ *
+ */
 @AllArgsConstructor
 @ToString
 public class SimpleIcon implements Icon {

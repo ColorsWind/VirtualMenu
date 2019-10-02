@@ -8,6 +8,11 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import lombok.val;
 
+/**
+ * 数据包菜单的接口
+ * @author colors_wind
+ *
+ */
 public interface IPacketMenu {
 
 	String getTitle();
