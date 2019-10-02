@@ -45,7 +45,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	}
 	
 	public void update(IUser<?> user, long tick, int slot) {
-		if (tick % refresh == 0) {
+		if (refresh > 0 && tick % refresh == 0) {
 			viewIcon(user, slot).ifPresent(icon -> {
 				user.getPlayerCache().viewItem.replace(icon, icon.update(user));
 				this.update(user, slot);
@@ -54,7 +54,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	}
 	
 	public void update(IUser<?> user, long tick) {
-		if (tick % refresh == 0) {
+		if (refresh > 0 && tick % refresh == 0) {
 			user.getPlayerCache().viewItem.replaceAll((k,v) -> k.update(user));
 			this.update(user);
 		}

@@ -26,6 +26,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 @UtilityClass
 public class VirtualMenu {
 
+
 	@NonNull
 	public static void setPacketAdapter(IPacketAdapter adapter) {
 		packetAdapter = check("Packetdapter", packetAdapter, adapter);
@@ -118,8 +119,24 @@ public class VirtualMenu {
 		platformAdapter.performCommandAsConsole(command);
 	}
 
+	@NonNull
 	public void updateInventory(IUser<?> user) {
 		platformAdapter.updateInventory(user);
+	}
+	
+	@NonNull
+	public void runTaskSync(Runnable run) {
+		platformAdapter.runTaskSync(run);
+	}
+
+	@NonNull
+	public AbstractTask<?> runTaskPeriodSync(Runnable run, long delay, long period) {
+		return platformAdapter.runTaskPeriodSync(run, delay, period);
+	}
+
+	@NonNull
+	public AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period) {
+		return platformAdapter.runTaskPeriodAsync(run, delay, period);
 	}
 
 	@NonNull

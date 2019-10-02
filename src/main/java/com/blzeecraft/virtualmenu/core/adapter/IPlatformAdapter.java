@@ -35,5 +35,11 @@ public interface IPlatformAdapter {
 
 	AbstractItem<?> emptyItem();
 	
+	void runTaskSync(Runnable run);
+	
+	AbstractTask<?> runTaskPeriodSync(Runnable run, long delay, long period);
+	
+	AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period);
+	
 	
 }

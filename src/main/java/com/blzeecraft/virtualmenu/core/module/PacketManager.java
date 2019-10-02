@@ -8,7 +8,6 @@ import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 
-import lombok.Getter;
 import lombok.val;
 
 /**
@@ -17,23 +16,18 @@ import lombok.val;
  *
  */
 public class PacketManager {
-	@Getter
-	protected static PacketManager instance;
-
-	public static PacketManager init() {
-		return instance = new PacketManager();
-	}
-
+	protected static final PacketManager INSTANCE = new PacketManager();
+	
 	protected final ConcurrentMap<IUser<?>, IPacketMenu> openMenus;
 	protected final PacketHandler packetHandler;
 
-	protected PacketManager() {
+	public PacketManager() {
 		openMenus = new ConcurrentHashMap<>();
 		packetHandler = new PacketHandler();
 	}
 
 	public static Optional<IPacketMenu> getOpenMenu(IUser<?> user) {
-		return Optional.ofNullable(instance.openMenus.get(user));
+		return Optional.ofNullable(INSTANCE.openMenus.get(user));
 	}
 
 	public static void closePacketMenu(IUser<?> user) {
@@ -53,7 +47,9 @@ public class PacketManager {
 	}
 	
 	protected static ConcurrentMap<IUser<?>, IPacketMenu> getOpenMenus() {
-		return instance.openMenus;
+		return INSTANCE.openMenus;
 	}
+	
+	
 
 }

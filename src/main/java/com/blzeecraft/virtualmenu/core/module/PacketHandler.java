@@ -15,14 +15,14 @@ import lombok.val;
 public class PacketHandler {
 
 	public void handle(AbstractPacketCloseWindow<?> packet) {
-		IPacketMenu menu = PacketManager.instance.openMenus.remove(packet.getUser());
+		IPacketMenu menu = PacketManager.INSTANCE.openMenus.remove(packet.getUser());
 		if (menu != null) {
 			menu.removeViewer(packet.getUser());
 		}
 	}
 
 	public void handle(AbstractPacketWindowClick<?> packet) {
-		val menu = PacketManager.instance.openMenus.remove(packet.getUser());
+		val menu = PacketManager.INSTANCE.openMenus.remove(packet.getUser());
 		if (menu == null) {
 			return;
 		}
