@@ -1,5 +1,9 @@
 package com.blzeecraft.virtualmenu.core.config;
 
+/**
+ * 尝试解析一个无效的字符串抛出的异常
+ * @author colors_wind
+ */
 public class InvalidLineFormatException extends RuntimeException {
 
 	/**
