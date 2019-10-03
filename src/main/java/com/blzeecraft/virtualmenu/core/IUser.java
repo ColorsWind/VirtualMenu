@@ -24,8 +24,20 @@ public interface IUser<T> extends IWrappedObject<T> {
 		VirtualMenu.sendMessage(this, msg);
 	}
 	
+	default void sendPluginMessage(String string, byte[] byteArray) {
+		VirtualMenu.sendPluginMessage(this, byteArray);
+	}
+	
 	default boolean hasPermission(String permission) {
 		return VirtualMenu.hasPermission(this, permission);
+	}
+	
+	default boolean performCommand(String command) {
+		return VirtualMenu.performCommand(this, command);
+	}
+	
+	default boolean performCommandAsAdmin(String command) {
+		return VirtualMenu.performCommandAsAdmin(this, command);
 	}
 	
 	default void sendActionbar(String actionbar) {
@@ -38,6 +50,10 @@ public interface IUser<T> extends IWrappedObject<T> {
 	
 	default void sendTitle(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		VirtualMenu.sendTitle(this, title, subTitle, fadeIn, stay, fadeOut);
+	}
+	
+	default void playSound(String sound, float volume, float pitch) {
+		VirtualMenu.playSound(sound, volume, pitch);
 	}
 	
 	default void openPacketMenu(IPacketMenu menu) {
@@ -63,6 +79,10 @@ public interface IUser<T> extends IWrappedObject<T> {
 	PlayerCache getPlayerCache();
 	
 	void setPlayerCache(PlayerCache cache);
+
+	String getName();
+
+
 	
 	
 	

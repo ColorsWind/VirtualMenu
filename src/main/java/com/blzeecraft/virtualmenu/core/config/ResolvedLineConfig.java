@@ -1,6 +1,11 @@
 package com.blzeecraft.virtualmenu.core.config;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import lombok.NonNull;
 import lombok.ToString;
@@ -14,14 +19,48 @@ import lombok.val;
 @ToString
 public class ResolvedLineConfig {
 	
+	// 我们约定所有key为小写
 	private final Map<String, String> values;
 	
 	public ResolvedLineConfig(@NonNull Map<String, String> values) {
-		this.values = values;
+		this.values = new HashMap<>();
+		values.forEach((k,v) -> this.values.put(k.toLowerCase(), v));
+	}
+	
+	public Optional<String> getAsOptString(@NonNull String key) {
+		return Optional.ofNullable(values.get(key));
+	}
+	
+	public OptionalInt getAsOptInt(@NonNull String key) {
+		try {
+			return OptionalInt.of(getAsInt(key));
+		} catch (InvalidLineObjectException e) {
+		}
+		return OptionalInt.empty();
+	}
+	
+	public OptionalDouble getAsOptDouble(@NonNull String key) {
+		try {
+			return OptionalDouble.of(getAsDouble(key));
+		} catch (InvalidLineObjectException e) {
+		}
+		return OptionalDouble.empty();
+	}
+	
+	public OptionalLong getAsOptLong(@NonNull String key) {
+		try {
+			return OptionalLong.of(getAsLong(key));
+		} catch (InvalidLineObjectException e) {
+		}
+		return OptionalLong.empty();
+	}
+	
+	public boolean isSet(@NonNull String key) {
+		return values.containsKey(key);
 	}
 	
 	public String getAsString(@NonNull String key) throws InvalidLineObjectException {
-		val value = values.get(key);
+		val value = values.get(key.toLowerCase());
 		if (value == null) {
 			throw new InvalidLineObjectException("找不到键为 " + key + " 的数据, 已加载的数据: " + values.toString() + ".");
 		}

@@ -83,6 +83,10 @@ public class VirtualMenu {
 	public void sendMessage(IUser<?> user, String msg) {
 		platformAdapter.sendMessage(user, msg);
 	}
+	
+	public void sendPluginMessage(IUser<?> user, byte[] byteArray) {
+		platformAdapter.sendPluginMessage(user, byteArray);	
+	}
 
 	@NonNull
 	public boolean hasPermission(IUser<?> user, String permission) {
@@ -103,15 +107,19 @@ public class VirtualMenu {
 	public void sendTitle(IUser<?> user, String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		platformAdapter.sendTitle(user, title, subTitle, fadeIn, stay, fadeOut);
 	}
-
-	@NonNull
-	public void performCommand(IUser<?> user, String command) {
-		platformAdapter.performCommand(user, command);
+	
+	public void playSound(String sound, float volume, float pitch) {
+		platformAdapter.playSound(sound, volume, pitch);
 	}
 
 	@NonNull
-	public void performCommandAsAdmin(IUser<?> user, String command) {
-		platformAdapter.performCommandAsAdmin(user, command);
+	public boolean performCommand(IUser<?> user, String command) {
+		return platformAdapter.performCommand(user, command);
+	}
+
+	@NonNull
+	public boolean performCommandAsAdmin(IUser<?> user, String command) {
+		return platformAdapter.performCommandAsAdmin(user, command);
 	}
 
 	@NonNull
@@ -127,6 +135,11 @@ public class VirtualMenu {
 	@NonNull
 	public void runTaskSync(Runnable run) {
 		platformAdapter.runTaskSync(run);
+	}
+	
+	@NonNull
+	public void runTaskAsync(Runnable run) {
+		platformAdapter.runTaskAsync(run);
 	}
 
 	@NonNull

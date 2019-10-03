@@ -17,6 +17,8 @@ public interface IPlatformAdapter {
 	
 	void sendMessage(IUser<?> user, String msg);
 	
+	void sendPluginMessage(IUser<?> user, byte[] byteArray);
+	
 	boolean hasPermission(IUser<?> user, String permission);
 	
 	void sendActionbar(IUser<?> user, String actionbar);
@@ -25,9 +27,11 @@ public interface IPlatformAdapter {
 	
 	void sendTitle(IUser<?> user, String title, String subTitle, int fadeIn, int stay, int fadeOut);
 
-	void performCommand(IUser<?> user, String command);
+	void playSound(String sound, float volume, float pitch);
 	
-	void performCommandAsAdmin(IUser<?> user, String command);
+	boolean performCommand(IUser<?> user, String command);
+	
+	boolean performCommandAsAdmin(IUser<?> user, String command);
 	
 	void performCommandAsConsole(String command);
 	
@@ -37,9 +41,13 @@ public interface IPlatformAdapter {
 	
 	void runTaskSync(Runnable run);
 	
+	void runTaskAsync(Runnable run);
+	
 	AbstractTask<?> runTaskPeriodSync(Runnable run, long delay, long period);
 	
 	AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period);
+
+
 	
 	
 }

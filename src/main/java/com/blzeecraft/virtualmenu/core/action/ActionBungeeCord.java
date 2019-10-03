@@ -9,6 +9,9 @@ import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
+import lombok.ToString;
+
+@ToString
 public class ActionBungeeCord extends AbstractAction {
 	protected final String toServer;
 

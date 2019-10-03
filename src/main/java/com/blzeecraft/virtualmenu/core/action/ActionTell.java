@@ -1,6 +1,5 @@
 package com.blzeecraft.virtualmenu.core.action;
 
-
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -8,19 +7,19 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionCommand extends AbstractAction {
-	protected final String command;
+public class ActionTell extends AbstractAction {
 
-	public ActionCommand(LogNode node, ResolvedLineConfig rlc) {
+	protected final String message;
+
+	public ActionTell(LogNode node, ResolvedLineConfig rlc) {
 		super(node, rlc);
-		this.command = rlc.getAsString("command");
+		this.message = rlc.getAsString("s");
 	}
 
 	@Override
 	public void execute(IUser<?> user) {
-		user.performCommand(command.replace("<player>", user.getName()));
+		user.sendMessage(message.replace("<player>", user.getName()));
 	}
-
 
 
 }
