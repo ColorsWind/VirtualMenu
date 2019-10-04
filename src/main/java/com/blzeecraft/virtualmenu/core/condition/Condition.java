@@ -7,6 +7,7 @@ import java.util.Set;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
@@ -45,7 +46,13 @@ public abstract class Condition implements ICondition, LoggerObject {
 		if (types.contains(e.getType())) {
 			return Optional.of(message);
 		}
-		return check(e);
+		try {
+			return check(e);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			PluginLogger.warning(node, "检查条件时发生严重错误, 该条件检查不通过.");
+		}
+		return Optional.of("发送严重错误, 请联系管理员.");
 	}
 
 	public abstract Optional<String> check(ClickEvent e);

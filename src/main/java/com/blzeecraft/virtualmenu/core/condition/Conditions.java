@@ -37,7 +37,7 @@ public class Conditions {
 		} catch (InvalidLineFormatException | InvalidLineObjectException e) {
 			PluginLogger.severe(node, line);
 		}
-		PluginLogger.severe(node, "读取时发送严重错误, 已跳过该行.");
+		PluginLogger.severe(node, "解析条件时发送严重错误, 已跳过该行.");
 		return EMPTY_CONDITION;
 	}
 
