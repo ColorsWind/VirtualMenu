@@ -8,7 +8,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionCommand extends AbstractAction {
+public class ActionCommand extends Action {
 	protected final String command;
 
 	public ActionCommand(LogNode node, ResolvedLineConfig rlc) {

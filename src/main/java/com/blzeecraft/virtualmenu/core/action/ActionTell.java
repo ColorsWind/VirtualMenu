@@ -7,7 +7,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionTell extends AbstractAction {
+public class ActionTell extends Action {
 
 	protected final String message;
 

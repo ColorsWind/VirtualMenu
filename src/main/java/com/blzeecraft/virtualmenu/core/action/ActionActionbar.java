@@ -7,7 +7,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionActionbar extends AbstractAction {
+public class ActionActionbar extends Action {
 	protected final String message;
 
 	public ActionActionbar(LogNode node, ResolvedLineConfig rlc) {

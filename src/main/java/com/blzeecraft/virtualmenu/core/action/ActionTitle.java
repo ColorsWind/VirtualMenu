@@ -7,7 +7,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionTitle extends AbstractAction {
+public class ActionTitle extends Action {
 	protected final String title;
 	protected final String subtitle;
 	protected final int fadeIn;

@@ -7,7 +7,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionSound extends AbstractAction {
+public class ActionSound extends Action {
 	protected final String sound;
 	protected final float volume;
 	protected final float pitch;

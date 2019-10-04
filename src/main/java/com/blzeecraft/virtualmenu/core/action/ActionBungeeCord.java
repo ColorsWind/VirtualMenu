@@ -12,7 +12,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionBungeeCord extends AbstractAction {
+public class ActionBungeeCord extends Action {
 	protected final String toServer;
 
 

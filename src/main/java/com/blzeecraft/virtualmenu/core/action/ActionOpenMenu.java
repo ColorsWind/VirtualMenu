@@ -7,7 +7,7 @@ import com.blzeecraft.virtualmenu.core.module.MenuManager;
 
 import lombok.val;
 
-public class ActionOpenMenu extends AbstractAction {
+public class ActionOpenMenu extends Action {
 	protected final String menu;
 	
 	public ActionOpenMenu(LogNode node, ResolvedLineConfig rlc) {
