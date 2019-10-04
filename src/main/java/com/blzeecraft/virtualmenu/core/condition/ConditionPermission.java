@@ -2,7 +2,6 @@ package com.blzeecraft.virtualmenu.core.condition;
 
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
@@ -26,7 +25,7 @@ public class ConditionPermission extends Condition {
 	}
 
 	@Override
-	public Optional<String> apply(ClickEvent e) {
+	public Optional<String> check(ClickEvent e) {
 		return e.getUser().hasPermission(permission) ? Optional.empty() : Optional.of(message);
 	}
 

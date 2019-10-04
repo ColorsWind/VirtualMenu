@@ -1,9 +1,7 @@
 package com.blzeecraft.virtualmenu.core.action;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.IUser;
@@ -13,8 +11,6 @@ import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
-import lombok.val;
-
 public abstract class AbstractAction implements LoggerObject, Consumer<ClickEvent> {
 
 	protected final LogNode node;
@@ -23,14 +19,7 @@ public abstract class AbstractAction implements LoggerObject, Consumer<ClickEven
 	
 	public AbstractAction(LogNode node, ResolvedLineConfig rlc) {
 		this.node = node;
-		this.types = rlc.getAsOptString("click").map(s -> {
-			val str = new StringTokenizer(s, "-");
-			val set = new HashSet<ClickType>(); //临时储存
-			while(str.hasMoreTokens()) {
-				set.add(ClickType.valueOf(str.nextToken().toUpperCase()));
-			}
-			return EnumSet.copyOf(set);
-		}).orElse(EnumSet.allOf(ClickType.class));
+		this.types = rlc.getAsOptEnumSet("click", ClickType.class).orElse(EnumSet.allOf(ClickType.class));
 	}
 	
 	@Override
