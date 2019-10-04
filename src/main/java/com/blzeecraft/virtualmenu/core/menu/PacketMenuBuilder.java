@@ -5,12 +5,15 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.icon.Icon;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.NonNull;
 
 public class PacketMenuBuilder {
 	
+	protected final LogNode node;
 	protected final IMenuType type;
+	
 	protected final Icon[] icons;
 	protected final Map<EventType, Consumer<ClickEvent>> events;
 	
@@ -18,7 +21,8 @@ public class PacketMenuBuilder {
 	protected String title;
 
 	
-	public PacketMenuBuilder(IMenuType type) {
+	public PacketMenuBuilder(LogNode node, IMenuType type) {
+		this.node = node;
 		this.type = type;
 		this.icons = new Icon[type.size()];
 		this.events = new EnumMap<>(EventType.class);
@@ -61,6 +65,10 @@ public class PacketMenuBuilder {
 	public PacketMenuBuilder addEventHandler(EventType type, Consumer<ClickEvent> handle) {
 		events.put(type, handle);
 		return this;
+	}
+	
+	public PacketMenu build() {
+		return new PacketMenu(node, refresh, title, type, icons, events);
 	}
 	
 

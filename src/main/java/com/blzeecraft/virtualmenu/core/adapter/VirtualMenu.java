@@ -181,5 +181,9 @@ public class VirtualMenu {
 	public <T> AbstractItem<T> emptyItem() {
 		return (AbstractItem<T>) platformAdapter.emptyItem();
 	}
+	
+	public IMenuType getMenuType(String name) {
+		return platformAdapter.getMenuType(name);
+	}
 
 }

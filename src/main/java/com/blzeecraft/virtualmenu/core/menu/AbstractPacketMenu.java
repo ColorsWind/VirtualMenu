@@ -15,7 +15,6 @@ import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.val;
@@ -28,7 +27,6 @@ import lombok.val;
  */
 @Getter
 @ToString
-@AllArgsConstructor
 public abstract class AbstractPacketMenu implements IPacketMenu {
 
 	
