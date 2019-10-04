@@ -4,6 +4,7 @@ import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 
 import net.md_5.bungee.api.chat.BaseComponent;
 
@@ -58,6 +59,8 @@ public interface IPlatformAdapter {
 	AbstractTask<?> runTaskPeriodSync(Runnable run, long delay, long period);
 	
 	AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period);
+	
+	IMenuType getMenuType(String name);
 	
 	
 

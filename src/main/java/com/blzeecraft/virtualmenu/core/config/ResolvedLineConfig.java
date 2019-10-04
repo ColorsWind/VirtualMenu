@@ -34,8 +34,7 @@ public class ResolvedLineConfig {
 	public OptionalInt getAsOptInt(@NonNull String key) {
 		try {
 			return OptionalInt.of(getAsInt(key));
-		} catch (InvalidLineObjectException e) {
-		}
+		} catch (InvalidLineObjectException e) {}
 		return OptionalInt.empty();
 	}
 	

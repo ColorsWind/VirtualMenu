@@ -1,10 +1,5 @@
 package com.blzeecraft.virtualmenu.core.condition;
 
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -15,7 +10,7 @@ import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
  * @author colors_wind
  *
  */
-public abstract class Condition implements Function<ClickEvent, Optional<String>>, Predicate<ClickEvent>, LoggerObject {
+public abstract class Condition implements ICondition, LoggerObject {
 
 	protected final LogNode node;
 	protected final String message;
