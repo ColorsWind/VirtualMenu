@@ -5,17 +5,23 @@ import java.util.Optional;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 
-public class ConditionHasPermission extends Condition implements LoggerObject {
+import lombok.ToString;
+
+/**
+ * 关于玩家权限的条件
+ * @author colors_wind
+ *
+ */
+@ToString
+public class ConditionPermission extends Condition {
 
 	protected final String permission;
-	protected final String message;
 
-	public ConditionHasPermission(LogNode node, ResolvedLineConfig rlc) {
-		super(node);
+	public ConditionPermission(LogNode node, ResolvedLineConfig rlc) {
+		super(node, rlc);
 		this.permission = rlc.getAsString("perm");
-		this.message = rlc.getAsOptString("msg").orElse("");
+
 	}
 
 	@Override

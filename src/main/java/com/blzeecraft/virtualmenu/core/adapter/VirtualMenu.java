@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
+import java.util.OptionalDouble;
+
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -22,9 +24,13 @@ import net.md_5.bungee.api.chat.BaseComponent;
  * @author colors_wind
  * @see com.blzeecraft.virtualmenu.core.adapter.IPacketAdapter
  * @see com.blzeecraft.virtualmenu.core.adapter.IPlatformAdapter
+ * @see com.blzeecraft.virtualmenu.core.IUser
  */
 @UtilityClass
 public class VirtualMenu {
+
+	private static IPacketAdapter packetAdapter;
+	private static IPlatformAdapter platformAdapter;
 
 
 	@NonNull
@@ -46,8 +52,6 @@ public class VirtualMenu {
 
 	}
 
-	private static IPacketAdapter packetAdapter;
-	private static IPlatformAdapter platformAdapter;
 
 	@NonNull
 	public AbstractPacketCloseWindow<?> createPacketCloseWindow(IUser<?> user, int windowId) {
@@ -91,6 +95,26 @@ public class VirtualMenu {
 	@NonNull
 	public boolean hasPermission(IUser<?> user, String permission) {
 		return platformAdapter.hasPermission(user, permission);
+	}
+	
+	public int getLevel(IUser<?> user) {
+		return platformAdapter.getLevel(user);
+	}
+
+	public void setLevel(IUser<?> user, int level) {
+		platformAdapter.setLevel(user, level);
+	}
+
+	public OptionalDouble getBalance(IUser<?> user, String currency) {
+		return platformAdapter.getBalance(user, currency);
+	}
+
+	public boolean withdraw(IUser<?> user, String currency, double amount) {
+		return platformAdapter.withdraw(user, currency, amount);
+	}
+
+	public boolean deposit(IUser<?> user, String currency, double amount) {
+		return platformAdapter.deposit(user, currency, amount);
 	}
 
 	@NonNull

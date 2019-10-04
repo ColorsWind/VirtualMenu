@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.core;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
@@ -30,6 +31,26 @@ public interface IUser<T> extends IWrappedObject<T> {
 	
 	default boolean hasPermission(String permission) {
 		return VirtualMenu.hasPermission(this, permission);
+	}
+	
+	default int getLevel() {
+		return VirtualMenu.getLevel(this);
+	}
+	
+	default void setLevel(int level) {
+		VirtualMenu.setLevel(this, level);
+	}
+	
+	default OptionalDouble getBanlance(String currency) {
+		return VirtualMenu.getBalance(this, currency);
+	}
+	
+	default boolean deposit(String currency, double amount) {
+		return VirtualMenu.deposit(this, currency, amount);
+	}
+	
+	default boolean withdraw(String currency, double amount) {
+		return VirtualMenu.withdraw(this, currency, amount);
 	}
 	
 	default boolean performCommand(String command) {

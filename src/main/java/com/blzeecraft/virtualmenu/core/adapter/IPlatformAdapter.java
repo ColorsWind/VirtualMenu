@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
+import java.util.OptionalDouble;
+
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
@@ -18,6 +20,16 @@ public interface IPlatformAdapter {
 	void sendMessage(IUser<?> user, String msg);
 	
 	void sendPluginMessage(IUser<?> user, byte[] byteArray);
+	
+	int getLevel(IUser<?> user);
+	
+	void setLevel(IUser<?> user, int level);
+	
+	OptionalDouble getBalance(IUser<?> user, String currency);
+	
+	boolean withdraw(IUser<?> user, String currency, double amount);
+	
+	boolean deposit(IUser<?> user, String currency, double amount);
 	
 	boolean hasPermission(IUser<?> user, String permission);
 	
@@ -46,6 +58,9 @@ public interface IPlatformAdapter {
 	AbstractTask<?> runTaskPeriodSync(Runnable run, long delay, long period);
 	
 	AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period);
+	
+	
+
 
 
 	

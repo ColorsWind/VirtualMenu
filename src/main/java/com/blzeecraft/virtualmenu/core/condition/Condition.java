@@ -17,13 +17,16 @@ import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 public abstract class Condition implements Function<IUser<?>, Optional<String>>, Predicate<IUser<?>>, LoggerObject {
 
 	protected final LogNode node;
+	protected final String message;
 
 	public Condition(LogNode node, ResolvedLineConfig rlc) {
-		this(node);
+		this.node = node;
+		this.message = rlc.getAsOptString("msg").orElse("");
 	}
 
 	public Condition(LogNode node) {
 		this.node = node;
+		this.message = "";
 	}
 
 	@Override

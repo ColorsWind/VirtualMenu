@@ -106,5 +106,9 @@ public class ResolvedLineConfig {
 	public boolean getAsBoolean(@NonNull String key) throws InvalidLineObjectException {
 		return Boolean.parseBoolean(getAsString(key));
 	}
+	
+	public Optional<Boolean> getAsOptBoolean(@NonNull String key) {
+		return getAsOptString(key).map(s -> Boolean.valueOf(s));
+	}
 
 }
