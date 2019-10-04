@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
 import lombok.ToString;
 import lombok.val;
@@ -28,7 +29,8 @@ public class ConditionEconomy extends Condition {
 	}
 
 	@Override
-	public Optional<String> apply(IUser<?> user) {
+	public Optional<String> apply(ClickEvent e) {
+		val user = e.getUser();
 		if(take) {
 			return user.withdraw(currency, amount) ? Optional.empty() : Optional.of(message);
 		}

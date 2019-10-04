@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
 import lombok.ToString;
 
@@ -25,8 +26,8 @@ public class ConditionPermission extends Condition {
 	}
 
 	@Override
-	public Optional<String> apply(IUser<?> user) {
-		return user.hasPermission(permission) ? Optional.empty() : Optional.of(message);
+	public Optional<String> apply(ClickEvent e) {
+		return e.getUser().hasPermission(permission) ? Optional.empty() : Optional.of(message);
 	}
 
 }

@@ -8,13 +8,14 @@ import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
 /**
  * 代表关于玩家的条件, 这个类是不可变的
  * @author colors_wind
  *
  */
-public abstract class Condition implements Function<IUser<?>, Optional<String>>, Predicate<IUser<?>>, LoggerObject {
+public abstract class Condition implements Function<ClickEvent, Optional<String>>, Predicate<ClickEvent>, LoggerObject {
 
 	protected final LogNode node;
 	protected final String message;
@@ -35,8 +36,8 @@ public abstract class Condition implements Function<IUser<?>, Optional<String>>,
 	}
 
 	@Override
-	public boolean test(IUser<?> user) {
-		return !this.apply(user).isPresent();
+	public boolean test(ClickEvent e) {
+		return !this.apply(e).isPresent();
 	}
 
 	
