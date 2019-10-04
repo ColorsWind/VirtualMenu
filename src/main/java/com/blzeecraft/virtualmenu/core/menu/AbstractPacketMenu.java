@@ -2,9 +2,12 @@ package com.blzeecraft.virtualmenu.core.menu;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.PlayerCache;
@@ -33,15 +36,27 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	protected final String title;
 	protected final IMenuType type;
 	protected final Icon[] icons;
+	protected final Map<EventType, Consumer<ClickEvent>> events;
 	
-	protected final Set<IUser<?>> users;
+	protected final Set<IUser<?>> viewers;
 
 	public AbstractPacketMenu(int refresh, String title, IMenuType type) {
 		this.refresh = refresh;
 		this.title = title;
 		this.type = type;
 		this.icons = new Icon[type.size()];
-		this.users = new HashSet<>();
+		this.viewers = new HashSet<>();
+		this.events = new EnumMap<>(EventType.class);
+	}
+	
+	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, Consumer<ClickEvent>> events) {
+		this.refresh = refresh;
+		this.title = title;
+		this.type = type;
+		this.icons = new Icon[type.size()];
+		System.arraycopy(icons, 0, this.icons, 0, this.icons.length);
+		this.viewers = new HashSet<>();
+		this.events = new EnumMap<>(events);
 	}
 	
 	public void update(IUser<?> user, long tick, int slot) {
@@ -75,21 +90,21 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 
 	@Override
 	public boolean addViewer(IUser<?> user) {
-		this.users.add(user);
+		this.viewers.add(user);
 		user.setPlayerCache(new PlayerCache(this));
 		return true;
 	}
 
 	@Override
 	public boolean removeViewer(IUser<?> user) {
-		this.users.remove(user);
+		this.viewers.remove(user);
 		user.setPlayerCache(null);
 		return true;
 	}
 
 	@Override
 	public Collection<IUser<?>> getViewers() {
-		return Collections.unmodifiableCollection(users);
+		return Collections.unmodifiableCollection(viewers);
 	}
 
 	@Override
