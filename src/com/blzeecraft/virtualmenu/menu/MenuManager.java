@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.blzeecraft.virtualmenu.InsensitiveMap;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.config.ConfigReader;
-import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.item.ExtendedIcon;
 
 import lombok.Getter;
 

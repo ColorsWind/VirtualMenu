@@ -19,9 +19,9 @@ import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.action.ActionManager;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.menu.EventType;
-import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
-import com.blzeecraft.virtualmenu.menu.iiem.OverrideIcon;
-import com.blzeecraft.virtualmenu.menu.iiem.RequireItem;
+import com.blzeecraft.virtualmenu.menu.item.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.item.OverrideIcon;
+import com.blzeecraft.virtualmenu.menu.item.RequireItem;
 import com.blzeecraft.virtualmenu.packet.MenuType;
 
 import lombok.Data;

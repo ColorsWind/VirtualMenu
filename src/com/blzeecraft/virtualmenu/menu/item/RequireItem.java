@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.menu.iiem;
+package com.blzeecraft.virtualmenu.menu.item;
 
 import java.util.HashMap;
 import java.util.Map;

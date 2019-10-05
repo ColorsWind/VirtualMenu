@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.menu.iiem;
+package com.blzeecraft.virtualmenu.menu.item;
 
 import com.blzeecraft.virtualmenu.config.DataType;
 import com.blzeecraft.virtualmenu.config.Node;

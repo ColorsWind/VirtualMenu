@@ -24,8 +24,8 @@ import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
-import com.blzeecraft.virtualmenu.menu.iiem.Icon;
+import com.blzeecraft.virtualmenu.menu.item.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.item.Icon;
 import com.blzeecraft.virtualmenu.packet.MenuType;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 

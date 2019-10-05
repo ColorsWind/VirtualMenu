@@ -6,8 +6,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.menu.iiem.ExtendedIcon;
-import com.blzeecraft.virtualmenu.menu.iiem.Icon;
+import com.blzeecraft.virtualmenu.menu.item.ExtendedIcon;
+import com.blzeecraft.virtualmenu.menu.item.Icon;
 import com.blzeecraft.virtualmenu.settings.Settings;
 
 import lombok.Data;

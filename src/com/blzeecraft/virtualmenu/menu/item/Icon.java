@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.menu.iiem;
+package com.blzeecraft.virtualmenu.menu.item;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ import com.blzeecraft.virtualmenu.config.IConfig;
 import com.blzeecraft.virtualmenu.config.Node;
 import com.blzeecraft.virtualmenu.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
-import com.blzeecraft.virtualmenu.menu.iiem.RequireItem.Result;
+import com.blzeecraft.virtualmenu.menu.item.RequireItem.Result;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 import com.blzeecraft.virtualmenu.settings.Settings;
 
