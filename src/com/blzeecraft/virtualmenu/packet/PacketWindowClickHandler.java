@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.menu.EventType;
+import com.blzeecraft.virtualmenu.packet.packets.PacketOpenWindow;
 import com.blzeecraft.virtualmenu.packet.packets.PacketSetSlot;
 import com.blzeecraft.virtualmenu.packet.packets.PacketWindowItems;
 import com.comphenix.protocol.PacketType;
@@ -40,7 +41,12 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 			if (windowId == menu.getID() && slot < menu.getSlots()) {
 				//预处理开始
 				int button = packet.getIntegers().read(2);
-				ClickMode mode = packet.getEnumModifier(ClickMode.class, 5).read(0);
+				final ClickMode mode;
+				if (PacketOpenWindow.v1_7) {
+					mode = ClickMode.values()[packet.getIntegers().read(3)];
+				} else {
+					mode = packet.getEnumModifier(ClickMode.class, 5).read(0);
+				}
 				ItemStack clickedItem = packet.getItemModifier().read(0);
 				ClickType type = getClickType(mode, button, slot);
 				e.setReadOnly(false);

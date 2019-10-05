@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
@@ -84,12 +83,17 @@ public class DataWrapper {
 
 	}
 	
-	@SuppressWarnings("unchecked")
+	/**
+	 * 为了兼容1.7.10，这里只能用废弃的方法getByName
+	 * @see NamespacedKey
+	 * @return
+	 */
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public Map<Enchantment, Integer> asEnchantmentMap() {
 		Map<String, Integer> origin = (Map<String, Integer>) this.origin;
 		Map<Enchantment, Integer> enchantmentMap = new HashMap<>();
 		for(Entry<String, Integer> en : origin.entrySet()) {
-			enchantmentMap.put(Enchantment.getByKey(NamespacedKey.minecraft(en.getKey())), en.getValue());
+			enchantmentMap.put(Enchantment.getByName(en.getKey()), en.getValue());
 		}
 		return enchantmentMap;
 	}

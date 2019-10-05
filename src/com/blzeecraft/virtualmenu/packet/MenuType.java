@@ -7,28 +7,29 @@ import lombok.Getter;
 @Getter
 public enum MenuType {
 
-	GENERIC_9X1(0, "minecraft:chest", 9),
-	GENERIC_9X2(1, "minecraft:chest", 18),
-	GENERIC_9X3(2, "minecraft:chest", 27),
-	GENERIC_9X4(3, "minecraft:chest", 36),
-	GENERIC_9X5(4, "minecraft:chest", 45),
-	GENERIC_9X6(5, "minecraft:chest", 54),
+	// 箱子等
+	GENERIC_9X1(0, 0, "minecraft:chest", 9),
+	GENERIC_9X2(1, 0, "minecraft:chest", 18),
+	GENERIC_9X3(2, 0, "minecraft:chest", 27),
+	GENERIC_9X4(3, 0, "minecraft:chest", 36),
+	GENERIC_9X5(4, 0, "minecraft:chest", 45),
+	GENERIC_9X6(5, 0, "minecraft:chest", 54),
 	// 发射器等
-	GENERIC_3X3(6, "minecraft:dispenser", 9),
+	GENERIC_3X3(6, 3, "minecraft:dispenser", 9),
 	// 铁毡
-	ANVIL(7, "minecraft:anvil"),
+	ANVIL(7, 8, "minecraft:anvil"),
 	// 信标
-	BEACON(8, "minecraft:beacon", 1),
+	BEACON(8, 7, "minecraft:beacon", 1),
 	// 高炉
 	BLAST_FURNACE(9, "minecraft:blast_furnace", 3),
 	// 酿造台
-	BREWING_STAND(10, "minecraft:brewing_stand", 5),
+	BREWING_STAND(10, 5, "minecraft:brewing_stand"),
 	// 合成台
-	CRAFTING(11, "minecraft:crafting_table "),
+	CRAFTING(11, 1, "minecraft:crafting_table"),
 	// 附魔台
-	ENCHANTMENT(12,  "minecraft:enchanting_table"),
+	ENCHANTMENT(12, 4,"minecraft:enchanting_table"),
 	// 熔炉
-	FURNACE(13, "minecraft:furnace", 2),
+	FURNACE(13, 3, "minecraft:furnace", 2),
 	// 砂轮
 	GRINDSTONE(14, "minecraft:grindstone", 3),
 	// 漏斗
@@ -38,7 +39,7 @@ public enum MenuType {
 	// 织布机
 	LOOM(17, "minecraft:loom", 4),
 	// 村民交易
-	MERCHANT(18, "minecraft:merchant"),
+	MERCHANT(18, 6, "minecraft:merchant"),
 	// 潜影盒
 	SHULKER_BOX(19, "minecraft:shulker_box", 27),
 	// 烟熏炉
@@ -48,6 +49,7 @@ public enum MenuType {
 	// 切石机
 	STONECUTTER(22, "minecraft:stonecutter");
 	private final int index;
+	private final int legacyIndex;
 	private final String minecraft;
 	private final int slot;
 
@@ -62,13 +64,36 @@ public enum MenuType {
 	}
 
 	/**
+	 * 菜单包含了非物品按钮,如附魔台
+	 * 菜单包含了物品的转换,如合成台,铁毡
+	 * @param index
+	 * @param legacyIndex
+	 * @param minecraft
+	 */
+	private MenuType(int index, int legacyIndex, String minecraft) {
+		this(index, legacyIndex, minecraft, -1);
+	}
+	
+	/**
 	 * 菜单是纯物品,如箱子,潜影盒
 	 * @param index
 	 * @param minecraft
 	 * @param slot
 	 */
 	private MenuType(int index, String minecraft, int slot) {
+		this(index, -1, minecraft, slot);
+	}
+	
+	/**
+	 * 菜单是纯物品,如箱子,潜影盒
+	 * @param index
+	 * @param legacyIndex
+	 * @param minecraft
+	 * @param slot
+	 */
+	private MenuType(int index, int legacyIndex, String minecraft, int slot) {
 		this.index = index;
+		this.legacyIndex = legacyIndex;
 		this.minecraft = minecraft;
 		this.slot = slot;
 	}
@@ -115,11 +140,24 @@ public enum MenuType {
 	 * @throws IllegalArgumentException 当前版本不支持菜单类型类型时
 	 */
 	public InventoryType getBukkitType() throws IllegalArgumentException {
-		try {
-			return InventoryType.valueOf(this.name());
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("找不到 InventoryType." + this.name() + ", 可能是服务的版本过低导致的.");
+		switch(this) {
+		case GENERIC_9X1:
+		case GENERIC_9X2:
+		case GENERIC_9X3:
+		case GENERIC_9X4:
+		case GENERIC_9X5:
+		case GENERIC_9X6:
+			return InventoryType.CHEST;
+		case GENERIC_3X3:
+			return InventoryType.DISPENSER;
+		default:
+			try {
+				return InventoryType.valueOf(this.name());
+			} catch (IllegalArgumentException e) {
+				throw new IllegalArgumentException("找不到 InventoryType." + this.name() + ", 可能是服务的版本过低导致的.");
+			}
 		}
+
 	}
 	
 	/**
@@ -140,4 +178,5 @@ public enum MenuType {
 	public boolean isItemMenu() {
 		return slot != -1;
 	}
+
 }

@@ -10,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.meowj.langutils.lang.LanguageHelper;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -80,6 +82,24 @@ public class ReflectUtils {
 			e.printStackTrace();
 		}
 		return original;
+	}
+	
+	public static String getItemName(ItemStack item) {
+		if (item == null) {
+			return "null";
+		}
+		// 使用LangUtils获取物品名称
+		try {
+			Class.forName("com.meowj.langutils.lang.LanguageHelper");
+			return LanguageHelper.getItemName(item, "zh_CN");
+		} catch (ClassNotFoundException e) {
+		}
+		try {
+			ItemStack.class.getMethod("getI18NDisplayName", new Class<?>[0]);
+			return item.getI18NDisplayName();
+		} catch (NoSuchMethodException | SecurityException e) {
+		}
+		return item.getType().name();
 	}
 
 }

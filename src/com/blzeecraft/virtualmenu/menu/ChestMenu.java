@@ -133,7 +133,7 @@ public class ChestMenu implements IConfig {
 
 	protected void stopUpdateTask() {
 		BukkitTask updateTask = this.updateTask;
-		if (updateTask != null && !updateTask.isCancelled()) {
+		if (updateTask != null && !Bukkit.getScheduler().isCurrentlyRunning(updateTask.getTaskId())) {
 			updateTask.cancel();
 		}
 	}

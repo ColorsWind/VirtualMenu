@@ -22,7 +22,7 @@ public class ActionTitle extends AbstractAction {
 	protected int fadeOut = Constants.TITLE_FADE;
 
 	public ActionTitle(ILog parent, String raw) {
-		super(parent, raw, ActionType.SOUND);
+		super(parent, raw, ActionType.TITLE);
 		StringTokenizer str = new StringTokenizer(raw, ",");
 		title = str.nextToken();
 		if (str.hasMoreTokens()) {

@@ -98,10 +98,11 @@ public class Item implements IConfig {
 				m = id <0 ? XMaterial.matchXMaterial(type, (byte)dataValue) : XMaterial.matchXMaterial(id, (byte)dataValue);
 			} catch (IllegalArgumentException ex) {
 			}
-			if (m == null) {
+			Material parse = null;
+			if (m == null || (parse = m.parseMaterial()) == null) {
 				throw new IllegalArgumentException("期望: ID: [Material/ID(:byte)]  设置: " + name + " (无效ID)");
 			} else {
-				PluginLogger.fine(this, "使用 Material." + m.parseMaterial() + " 作为type,可能不准确");
+				PluginLogger.fine(this, "使用 Material." + parse + " 作为type,可能不准确");
 			}
 			cacheItem = m.parseItem();
 			cacheItem.setAmount(amount);

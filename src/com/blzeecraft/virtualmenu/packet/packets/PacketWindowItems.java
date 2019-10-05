@@ -1,7 +1,6 @@
 package com.blzeecraft.virtualmenu.packet.packets;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -20,9 +19,13 @@ public class PacketWindowItems extends Packet {
 				items[i] = new ItemStack(Material.AIR, 0);
 			} 
 		}
-		List<ItemStack> list = Arrays.asList(items);
 		packet.getIntegers().write(0, windowId);
-		packet.getItemListModifier().write(0, list);
+		if (PacketOpenWindow.v1_7) {
+			packet.getItemArrayModifier().write(0, items);
+		} else {
+			packet.getItemListModifier().write(0, Arrays.asList(items));
+		}
+
 	}
 	
 

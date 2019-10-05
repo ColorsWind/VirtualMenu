@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 
 public abstract class PlayerSubCommand extends SubCommand {
-	
+
 	public PlayerSubCommand(VirtualMenuPlugin pl) {
 		super(pl);
 	}
