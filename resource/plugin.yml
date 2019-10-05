@@ -1,11 +1,12 @@
 name: VirtualMenu
 main: com.blzeecraft.virtualmenu.VirtualMenuPlugin
-version: 0.0.12-dev
-softdepend: [PlaceHolderAPI, PlayerPoints, Vault]
+version: 0.0.13-dev
+softdepend: [PlaceHolderAPI, PlayerPoints, Vault, LangUtils]
 depend: [ProtocolLib]
 api-version: 1.13
 changelog:
-- 'Fix the issue that the op command will be executed twice.'
+- 'Fixed support for containing colon commands.'
+- 'Fix support for 1.7.10'
 commands:
   virtualmenu:
     description: Main command for VirtualMenu.
