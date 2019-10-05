@@ -1,7 +1,5 @@
 package com.blzeecraft.virtualmenu.action;
 
-import java.util.StringTokenizer;
-
 import org.bukkit.Bukkit;
 
 import com.blzeecraft.virtualmenu.action.actions.ActionActionbar;
@@ -29,10 +27,10 @@ public class ActionManager {
 	}
 	
 	public AbstractAction fromString(ILog parent, String s) {
-		StringTokenizer str = new StringTokenizer(s, ":");
-		String prefix = str.nextToken();
-		if (str.hasMoreTokens()) {
-			String raw = str.nextToken();
+		int index = s.indexOf(":");
+		if (index > 0) {
+			String prefix = s.substring(0, index );
+			String raw = s.substring(index + 1);
 			if (raw.startsWith(" ")) {
 				raw = raw.substring(1);
 			}
