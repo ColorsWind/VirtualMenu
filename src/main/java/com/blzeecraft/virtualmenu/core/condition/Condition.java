@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
-import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.config.singleline.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;

@@ -79,7 +79,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		if (index < icons.length) {
 			val icon = icons[index];
 			if (icon != null) {
-				icon.click(e);
+				icon.accept(e);
 			}
 		}
 

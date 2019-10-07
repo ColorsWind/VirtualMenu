@@ -4,6 +4,7 @@ import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
@@ -27,6 +28,8 @@ import net.md_5.bungee.api.chat.BaseComponent;
  * @see com.blzeecraft.virtualmenu.core.IUser
  */
 @UtilityClass
+
+
 public class VirtualMenu {
 
 	private static IPacketAdapter packetAdapter;
@@ -180,6 +183,10 @@ public class VirtualMenu {
 	@SuppressWarnings("unchecked")
 	public <T> AbstractItem<T> emptyItem() {
 		return (AbstractItem<T>) platformAdapter.emptyItem();
+	}
+	
+	public AbstractItemBuilder<?> createItemBuilder() {
+		return platformAdapter.createItemBuilder();
 	}
 	
 	public IMenuType getMenuType(String name) {

@@ -34,6 +34,11 @@ public abstract class AbstractItemBuilder<T> {
 		this.id = id;
 	}
 	
+	public AbstractItemBuilder<T> id(String id) {
+		this.id = id;
+		return this;
+	}
+	
 	@Nonnull
 	public AbstractItemBuilder<T> name(String name) {
 		this.name = name;
@@ -74,5 +79,6 @@ public abstract class AbstractItemBuilder<T> {
 	}
 	
 	public abstract AbstractItem<T> build();
+
 
 }

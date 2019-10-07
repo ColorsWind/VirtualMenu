@@ -3,9 +3,8 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blzeecraft.virtualmenu.core.config.InvalidLineFormatException;
-import com.blzeecraft.virtualmenu.core.config.InvalidLineObjectException;
-import com.blzeecraft.virtualmenu.core.config.LineParser;
+import com.blzeecraft.virtualmenu.core.config.singleline.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.config.singleline.LineParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
@@ -34,7 +33,7 @@ public class Actions {
 	public static IAction parse(LogNode node, String line) {
 		try {
 			return LineParser.parseFull(node, line, Action.class);
-		} catch (InvalidLineFormatException | InvalidLineObjectException e) {
+		} catch (InvalidLineFormatException e) {
 			PluginLogger.severe(node, line);
 		}
 		PluginLogger.severe(node, "解析动作时发送严重错误, 已跳过该行.");

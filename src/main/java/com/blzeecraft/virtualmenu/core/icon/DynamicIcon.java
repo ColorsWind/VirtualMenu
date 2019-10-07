@@ -1,16 +1,21 @@
 package com.blzeecraft.virtualmenu.core.icon;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
 import lombok.ToString;
@@ -23,26 +28,28 @@ import lombok.val;
  */
 @ToString(callSuper=true)
 public class DynamicIcon extends SimpleIcon {
+	public static final Function<IUser<?>, String> EMPTY_NAME = u -> null;
+	public static final Function<IUser<?>, List<String>> EMPTY_LORE = u -> Collections.emptyList();
 
 	protected final Function<IUser<?>, String> name;
 	protected final Function<IUser<?>, List<String>> lore;
 
-	public DynamicIcon(int priority, AbstractItem<?> cache, Function<IUser<?>, Optional<String>> clickCondition,
-			Predicate<IUser<?>> viewCondition, BiConsumer<IUser<?>, ClickType> command, Function<IUser<?>, String> name,
+	public DynamicIcon(int priority, AbstractItem<?> cache, ICondition clickCondition,
+			ICondition viewCondition, IAction command, Function<IUser<?>, String> name,
 			Function<IUser<?>, List<String>> lore) {
 		super(priority, cache, clickCondition, viewCondition, command);
 		this.name = name;
 		this.lore = lore;
 	}
 
-	public DynamicIcon(AbstractItem<?> cache, Function<IUser<?>, Optional<String>> clickCondition,
-			Predicate<IUser<?>> viewCondition, BiConsumer<IUser<?>, ClickType> command, Function<IUser<?>, String> name,
+	public DynamicIcon(AbstractItem<?> cache, ICondition clickCondition,
+			ICondition viewCondition, IAction command, Function<IUser<?>, String> name,
 			Function<IUser<?>,List<String>> lore) {
 		this(0, cache, clickCondition, viewCondition, command, name, lore);
 	}
 
-	public DynamicIcon(int priority, AbstractItem<?> cache, Function<IUser<?>, Optional<String>> clickCondition,
-			Predicate<IUser<?>> viewCondition, BiConsumer<IUser<?>, ClickType> command,
+	public DynamicIcon(int priority, AbstractItem<?> cache, ICondition clickCondition,
+			ICondition viewCondition, IAction command,
 			BiFunction<String, IUser<?>, String> replacer) {
 		this(priority, cache, clickCondition, viewCondition, command, user -> replacer.apply(cache.getName(), user),
 				user -> {
@@ -54,8 +61,8 @@ public class DynamicIcon extends SimpleIcon {
 				});
 	}
 	
-	public DynamicIcon(AbstractItem<?> cache, Function<IUser<?>, Optional<String>> clickCondition,
-			Predicate<IUser<?>> viewCondition, BiConsumer<IUser<?>, ClickType> command,
+	public DynamicIcon(AbstractItem<?> cache, ICondition clickCondition,
+			ICondition viewCondition, IAction command,
 			BiFunction<String, IUser<?>, String> replacer) {
 		this(0, cache, clickCondition, viewCondition, command, replacer);
 	}

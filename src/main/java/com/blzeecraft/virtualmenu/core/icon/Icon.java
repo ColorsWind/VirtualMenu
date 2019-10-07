@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.core.icon;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -11,7 +12,7 @@ import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
  * @author colors_wind
  *
  */
-public interface Icon extends Comparable<Icon> {
+public interface Icon extends Comparable<Icon>, Consumer<ClickEvent> {
 	
 
 	/**
@@ -30,10 +31,10 @@ public interface Icon extends Comparable<Icon> {
 	
 	/**
 	 * 检查玩家是否能点击这个{@link Icon}
-	 * @param user 玩家
+	 * @param e 点击的事件
 	 * @return 如果允许玩家点击,返回 {@link Optional#empty} 否则返回拒绝的信息
 	 */
-	Optional<String> canClick(IUser<?> user);
+	Optional<String> canClick(ClickEvent e);
 	
 	/**
 	 * 获取这个{@link Icon}显示的优先级
@@ -41,7 +42,7 @@ public interface Icon extends Comparable<Icon> {
 	 */
 	int getPriority();
 	
-	void click(ClickEvent e);
+	void accept(ClickEvent e);
 	
 	@Override
 	/**

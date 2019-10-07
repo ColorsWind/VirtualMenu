@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.module.PacketManager;
 
@@ -100,6 +101,8 @@ public interface IUser<T> extends IWrappedObject<T> {
 	PlayerCache getPlayerCache();
 	
 	void setPlayerCache(PlayerCache cache);
+	
+	ClickEvent getViewEvent();
 
 	String getName();
 

@@ -10,6 +10,8 @@ import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
+import lombok.Getter;
+import lombok.ToString;
 import lombok.val;
 
 /**
@@ -17,7 +19,9 @@ import lombok.val;
  * @author colors_wind
  *
  */
+@ToString
 public class MultiIcon implements Icon {
+	@Getter
 	protected final List<Icon> icons;
 
 	public MultiIcon(List<Icon> icons) {
@@ -43,13 +47,14 @@ public class MultiIcon implements Icon {
 	}
 
 	@Override
-	public Optional<String> canClick(IUser<?> user) {
-		return viewIcon(user).map(icon -> icon.canClick(user)).orElse(Optional.of("找不到可见的Icon"));
+	public Optional<String> canClick(ClickEvent e) {
+		val user = e.getUser();
+		return viewIcon(user).map(icon -> icon.canClick(e)).orElse(Optional.of("找不到可见的Icon"));
 	}
 
 	@Override
-	public void click(ClickEvent e) {
-		viewIcon(e.getUser()).ifPresent(icon -> icon.click(e));
+	public void accept(ClickEvent e) {
+		viewIcon(e.getUser()).ifPresent(icon -> icon.accept(e));
 	}
 
 	public Optional<Icon> viewIcon(IUser<?> user) {

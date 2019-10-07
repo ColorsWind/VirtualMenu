@@ -1,9 +1,10 @@
-package com.blzeecraft.virtualmenu.core.config;
+package com.blzeecraft.virtualmenu.core.config.singleline;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import com.blzeecraft.virtualmenu.core.config.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.NonNull;
@@ -108,7 +109,7 @@ public class LineParser {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T parseFull(LogNode node, String s, Class<T> clazz)
-			throws InvalidLineFormatException, InvalidLineObjectException {
+			throws InvalidConfigException {
 		int index = s.indexOf("{");
 		if (index < 0) {
 			throw new InvalidLineFormatException(LineParser.ERROR_FORMAT_LEFT_BRACES);

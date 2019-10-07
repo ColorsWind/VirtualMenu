@@ -2,7 +2,7 @@ package com.blzeecraft.virtualmenu.core.condition;
 
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.config.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.config.singleline.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 

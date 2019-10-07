@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 public class ClickEvent {
 	
+	
 	private final IUser<?> user;
 	private final ClickType type;
 	private final int rawSlot;
