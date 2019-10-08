@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.core.menu.EventHandler;
 
 import lombok.val;
 
-public class EventHandlerTemplate implements ITemplate<EventHandler> {
+public class EventTemplate implements ITemplate<EventHandler> {
 	
 	@Node(key = "action", type = STRING_LIST)
 	public Optional<List<String>> action;
