@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.singleline;
+package com.blzeecraft.virtualmenu.core.config.line;
 
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;

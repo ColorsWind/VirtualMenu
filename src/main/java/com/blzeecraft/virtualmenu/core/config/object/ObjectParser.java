@@ -3,7 +3,6 @@ package com.blzeecraft.virtualmenu.core.config.object;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
@@ -20,7 +19,7 @@ public class ObjectParser {
 
 	public ObjectParser(Object origin) {
 		if (origin == null) {
-			throw new MissingRequiredObjectException("该项目必须设置.");
+			throw new MissingRequiredObjectException("错误, 该项目必须设置.");
 		}
 		this.origin = origin;
 	}

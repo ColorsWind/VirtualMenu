@@ -11,6 +11,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 
+import com.blzeecraft.virtualmenu.core.config.object.DataType;
 import com.blzeecraft.virtualmenu.core.config.object.ObjectParser;
 
 import lombok.val;

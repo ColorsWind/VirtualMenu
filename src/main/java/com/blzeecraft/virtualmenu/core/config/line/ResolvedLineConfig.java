@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.singleline;
+package com.blzeecraft.virtualmenu.core.config.line;
 
 import java.util.EnumSet;
 import java.util.HashMap;

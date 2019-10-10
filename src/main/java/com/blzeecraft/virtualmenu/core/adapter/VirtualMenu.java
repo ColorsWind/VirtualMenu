@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.IUser;
@@ -28,8 +29,6 @@ import net.md_5.bungee.api.chat.BaseComponent;
  * @see com.blzeecraft.virtualmenu.core.IUser
  */
 @UtilityClass
-
-
 public class VirtualMenu {
 
 	private static IPacketAdapter packetAdapter;
@@ -189,8 +188,12 @@ public class VirtualMenu {
 		return platformAdapter.createItemBuilder();
 	}
 	
-	public IMenuType getMenuType(String name) {
+	public Optional<IMenuType> getMenuType(String name) {
 		return platformAdapter.getMenuType(name);
+	}
+	
+	public IMenuType[] getMenuTypes() {
+		return platformAdapter.getMenuTypes();
 	}
 
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.config.singleline.InvalidLineFormatException;
-import com.blzeecraft.virtualmenu.core.config.singleline.LineParser;
+import com.blzeecraft.virtualmenu.core.config.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.config.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
@@ -32,7 +32,7 @@ public class Conditions {
 	 */
 	public static ICondition parse(LogNode node, String line) {
 		try {
-			return LineParser.parseFull(node, line, Condition.class);
+			return LineConfigParser.parseFull(node, line, Condition.class);
 		} catch (InvalidLineFormatException e) {
 			PluginLogger.severe(node, line);
 		}

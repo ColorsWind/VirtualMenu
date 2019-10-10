@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.root;
+package com.blzeecraft.virtualmenu.core.config.object;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -7,14 +7,17 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.blzeecraft.virtualmenu.core.config.map.ITemplate;
-
 @Documented
 @Retention(RUNTIME)
 @Target(FIELD)
-public @interface EnumNode {
-
-	Class<? extends Enum<?>> key();
+public @interface ObjectNode {
 	
-	Class<? extends ITemplate<?>> template(); 
+	String[] key() default {};
+	
+	DataType type() default DataType.RAW;
+	
+
+
 }
+
+

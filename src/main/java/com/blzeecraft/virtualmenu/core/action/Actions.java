@@ -3,8 +3,8 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blzeecraft.virtualmenu.core.config.singleline.InvalidLineFormatException;
-import com.blzeecraft.virtualmenu.core.config.singleline.LineParser;
+import com.blzeecraft.virtualmenu.core.config.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.config.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
@@ -32,7 +32,7 @@ public class Actions {
 	 */
 	public static IAction parse(LogNode node, String line) {
 		try {
-			return LineParser.parseFull(node, line, Action.class);
+			return LineConfigParser.parseFull(node, line, Action.class);
 		} catch (InvalidLineFormatException e) {
 			PluginLogger.severe(node, line);
 		}

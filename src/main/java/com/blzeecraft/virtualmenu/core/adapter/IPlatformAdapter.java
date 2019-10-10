@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.core.adapter;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 import com.blzeecraft.virtualmenu.core.IUser;
@@ -63,7 +64,9 @@ public interface IPlatformAdapter {
 	
 	AbstractTask<?> runTaskPeriodAsync(Runnable run, long delay, long period);
 	
-	IMenuType getMenuType(String name);
+	Optional<IMenuType> getMenuType(String name);
+
+	IMenuType[] getMenuTypes();
 
 	
 	

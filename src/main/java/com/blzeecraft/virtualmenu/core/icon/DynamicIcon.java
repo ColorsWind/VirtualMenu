@@ -3,20 +3,14 @@ package com.blzeecraft.virtualmenu.core.icon;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
-import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
 import lombok.ToString;
 import lombok.val;

@@ -1,14 +1,12 @@
-package com.blzeecraft.virtualmenu.core.config.map;
+package com.blzeecraft.virtualmenu.core.config.template;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 
-import com.blzeecraft.virtualmenu.core.config.object.ObjectParser;
+import com.blzeecraft.virtualmenu.core.config.map.Maps;
+import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
-import lombok.SneakyThrows;
 import lombok.val;
 
 @FunctionalInterface
@@ -27,7 +25,7 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 			val lowerMap = Maps.lowerCase(map);
 			for (val field : this.getClass().getDeclaredFields()) {
 				field.setAccessible(true);
-				Node node = field.getAnnotation(Node.class);
+				ObjectNode node = field.getAnnotation(ObjectNode.class);
 				if (node == null)
 					continue;
 				Object o = null;

@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.singleline;
+package com.blzeecraft.virtualmenu.core.config.line;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,9 +7,10 @@ import java.util.function.BiFunction;
 import com.blzeecraft.virtualmenu.core.config.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.val;
-import lombok.experimental.UtilityClass;
 
 /**
  * 用于解析单行配置
@@ -17,8 +18,8 @@ import lombok.experimental.UtilityClass;
  * @author colors_wind
  *
  */
-@UtilityClass
-public class LineParser {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class LineConfigParser {
 	// 常量池 单行配置解析器提示信息
 	public static final String CORRECT_FORMAT_EXAMPLE = "正确示例tell{s=Testing}";
 	public static final String ERROR_FORMAT_LEFT_BRACES = "格式错误(缺少\'{\'), " + CORRECT_FORMAT_EXAMPLE;
@@ -112,7 +113,7 @@ public class LineParser {
 			throws InvalidConfigException {
 		int index = s.indexOf("{");
 		if (index < 0) {
-			throw new InvalidLineFormatException(LineParser.ERROR_FORMAT_LEFT_BRACES);
+			throw new InvalidLineFormatException(LineConfigParser.ERROR_FORMAT_LEFT_BRACES);
 		}
 		String prefix = s.substring(0, index - 1);
 		val supplier = REGISTERED.get(prefix.toLowerCase());
@@ -121,7 +122,7 @@ public class LineParser {
 		}
 		ResolvedLineConfig lc;
 		try {
-			lc = LineParser.parseEnclose(s.substring(index));
+			lc = LineConfigParser.parseEnclose(s.substring(index));
 		} catch (InvalidLineFormatException e) {
 			throw new InvalidLineFormatException(e.getMessage(), e);
 		}

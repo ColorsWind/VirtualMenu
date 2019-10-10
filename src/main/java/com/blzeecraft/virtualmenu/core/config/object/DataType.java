@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.map;
+package com.blzeecraft.virtualmenu.core.config.object;
 
 public enum DataType {
 
