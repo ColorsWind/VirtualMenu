@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
+import com.blzeecraft.virtualmenu.core.config.file.MenuFile;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.menu.AbstractPacketMenu;
 
 import lombok.val;
@@ -19,41 +22,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MenuManager {
 
-	private static final ConcurrentMap<String, Function<Reader, AbstractPacketMenu>> PARSER = new ConcurrentHashMap<>();
-	private static final ConcurrentMap<String, AbstractPacketMenu> MENU = new ConcurrentHashMap<>();
+	public static final ConcurrentMap<String, AbstractPacketMenu> MENU = new ConcurrentHashMap<>();
 
-	public static boolean addMenu(String name, AbstractPacketMenu menu) {
-		return MENU.putIfAbsent(name, menu) == null;
-	}
-	
-	public static Optional<AbstractPacketMenu> getMenu(String name) {
-		return Optional.ofNullable(MENU.get(name));
-	}
-
-	public static boolean removeMenu(String name) {
-		return MENU.remove(name) != null;
-	}
-
-	public static void clearMenus() {
-		MENU.clear();
-	}
-
-	public static Collection<AbstractPacketMenu> getMenus() {
-		return MENU.values();
-	}
-
-	public static boolean addParser(String type, Function<Reader, AbstractPacketMenu> parser) {
-		return PARSER.putIfAbsent(type, parser) == null;
-	}
-	
-	public static boolean removeParser(String type) {
-		return PARSER.remove(type) != null;
-	}
-	public static Optional<Function<Reader, AbstractPacketMenu>> getParser(String type) {
-		return Optional.ofNullable(PARSER.get(type));
-	}
-
-	public static AbstractPacketMenu parse(File file) throws IOException {
+	public static AbstractPacketMenu parse(File file, LogNode node) throws IOException {
 		String name = file.getName();
 		int index = name.lastIndexOf(".");
 		String type;
@@ -64,15 +35,15 @@ public class MenuManager {
 		}
 		val in = new FileInputStream(file);
 		val reader = new InputStreamReader(in, "utf8");
-		return parse(type, reader);
+		return parse(type, reader, node);
 	}
 
-	public static AbstractPacketMenu parse(String type, InputStreamReader reader) throws IOException {
-		val parser = PARSER.get(type);
+	public static AbstractPacketMenu parse(String type, InputStreamReader reader, LogNode node) throws IOException {
+		val parser = FileParser.PARSER.get(type);
 		if (parser == null) {
 			throw new NullPointerException("未识别的文件格式: ." + type + " (没有该读取类型的解析器)");
 		}
-		return parser.apply(reader);
+		return new MenuFile().init(parser.apply(reader)).apply(node);
 	}
 
 }

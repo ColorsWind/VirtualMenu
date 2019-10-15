@@ -20,7 +20,7 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 	@Override
 	T apply(LogNode node);
 
-	default void init(Map<String, Object> map) {
+	default ITemplate<T> init(Map<String, Object> map) {
 		try {
 			val lowerMap = Maps.lowerCase(map);
 			for (val field : this.getClass().getDeclaredFields()) {
@@ -40,6 +40,7 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {
 			e.printStackTrace();
 		}
+		return this;
 	}
 
 }

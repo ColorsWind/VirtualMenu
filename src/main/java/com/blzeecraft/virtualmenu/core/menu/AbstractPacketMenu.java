@@ -34,7 +34,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	protected final String title;
 	protected final IMenuType type;
 	protected final Icon[] icons;
-	protected final Map<EventType, Consumer<ClickEvent>> events;
+	protected final Map<EventType, ? extends Consumer<ClickEvent>> events;
 	
 	protected final Set<IUser<?>> viewers;
 
@@ -47,7 +47,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		this.events = new EnumMap<>(EventType.class);
 	}
 	
-	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, Consumer<ClickEvent>> events) {
+	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, ? extends Consumer<ClickEvent>> events) {
 		this.refresh = refresh;
 		this.title = title;
 		this.type = type;

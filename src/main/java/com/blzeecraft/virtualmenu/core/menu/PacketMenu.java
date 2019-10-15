@@ -11,7 +11,7 @@ public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 	protected final LogNode node;
 
 	public PacketMenu(LogNode node, int refresh, String title, IMenuType type, Icon[] icons,
-			Map<EventType, Consumer<ClickEvent>> events) {
+			Map<EventType, ? extends Consumer<ClickEvent>> events) {
 		super(refresh, title, type, icons, events);
 		this.node = node;
 	}

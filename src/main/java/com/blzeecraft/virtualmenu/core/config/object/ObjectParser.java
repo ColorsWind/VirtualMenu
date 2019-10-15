@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.core.config.ObjectConvertException;
 import lombok.val;
 import lombok.var;
 
-public class ObjectParser {
+public final class ObjectParser {
 
 	protected final Object origin;
 

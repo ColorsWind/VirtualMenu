@@ -21,7 +21,7 @@ import com.blzeecraft.virtualmenu.core.module.VariableManager;
 
 import lombok.val;
 
-public class IconTemplate implements ITemplate<SlotIcon> {
+public class SlotIconTemplate implements ITemplate<SlotIcon> {
 	
 	@ObjectNode(key = "id", type = STRING)
 	public String id;
