@@ -1,14 +1,13 @@
 package com.blzeecraft.virtualmenu.core.config.file;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.blzeecraft.virtualmenu.core.config.template.EventTemplate;
-import com.blzeecraft.virtualmenu.core.config.template.GlobalConfTemplate;
-import com.blzeecraft.virtualmenu.core.config.template.ITemplate;
-import com.blzeecraft.virtualmenu.core.config.template.GlobalConfTemplate.GlobalConf;
-import com.blzeecraft.virtualmenu.core.config.template.SlotIconTemplate;
+import com.blzeecraft.virtualmenu.core.config.deserializer.EventsDeserializer;
+import com.blzeecraft.virtualmenu.core.config.deserializer.GlobalConfDeserializer;
+import com.blzeecraft.virtualmenu.core.config.deserializer.IDeserializer;
+import com.blzeecraft.virtualmenu.core.config.deserializer.SlotIconDeserializer;
+import com.blzeecraft.virtualmenu.core.config.deserializer.GlobalConfDeserializer.GlobalConf;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
 import com.blzeecraft.virtualmenu.core.icon.SlotIcon;
@@ -17,15 +16,15 @@ import com.blzeecraft.virtualmenu.core.menu.EventHandler;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 
-public class MenuFile implements ITemplate<PacketMenu> {
+public class MenuFile implements IDeserializer<PacketMenu> {
 
-	@SpecificNode(key = "global", template = GlobalConfTemplate.class)
+	@SpecificNode(key = "global", template = GlobalConfDeserializer.class)
 	public GlobalConf globalConf;
 
-	@EnumNode(key = EventType.class, template = EventTemplate.class)
+	@EnumNode(key = EventType.class, template = EventsDeserializer.class)
 	public Map<EventType, EventHandler> eventHandlers;
 
-	@ArbitrarilyNode(template = SlotIconTemplate.class)
+	@ArbitrarilyNode(template = SlotIconDeserializer.class)
 	public Map<String, SlotIcon> icons;
 
 	@Override

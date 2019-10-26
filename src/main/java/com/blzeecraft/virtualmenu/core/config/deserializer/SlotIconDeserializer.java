@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.template;
+package com.blzeecraft.virtualmenu.core.config.deserializer;
 
 import static com.blzeecraft.virtualmenu.core.config.node.DataType.*;
 
@@ -21,7 +21,7 @@ import com.blzeecraft.virtualmenu.core.module.VariableManager;
 
 import lombok.val;
 
-public class SlotIconTemplate implements ITemplate<SlotIcon> {
+public class SlotIconDeserializer implements IDeserializer<SlotIcon> {
 	
 	@ObjectNode(key = "id")
 	public String id;

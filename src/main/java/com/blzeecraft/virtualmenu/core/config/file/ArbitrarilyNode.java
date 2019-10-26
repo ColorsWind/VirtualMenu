@@ -7,7 +7,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.blzeecraft.virtualmenu.core.config.template.ITemplate;
+import com.blzeecraft.virtualmenu.core.config.deserializer.IDeserializer;
 
 
 @Documented
@@ -15,6 +15,6 @@ import com.blzeecraft.virtualmenu.core.config.template.ITemplate;
 @Target(FIELD)
 public @interface ArbitrarilyNode {
 	
-	Class<? extends ITemplate<?>> template();
+	Class<? extends IDeserializer<?>> template();
 
 }

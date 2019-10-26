@@ -1,9 +1,9 @@
-package com.blzeecraft.virtualmenu.core.config.template;
+package com.blzeecraft.virtualmenu.core.config.deserializer;
 
 import java.util.Map;
 import java.util.function.Function;
 
-import com.blzeecraft.virtualmenu.core.config.map.Maps;
+import com.blzeecraft.virtualmenu.core.InsensitiveMap;
 import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 import com.blzeecraft.virtualmenu.core.config.object.ObjectParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -11,7 +11,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.val;
 
 @FunctionalInterface
-public interface ITemplate<T> extends Function<LogNode, T> {
+public interface IDeserializer<T> extends Function<LogNode, T> {
 
 	/**
 	 * 用模板创建对象
@@ -21,9 +21,9 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 	@Override
 	T apply(LogNode node);
 
-	default ITemplate<T> init(LogNode logNode, Map<String, Object> map) {
+	default IDeserializer<T> init(LogNode logNode, Map<String, Object> map) {
 		try {
-			val lowerMap = Maps.lowerCase(map);
+			val lowerMap = InsensitiveMap.wrap(map);
 			for (val field : this.getClass().getDeclaredFields()) {
 				field.setAccessible(true);
 				ObjectNode node = field.getAnnotation(ObjectNode.class);

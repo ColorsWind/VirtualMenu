@@ -8,12 +8,12 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.blzeecraft.virtualmenu.core.config.template.ITemplate;
+import com.blzeecraft.virtualmenu.core.config.deserializer.IDeserializer;
 
 @Documented
 @Retention(RUNTIME)
 @Target({TYPE, FIELD})
 public @interface DeserializeBy {
 
-	Class<? extends ITemplate<?>> value();
+	Class<? extends IDeserializer<?>> value();
 }

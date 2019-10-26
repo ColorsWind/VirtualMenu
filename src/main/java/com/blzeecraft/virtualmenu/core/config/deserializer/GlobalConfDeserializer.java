@@ -1,7 +1,7 @@
-package com.blzeecraft.virtualmenu.core.config.template;
+package com.blzeecraft.virtualmenu.core.config.deserializer;
 
+import com.blzeecraft.virtualmenu.core.config.deserializer.GlobalConfDeserializer.GlobalConf;
 import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
-import com.blzeecraft.virtualmenu.core.config.template.GlobalConfTemplate.GlobalConf;
 
 import java.util.Arrays;
 
@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import lombok.Data;
 import lombok.val;
 
-public class GlobalConfTemplate implements ITemplate<GlobalConf> {
+public class GlobalConfDeserializer implements IDeserializer<GlobalConf> {
 
 	@ObjectNode(key = "refresh")
 	public int refresh;

@@ -2,11 +2,11 @@ package com.blzeecraft.virtualmenu.core;
 
 import java.lang.reflect.Field;
 
+import com.blzeecraft.virtualmenu.core.config.deserializer.IDeserializer;
 import com.blzeecraft.virtualmenu.core.config.node.DataType;
 import com.blzeecraft.virtualmenu.core.config.node.DeserializeBy;
 import com.blzeecraft.virtualmenu.core.config.node.EnumKey;
 import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
-import com.blzeecraft.virtualmenu.core.config.template.ITemplate;
 
 import lombok.SneakyThrows;
 import lombok.val;
@@ -26,7 +26,7 @@ public class ReflectUtils {
 	}
 	
 	@SneakyThrows
-	public static ITemplate<?> getDeserializeBy(Field field) {
+	public static IDeserializer<?> getDeserializeBy(Field field) {
 		var db = field.getAnnotation(DeserializeBy.class);
 		if (db == null) {
 			db = field.getDeclaringClass().getAnnotation(DeserializeBy.class);

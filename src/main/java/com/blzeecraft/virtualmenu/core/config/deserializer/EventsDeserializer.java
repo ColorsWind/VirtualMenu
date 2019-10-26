@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.template;
+package com.blzeecraft.virtualmenu.core.config.deserializer;
 
 import static com.blzeecraft.virtualmenu.core.config.node.DataType.STRING;
 
@@ -14,7 +14,7 @@ import com.blzeecraft.virtualmenu.core.menu.EventHandler;
 
 import lombok.val;
 
-public class EventTemplate implements ITemplate<EventHandler> {
+public class EventsDeserializer implements IDeserializer<EventHandler> {
 	
 	@ObjectNode(key = "action", type = STRING)
 	public Optional<List<String>> action;
