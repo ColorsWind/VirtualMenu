@@ -1,6 +1,6 @@
 package com.blzeecraft.virtualmenu.core.config.template;
 
-import static com.blzeecraft.virtualmenu.core.config.object.DataType.STRING_LIST;
+import static com.blzeecraft.virtualmenu.core.config.node.DataType.STRING;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.action.Actions;
 import com.blzeecraft.virtualmenu.core.condition.Conditions;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
+import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.menu.EventHandler;
 
@@ -16,10 +16,10 @@ import lombok.val;
 
 public class EventTemplate implements ITemplate<EventHandler> {
 	
-	@ObjectNode(key = "action", type = STRING_LIST)
+	@ObjectNode(key = "action", type = STRING)
 	public Optional<List<String>> action;
 	
-	@ObjectNode(key = "condition", type = STRING_LIST)
+	@ObjectNode(key = "condition", type = STRING)
 	public Optional<List<String>> condition;
 
 	@Override

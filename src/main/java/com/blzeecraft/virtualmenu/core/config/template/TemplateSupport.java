@@ -6,8 +6,7 @@ import java.util.Map;
 
 import org.bukkit.event.inventory.ClickType;
 
-import com.blzeecraft.virtualmenu.core.config.map.Maps;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
+import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 
 import lombok.val;
 

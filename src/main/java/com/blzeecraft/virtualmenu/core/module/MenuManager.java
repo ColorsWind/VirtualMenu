@@ -19,11 +19,14 @@ import com.blzeecraft.virtualmenu.core.menu.AbstractPacketMenu;
 import lombok.val;
 import lombok.experimental.UtilityClass;
 
-@UtilityClass
 public class MenuManager {
 
 	public static final ConcurrentMap<String, AbstractPacketMenu> MENU = new ConcurrentHashMap<>();
 
+	public static Optional<AbstractPacketMenu> getMenu(String name) {
+		return Optional.ofNullable(MENU.get(name));
+	}
+	
 	public static AbstractPacketMenu parse(File file, LogNode node) throws IOException {
 		String name = file.getName();
 		int index = name.lastIndexOf(".");
@@ -43,7 +46,7 @@ public class MenuManager {
 		if (parser == null) {
 			throw new NullPointerException("未识别的文件格式: ." + type + " (没有该读取类型的解析器)");
 		}
-		return new MenuFile().init(parser.apply(reader)).apply(node);
+		return new MenuFile().init(node, parser.apply(reader)).apply(node);
 	}
 
 }

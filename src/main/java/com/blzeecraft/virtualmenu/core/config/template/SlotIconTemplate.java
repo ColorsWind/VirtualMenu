@@ -1,6 +1,6 @@
 package com.blzeecraft.virtualmenu.core.config.template;
 
-import static com.blzeecraft.virtualmenu.core.config.object.DataType.*;
+import static com.blzeecraft.virtualmenu.core.config.node.DataType.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.blzeecraft.virtualmenu.core.action.Actions;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.Conditions;
 import com.blzeecraft.virtualmenu.core.config.MissingRequiredObjectException;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
+import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 import com.blzeecraft.virtualmenu.core.icon.DynamicIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.SimpleIcon;
@@ -23,43 +23,43 @@ import lombok.val;
 
 public class SlotIconTemplate implements ITemplate<SlotIcon> {
 	
-	@ObjectNode(key = "id", type = STRING)
+	@ObjectNode(key = "id")
 	public String id;
 	
-	@ObjectNode(key = "priority", type = INTEGER)
+	@ObjectNode(key = "priority")
 	public OptionalInt priority;
 	
-	@ObjectNode(key = "name", type = STRING)
+	@ObjectNode(key = "name")
 	public Optional<String> name;
 	
-	@ObjectNode(key = "lore", type = STRING_LIST)
+	@ObjectNode(key = "lore")
 	public Optional<List<String>> lore;
 	
-	@ObjectNode(key = "amount", type = INTEGER)
+	@ObjectNode(key = "amount")
 	public OptionalInt amount;
 	
-	@ObjectNode(key = "nbt", type = STRING)
+	@ObjectNode(key = "nbt")
 	public Optional<String> nbt;
 	
-	@ObjectNode(key = "variable", type = STRING_LIST)
+	@ObjectNode(key = "variable", type = STRING)
 	public Optional<List<String>> variable;
 	
-	@ObjectNode(key = "position-x", type = INTEGER)
+	@ObjectNode(key = "position-x")
 	public OptionalInt positionX;
 	
-	@ObjectNode(key = "position-y", type = INTEGER)
+	@ObjectNode(key = "position-y")
 	public OptionalInt positionY;
 	
-	@ObjectNode(key = "slot", type = INTEGER)
+	@ObjectNode(key = "slot")
 	public OptionalInt positionSlot;
 	
-	@ObjectNode(key = "action", type = STRING_LIST)
+	@ObjectNode(key = "action", type = STRING)
 	public Optional<List<String>> action;
 	
-	@ObjectNode(key = "condition", type = STRING_LIST)
+	@ObjectNode(key = "condition", type = STRING)
 	public Optional<List<String>> condition;
 	
-	@ObjectNode(key = "view-condition", type = STRING_LIST)
+	@ObjectNode(key = "view-condition", type = STRING)
 	public Optional<List<String>> viewCondition;
 
 	@Override

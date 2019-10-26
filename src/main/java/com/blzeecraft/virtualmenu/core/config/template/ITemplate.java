@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 import com.blzeecraft.virtualmenu.core.config.map.Maps;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
+import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
+import com.blzeecraft.virtualmenu.core.config.object.ObjectParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.val;
@@ -20,7 +21,7 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 	@Override
 	T apply(LogNode node);
 
-	default ITemplate<T> init(Map<String, Object> map) {
+	default ITemplate<T> init(LogNode logNode, Map<String, Object> map) {
 		try {
 			val lowerMap = Maps.lowerCase(map);
 			for (val field : this.getClass().getDeclaredFields()) {
@@ -34,7 +35,7 @@ public interface ITemplate<T> extends Function<LogNode, T> {
 					if (o != null)
 						break;
 				}
-				Object value = Maps.convert(o, node.type(), field.getDeclaringClass());
+				Object value = new ObjectParser(o).asObject(field, logNode);
 				field.set(this, value);
 			}
 		} catch (IllegalArgumentException | IllegalAccessException | SecurityException e) {

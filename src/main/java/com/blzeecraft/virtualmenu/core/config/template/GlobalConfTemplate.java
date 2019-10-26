@@ -1,12 +1,11 @@
 package com.blzeecraft.virtualmenu.core.config.template;
 
+import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 import com.blzeecraft.virtualmenu.core.config.template.GlobalConfTemplate.GlobalConf;
 
 import java.util.Arrays;
 
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.config.object.DataType;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectNode;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
@@ -16,13 +15,13 @@ import lombok.val;
 
 public class GlobalConfTemplate implements ITemplate<GlobalConf> {
 
-	@ObjectNode(key = "refresh", type = DataType.INTEGER)
+	@ObjectNode(key = "refresh")
 	public int refresh;
 
-	@ObjectNode(key = "title", type = DataType.STRING)
+	@ObjectNode(key = "title")
 	public String title;
 
-	@ObjectNode(key = "type", type = DataType.STRING)
+	@ObjectNode(key = "type")
 	public String type;
 
 	@Override
