@@ -58,7 +58,7 @@ public class PacketManager {
 	
 	public boolean openInventory(ChestMenu menu, Player p) {
 		ChestMenu origin = openMenus.put(p, menu);
-		if (origin == null) {
+		if (origin != null) {
 			closeInventory(p, origin);
 		}
 		PacketOpenWindow open = new PacketOpenWindow(menu.getID(), menu.getTitle(), menu.getType());
