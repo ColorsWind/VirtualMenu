@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.core.item;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
+import lombok.NonNull;
 
 /**
  * 封装的物品构造器
@@ -29,7 +29,7 @@ public abstract class AbstractItemBuilder<T> {
 		this.nbt = item.nbt;
 	}
 	
-	@Nonnull
+	@NonNull
 	public AbstractItemBuilder(String id) {
 		this.id = id;
 	}
@@ -39,19 +39,19 @@ public abstract class AbstractItemBuilder<T> {
 		return this;
 	}
 	
-	@Nonnull
+	@NonNull
 	public AbstractItemBuilder<T> name(String name) {
 		this.name = name;
 		return this;
 	}
 	
-	@Nonnull
+	@NonNull
 	public AbstractItemBuilder<T> lore(List<String> lore) {
 		this.lore = lore;
 		return this;
 	}
 	
-	@Nonnull
+	@NonNull
 	public AbstractItemBuilder<T> addLore(String... lore) {
 		if (this.lore == null) {
 			this.lore = new ArrayList<>();
@@ -72,7 +72,7 @@ public abstract class AbstractItemBuilder<T> {
 		return this;
 	}
 	
-	@Nonnull
+	@NonNull
 	public AbstractItemBuilder<T> nbt(String nbt) {
 		this.nbt = nbt;
 		return this;

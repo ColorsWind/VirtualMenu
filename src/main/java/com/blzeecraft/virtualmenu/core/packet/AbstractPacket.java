@@ -1,12 +1,11 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
-import javax.annotation.Nonnull;
-
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -15,7 +14,7 @@ import lombok.ToString;
  *
  * @param <T> 被封装的数据包类型
  */
-@Nonnull
+@NonNull
 @ToString
 @Getter
 @AllArgsConstructor
