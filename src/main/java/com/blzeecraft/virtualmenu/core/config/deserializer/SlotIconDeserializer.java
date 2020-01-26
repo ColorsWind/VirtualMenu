@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import com.blzeecraft.virtualmenu.core.action.Actions;
+import com.blzeecraft.virtualmenu.core.action.ActionFactory;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.Conditions;
 import com.blzeecraft.virtualmenu.core.config.MissingRequiredObjectException;
@@ -85,7 +85,7 @@ public class SlotIconDeserializer implements IDeserializer<SlotIcon> {
 		// 点击相关: 查看条件 & 点击条件 & 点击动作
 		val viewCondition = Conditions.parse(node, viewCondition.orElse(Collections.emptyList()));
 		val clickCondition = Conditions.parse(node, condition.orElse(Collections.emptyList()));
-		val action = Actions.parse(node, action.orElse(Collections.emptyList()));
+		val action = ActionFactory.parse(node, action.orElse(Collections.emptyList()));
 
 		// 下面开始构造图标
 		final Icon icon = variable.map(vars -> {

@@ -1,10 +1,11 @@
-package com.blzeecraft.virtualmenu.core.action;
+package com.blzeecraft.virtualmenu.core.action.actions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.action.Action;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;

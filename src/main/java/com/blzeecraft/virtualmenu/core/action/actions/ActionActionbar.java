@@ -1,25 +1,25 @@
-package com.blzeecraft.virtualmenu.core.action;
+package com.blzeecraft.virtualmenu.core.action.actions;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.action.Action;
 import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.ToString;
 
 @ToString
-public class ActionTell extends Action {
-
+public class ActionActionbar extends Action {
 	protected final String message;
 
-	public ActionTell(LogNode node, ResolvedLineConfig rlc) {
+	public ActionActionbar(LogNode node, ResolvedLineConfig rlc) {
 		super(node, rlc);
 		this.message = rlc.getAsString("s");
 	}
 
 	@Override
 	public void execute(IUser<?> user) {
-		user.sendMessage(message.replace("<player>", user.getName()));
-	}
+		user.sendActionbar(message);
 
+	}
 
 }

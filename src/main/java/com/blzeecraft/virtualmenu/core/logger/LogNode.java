@@ -13,8 +13,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 public final class LogNode {
 	public static final String SPLIT = ">";
+	public static final String LIST_SUFFIX = "!";
 	public static final LogNode ROOT = new LogNode("root");
 
+	
 	// 上级LogNode
 	private final LogNode parent;
 	// 当前LogNode的名称
@@ -60,6 +62,10 @@ public final class LogNode {
 	
 	public String getPrefix() {
 		return cache;
+	}
+
+	public LogNode list() {
+		return new LogNode(parent, name + LIST_SUFFIX);
 	}
 
 }

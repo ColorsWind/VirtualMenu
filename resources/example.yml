@@ -1,0 +1,140 @@
+# 菜单全局设置
+global:
+  # 【必须】菜单名称
+  title: '&9&lVirtualMenu测试菜单'
+  
+  # 【必须】菜单的类型
+  # 推荐使用只有储存功能的GUI类型，如
+  # GENERIC_9X1,GENERIC_9X2,GENERIC_9X3,GENERIC_9X4
+  # GENERIC_9X5,GENERIC_9X6,GENERIC_3X3,HOPPER(5*1)
+  # 特殊类型不推荐使用(但也许可以正常工作)
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/inventory/InventoryType.html
+  type: HOPPER
+  
+  # 【可选】刷新变量间隔，单位是tick
+  # 此选项与动态菜单无关
+  refresh: 10
+
+  # 【可选】菜单绑定设置
+  bound:
+  - bounditem{id=NETHER_STAR,action=RIGHT_SHIFT-DROP_ITEM}
+  - boundcommand{command=mc,inject=true,listen=true}
+
+# 有关整个菜单的事件
+events:
+  # 【可选】左击菜单的边界外
+  # 支持condition和action标签，下同
+  left: 
+    condition: []
+    action:
+    - tell{s=点击左击边界外\,关闭菜单}
+    - closemenu
+
+
+  # 【可选】右击菜单的边界外
+  right: 
+    action:
+    - tell{s=点击左击边界外\,关闭菜单}
+    - closemenu
+
+
+  # 【可选】鼠标中键点击边界外
+  # 由于minecraft的bug，只能检测处于创造模式的玩家
+  # https://bugs.mojang.com/browse/MC-46584
+  middle: 
+    action:
+    - tell{s=鼠标中键点击边界外}
+
+
+  # 【可选】玩家打开菜单
+  # 支持condition和action标签，下同
+  # 注:下面给予经验的使玩家可以看到slot3的物品
+  open: 
+    action:
+    - 'console{command=minecraft:xp add <player> 200}'
+    - tell{s=打开菜单(此项可在events.open配置)}
+
+
+  # 【可选】玩家关闭菜单时
+  close: 
+    action:
+    - console{command=say 玩家<player>关闭了菜单(此项可在events.close配置)}
+
+
+# 下面是菜单里单个物品的设置
+icons:
+  slot0:
+    name: '&a&l物品格式示例'
+    id: 'LEATHER_CHESTPLATE:12'
+    lore:
+     - '化繁为简,displayname和lore直接设置'
+     - '其他itemmeta用序列化后的nbt表示'
+     - 'displayname和lore会覆盖nbt的设置'
+    amount: 1
+    nbt: "CgAACgAHZGlzcGxheQMABWNvbG9yADNMsgAA\r\n"
+    slot: 0
+
+  slot1:
+    name: '&c&l物品位置示例'
+    id: 'ENCHANTED_BOOK:0'
+    lore:
+    - '同时支持x,y坐标的定位方式(仅限于箱子菜单)'
+    - '和slot的定位方式,slot会覆盖x,y的设置'
+    - '以下两种定位方式的等价的'
+    position-x: 2
+    position-y: 1
+    slot: 1
+
+  slot2:
+    name: '&d&l动作触发实例'
+    id: SAND
+    condition:
+    - 'checkpermission{perm=virtualmenu.admin,msg=权限不足\,你不能左击这个图标,click=RIGHT-SHIFT_RIGHT}'
+    - 'checkeconomy{amount=1,take=true,msg=最少必须有一块钱才能点击这个图标}'
+    action:
+    - 'tell{s=左击,click=LEFT}'
+    - 'tell{s=右击,click=RIGHT}'
+    - 'tell{s=SHIFT左击,click=SHIFT_LEFT}'
+    - 'tell{s=SHIFT右击,click=SHIFT_RIGHT}'
+    lore:
+    - '条件和动作都会从上到下依次执行'
+    - '所有条件必须都满足才会开始执行动作'
+    - 'click=?标签用于检查的点击方式'
+    slot: 2
+
+  slot3-1:
+    name: '&b&l多图标覆盖实例-1'
+    id: ICE
+    amount: 1
+    view-condition:
+    - 'checklevel{level=10,take=false}'
+    priority: 10
+    lore:
+    - '你能看到这个图标说明你的等级区间10-999'
+    slot: 3
+
+  slot3-2:
+    name: '&b&l多标签覆盖实例-2'
+    id: ICE
+    amount: 64
+    view-condition:
+    - 'checklevel{level=10,take=false}'
+    priority: 1000
+    lore:
+    - '你能看到这个图标说明你的等级在1000级以上'
+    slot: 3
+
+  slot4:
+    name: '&6&l变量实例'
+    id: 'ARROW:0'
+    amount: 1
+    lore: 
+    - '是否AFK: %essentials_afk%'
+    - '如果不能正常显示,请检查'
+    - '1.确保按照了PlaceHolderAPI和'
+    - 'Essentials(因为papi的附件需要)'
+    - '2.输入/papi ecloud download essentials下载papi的附件'
+    - '3.将菜单文件PLACEHOLDERAPI改成true'
+    - '4.输入/vm reload 重载插件'
+    variable:
+    - PlaceholderAPI

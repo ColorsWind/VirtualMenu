@@ -15,7 +15,7 @@ import lombok.val;
  * @author colors_wind
  *
  */
-public class Actions {
+public class ActionFactory {
 	
 	/**
 	 * 空的动作, 对任何 {@link ClickEvent} 都不会执行任何操作
