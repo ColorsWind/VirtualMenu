@@ -11,41 +11,46 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
 public class FileReader {
-	
+
 	public static StandardMenuFile convert(LogNode node, Map<String, Object> map) {
 		return convertSection(node, StandardMenuFile.class, map);
 	}
 	
+
 	/**
-	 * 反序列化 {@link SubSection} 
+	 * 反序列化 {@link SubSection}
+	 * 
 	 * @param <T>
 	 * @param node
 	 * @param clazz
 	 * @param map
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	protected static <T extends SubSection> T convertSection(LogNode node, Class<T> clazz, Map<String, Object> map) {
 		try {
 			T obj = clazz.newInstance();
-			for(Field f : clazz.getFields()) {
+			for (Field f : clazz.getFields()) {
 				try {
-					Class<?> type = f.getType();
+					Class<?> type = f.getType(); 
 					String name = f.getName();
 					ObjectWrapper oper = new ObjectWrapper(map.get(name));
 					if (type == List.class) {
 						ObjectType oType = f.getAnnotation(ObjectType.class);
 						if (oType == null) {
-							f.set(obj,  oper.asStringList());
+							f.set(obj, oper.asStringList());
 						} else {
 							LogNode subNode = node.sub(name).list();
 							Class<? extends SubSection> subType = oType.value();
-							List<? extends SubSection> value = oper.asObjectList().stream().map(objMap -> convertSection(subNode, subType, objMap)).collect(Collectors.toList());
+							List<? extends SubSection> value = oper.asObjectList().stream()
+									.map(objMap -> convertSection(subNode, subType, objMap))
+									.collect(Collectors.toList());
 							f.set(obj, value);
 						}
 					} else if (type == Map.class) {
 						ObjectType oType = f.getAnnotation(ObjectType.class);
 						if (oType == null) {
-							f.set(obj,  oper.asS2StringMap());
+							f.set(obj, oper.asS2StringMap());
 						} else {
 							LogNode subNode = node.sub(name);
 							Class<? extends SubSection> subType = oType.value();
@@ -60,19 +65,21 @@ public class FileReader {
 					} else if (type == Optional.class) {
 						ObjectType oType = f.getAnnotation(ObjectType.class);
 						if (oType == null) {
-							f.set(obj,  oper.asOptString());
+							f.set(obj, oper.asOptString());
 						} else {
 							if (oper.isPresent()) {
 								LogNode subNode = node.sub(name);
 								Class<? extends SubSection> subType = oType.value();
 								f.set(obj, convertSection(subNode, subType, oper.asS2ObjectMap()));
 							} else {
-								f.set(obj,  Optional.empty());
+								f.set(obj, Optional.empty());
 							}
 						}
-					} else if (SubSection.class.isAssignableFrom(clazz)) {
+					} else if (SubSection.class.isAssignableFrom(type)) {
 						LogNode subNode = node.sub(name);
-						f.set(obj, convertSection(subNode, clazz, oper.asS2ObjectMap()));
+						System.out.println(type);
+						System.out.println(oper.asS2ObjectMap());
+						f.set(obj, convertSection(subNode, (Class<T>) type, oper.asS2ObjectMap()));
 					} else {
 						f.set(obj, oper.asObject(node.sub(name), clazz));
 					}
@@ -83,7 +90,7 @@ public class FileReader {
 			}
 			return obj;
 		} catch (Exception e) {
-			PluginLogger.severe(node, "创建配置子类 " + clazz.getSimpleName() + " 时出错.");
+			PluginLogger.severe(node, "创建配置子类 " + clazz.getSimpleName() + " 时出错.(请联系插件作者)");
 			e.printStackTrace();
 			return null;
 		}

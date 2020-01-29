@@ -15,7 +15,7 @@ import lombok.ToString;
 public class StandardMenuFile extends SubSection {
 	
 	public GlobalConf global;
-	@ToString public class GlobalConf extends SubSection {
+	@ToString public static class GlobalConf extends SubSection {
 		public String title;
 		public String type;
 		public int refresh;
@@ -23,13 +23,13 @@ public class StandardMenuFile extends SubSection {
 	}
 	
 	public Map<String, EventConf> events;
-	@ToString public class EventConf extends SubSection {
+	@ToString public static class EventConf extends SubSection {
 		public List<String> condtion;
 		public List<String> action;
 	}
 	
 	public Map<String, IconConf> icons;
-	@ToString public class IconConf extends SubSection {
+	@ToString public static class IconConf extends SubSection {
 		public String name;
 		public String id;
 		public String nbt;
