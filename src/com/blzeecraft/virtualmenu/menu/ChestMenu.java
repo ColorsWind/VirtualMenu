@@ -48,6 +48,7 @@ public class ChestMenu implements IConfig {
 
 	@Node(key = "command", type = DataType.STRING_LIST)
 	protected List<String> boundCommand;
+	
 	@Node(key = "events", type = DataType.EVENTS)
 	protected Map<EventType, List<AbstractAction>> events;
 	
