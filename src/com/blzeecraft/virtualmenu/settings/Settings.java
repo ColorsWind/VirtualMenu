@@ -56,7 +56,7 @@ public class Settings implements IConfig {
 	public void readSetting() {
 		File file = pl.getFileManager().configFile;
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-		ConfigReader.read(Settings.class, this, config);
+		ConfigReader.read(Settings.class, this, config, true);
 	}
 
 	@Override
