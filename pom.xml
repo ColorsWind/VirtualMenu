@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.blzeecraft</groupId>
     <artifactId>VirtualMenu</artifactId>
-    <version>0.0.13-dev</version>
+    <version>0.0.14-dev</version>
     <build>
         <plugins>
             <plugin>
