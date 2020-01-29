@@ -34,7 +34,6 @@ public class ActionManager {
 			if (raw.startsWith(" ")) {
 				raw = raw.substring(1);
 			}
-			System.out.println(prefix + "|" + raw);
 			AbstractAction action = getAction(prefix.toLowerCase(), raw, parent);
 			if (action != null) {
 				return action;
