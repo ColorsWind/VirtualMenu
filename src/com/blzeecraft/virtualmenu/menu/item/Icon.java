@@ -21,6 +21,7 @@ import com.blzeecraft.virtualmenu.menu.ChestMenu;
 import com.blzeecraft.virtualmenu.menu.item.RequireItem.Result;
 import com.blzeecraft.virtualmenu.packet.PacketManager;
 import com.blzeecraft.virtualmenu.settings.Settings;
+import com.blzeecraft.virtualmenu.utils.ReflectUtils;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -153,7 +154,7 @@ public class Icon extends ViewItem implements IConfig {
 			} else {
 				if (requiredMessage == null) {
 					Settings.sendMessage(p, String.format(Settings.getInstance().getLang_noEnoughtItem(),
-							required.amount, required.cacheItem.getI18NDisplayName()));
+							required.amount, ReflectUtils.getItemName(required.cacheItem)));
 				} else {
 					p.sendMessage(String.format(requiredMessage, required.amount));
 				}
