@@ -10,6 +10,14 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
 public class PacketWindowItems extends Packet {
+	public static final boolean arrayItem;
+
+	
+	static {
+		PacketContainer packet = new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS);
+		arrayItem = packet.getItemArrayModifier().size() >= 1;
+	}
+	
 
 	public PacketWindowItems(int windowId, ItemStack[] items) {
 		super(new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS));
@@ -20,7 +28,7 @@ public class PacketWindowItems extends Packet {
 			} 
 		}
 		packet.getIntegers().write(0, windowId);
-		if (PacketOpenWindow.v1_7) {
+		if (arrayItem) {
 			packet.getItemArrayModifier().write(0, items);
 		} else {
 			packet.getItemListModifier().write(0, Arrays.asList(items));
