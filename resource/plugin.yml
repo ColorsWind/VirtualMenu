@@ -5,8 +5,8 @@ softdepend: [PlaceHolderAPI, PlayerPoints, Vault, LangUtils]
 depend: [ProtocolLib]
 api-version: 1.13
 changelog:
-- 'Fixed support for containing colon commands.'
-- 'Fix support for 1.7.10'
+- 'Fix 1.9.4 paper support.'
+- 'Fix require-item for 1.12.2 or lower'
 commands:
   virtualmenu:
     description: Main command for VirtualMenu.
