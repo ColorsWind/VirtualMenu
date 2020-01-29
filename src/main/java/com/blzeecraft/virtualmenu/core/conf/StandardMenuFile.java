@@ -12,10 +12,10 @@ import lombok.ToString;
  *
  */
 @ToString
-public class StandardMenuFile extends SubSection {
+public class StandardMenuFile extends SubConf {
 	
 	public GlobalConf global;
-	@ToString public static class GlobalConf extends SubSection {
+	@ToString public static class GlobalConf extends SubConf {
 		public String title;
 		public String type;
 		public int refresh;
@@ -23,13 +23,13 @@ public class StandardMenuFile extends SubSection {
 	}
 	
 	public Map<String, EventConf> events;
-	@ToString public static class EventConf extends SubSection {
+	@ToString public static class EventConf extends SubConf {
 		public List<String> condtion;
 		public List<String> action;
 	}
 	
 	public Map<String, IconConf> icons;
-	@ToString public static class IconConf extends SubSection {
+	@ToString public static class IconConf extends SubConf {
 		public String name;
 		public String id;
 		public String nbt;

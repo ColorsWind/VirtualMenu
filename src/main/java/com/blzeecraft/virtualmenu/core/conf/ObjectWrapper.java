@@ -1,7 +1,9 @@
 package com.blzeecraft.virtualmenu.core.conf;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,16 @@ import lombok.var;
  *
  */
 public final class ObjectWrapper {
+	
+	public static final Set<Class<?>> SUPPORT_TYPE;
+	static {
+		HashSet<Class<?>> supports = new HashSet<>();
+		supports.addAll(Arrays.asList(int.class, Integer.class, OptionalInt.class)); //int
+		supports.addAll(Arrays.asList(long.class, Long.class, OptionalLong.class)); //long
+		supports.addAll(Arrays.asList(double.class, Double.class, OptionalDouble.class)); //double
+		supports.add(String.class);
+		SUPPORT_TYPE = Collections.unmodifiableSet(supports);
+	}
 
 	protected final Optional<?> origin;
 

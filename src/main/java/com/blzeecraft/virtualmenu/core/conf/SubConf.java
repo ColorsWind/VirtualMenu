@@ -5,6 +5,6 @@ package com.blzeecraft.virtualmenu.core.conf;
  * @author colors_wind
  *
  */
-public class SubSection {
+public class SubConf {
 
 }
