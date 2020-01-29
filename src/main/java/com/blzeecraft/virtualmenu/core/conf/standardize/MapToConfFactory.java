@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf;
+package com.blzeecraft.virtualmenu.core.conf.standardize;
 
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
-public class FileReader {
+public class MapToConfFactory {
 
-	public static StandardMenuFile convert(LogNode node, Map<String, Object> map) {
-		return mapToSubConf(node, StandardMenuFile.class, map);
+	public static StandardConf convert(LogNode node, Map<String, Object> map) {
+		return mapToSubConf(node, StandardConf.class, map);
 	}
 	
 

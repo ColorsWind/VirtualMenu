@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf;
+package com.blzeecraft.virtualmenu.core.conf.standardize;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -10,8 +10,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import com.blzeecraft.virtualmenu.core.conf.FileReader;
-import com.blzeecraft.virtualmenu.core.conf.StandardMenuFile;
+import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 public class StandardMenuFileTest {
@@ -23,7 +23,7 @@ public class StandardMenuFileTest {
 		InputStream ins = new FileInputStream(file);
 		Reader reader = new InputStreamReader(ins, "utf-8");
 		Map<String,Object> map = yaml.load(reader);
-		StandardMenuFile menu = FileReader.convert(LogNode.ROOT, map);
+		StandardConf menu = MapToConfFactory.convert(LogNode.ROOT, map);
 		System.out.println(menu.toString());
 	}
 

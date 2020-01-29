@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf;
+package com.blzeecraft.virtualmenu.core.conf.standardize;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import lombok.ToString;
  *
  */
 @ToString
-public class StandardMenuFile extends SubConf {
+public class StandardConf extends SubConf {
 	
 	public GlobalConf global;
 	@ToString public static class GlobalConf extends SubConf {

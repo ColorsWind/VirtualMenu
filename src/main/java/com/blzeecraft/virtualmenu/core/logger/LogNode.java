@@ -24,12 +24,9 @@ public final class LogNode {
 	// 格式化输出的缓存
 	@NonNull private final String cache;
 
-	/**
-	 * 创建根LogNode
-	 * @param root 根名称
-	 */
+
 	@NonNull
-	public LogNode(String root) {
+	private LogNode(String root) {
 		this.name =  root;
 		this.parent = this;
 		this.cache = root;
@@ -66,6 +63,14 @@ public final class LogNode {
 
 	public LogNode list() {
 		return new LogNode(parent, name + LIST_SUFFIX);
+	}
+
+	/**
+	 * 创建根LogNode
+	 * @param root 根名称
+	 */
+	public static LogNode of(String name) {
+		return new LogNode(name);
 	}
 
 }
