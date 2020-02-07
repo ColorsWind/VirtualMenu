@@ -15,7 +15,7 @@ import lombok.ToString;
 import lombok.val;
 
 /**
- * 多个 {@link Icon} 复合,用于支持优先级显示 
+ * 多个 {@link Icon} 复合,用于支持优先级显示,这个类是不可变的.
  * @author colors_wind
  *
  */

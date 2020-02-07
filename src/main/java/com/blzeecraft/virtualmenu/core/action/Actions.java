@@ -3,10 +3,12 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.config.line.InvalidLineFormatException;
 import com.blzeecraft.virtualmenu.core.config.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
+import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 
 import lombok.val;
 
@@ -15,7 +17,7 @@ import lombok.val;
  * @author colors_wind
  *
  */
-public class ActionFactory {
+public class Actions {
 	
 	/**
 	 * 空的动作, 对任何 {@link ClickEvent} 都不会执行任何操作
@@ -57,6 +59,10 @@ public class ActionFactory {
 			} 
 		}
 		return actions.size() == 0 ? EMPTY_ACTION : actions.size() == 1 ? actions.get(0) : new MultiAction(actions);
+	}
+	
+	public static IAction wrap(IAction action, ICondition condition) {
+		return event -> {if (condition.test(event)) action.accept(event);};
 	}
 	
 	

@@ -10,25 +10,28 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.NonNull;
 
 public class PacketMenuBuilder {
-	
+
 	protected final LogNode node;
-	protected final IMenuType type;
-	
-	protected final Icon[] icons;
-	protected final Map<EventType, Consumer<ClickEvent>> events;
-	
+
+	protected IMenuType type;
+	protected Icon[] icons;
+	protected Map<EventType, Consumer<ClickEvent>> events;
 	protected int refresh;
 	protected String title;
 
-	
-	public PacketMenuBuilder(LogNode node, IMenuType type) {
+	public PacketMenuBuilder(LogNode node) {
 		this.node = node;
+		this.icons = new Icon[0];
+		this.events = new EnumMap<>(EventType.class);
+
+	}
+
+	public PacketMenuBuilder type(@NonNull IMenuType type) {
 		this.type = type;
 		this.icons = new Icon[type.size()];
-		this.events = new EnumMap<>(EventType.class);
-		
+		return this;
 	}
-	
+
 	public PacketMenuBuilder title(@NonNull String title) {
 		this.title = title;
 		return this;
@@ -42,7 +45,7 @@ public class PacketMenuBuilder {
 		}
 		return this;
 	}
-	
+
 	public PacketMenuBuilder setIcon(int slot, Icon icon) {
 		if (slot < icons.length) {
 			icons[slot] = icon;
@@ -51,9 +54,9 @@ public class PacketMenuBuilder {
 		throw new IllegalArgumentException("尝试访问菜单不存在的icon的位置, length=" + icons.length + " slot=" + slot);
 
 	}
-	
+
 	public PacketMenuBuilder addIcon(Icon icon) {
-		for(int i=0;i<icons.length;i++) {
+		for (int i = 0; i < icons.length; i++) {
 			if (icons[i] == null) {
 				icons[i] = icon;
 				return this;
@@ -61,17 +64,14 @@ public class PacketMenuBuilder {
 		}
 		throw new IllegalArgumentException("该菜单已满,无法继续添加icon");
 	}
-	
-	public PacketMenuBuilder addEventHandler(EventType type, Consumer<ClickEvent> handle) {
+
+	public PacketMenuBuilder addEventHandler(@NonNull EventType type, @NonNull Consumer<ClickEvent> handle) {
 		events.put(type, handle);
 		return this;
 	}
-	
+
 	public PacketMenu build() {
 		return new PacketMenu(node, refresh, title, type, icons, events);
 	}
-	
-
-	
 
 }

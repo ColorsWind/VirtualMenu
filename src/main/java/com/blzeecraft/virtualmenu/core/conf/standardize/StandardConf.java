@@ -32,6 +32,7 @@ public class StandardConf extends SubConf {
 	@ToString public static class IconConf extends SubConf {
 		public String name;
 		public String id;
+		public int amount;
 		public String nbt;
 		public List<String> lore;
 		public List<String> action;
