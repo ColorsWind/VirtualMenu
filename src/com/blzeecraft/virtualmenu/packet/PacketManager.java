@@ -57,24 +57,23 @@ public class PacketManager {
 	}
 	
 	public boolean openInventory(ChestMenu menu, Player p) {
-		ChestMenu origin = openMenus.put(p, menu);
-		if (origin != null) {
-			closeInventory(p, origin);
-		}
-		PacketOpenWindow open = new PacketOpenWindow(menu.getID(), menu.getTitle(), menu.getType());
-		ViewPlayer v = menu.addViewer(p);
-		ItemStack[] item = v.getContents(p);
-		PacketWindowItems items = new PacketWindowItems(menu.getID(), item);
-		cacheItems.put(p, item);
-		try {
-			open.send(p);
-			items.send(p);
-			menu.click(EventType.OPEN, -999, p, null, null);
-			return true;
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return false;
+		p.closeInventory();
+		Bukkit.getScheduler().runTaskLater(pl, () -> {
+			PacketOpenWindow open = new PacketOpenWindow(menu.getID(), menu.getTitle(), menu.getType());
+			ViewPlayer v = menu.addViewer(p);
+			ItemStack[] item = v.getContents(p);
+			PacketWindowItems items = new PacketWindowItems(menu.getID(), item);
+			openMenus.put(p, menu);
+			cacheItems.put(p, item);
+			try {
+				open.send(p);
+				items.send(p);
+				menu.click(EventType.OPEN, -999, p, null, null);
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}, 5L);
+		return true;
 	}
 	
 	/**
