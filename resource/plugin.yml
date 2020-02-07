@@ -1,12 +1,11 @@
 name: VirtualMenu
 main: com.blzeecraft.virtualmenu.VirtualMenuPlugin
-version: 0.0.14-dev
+version: 0.0.15-dev
 softdepend: [PlaceHolderAPI, PlayerPoints, Vault, LangUtils]
 depend: [ProtocolLib]
 api-version: 1.13
 changelog:
-- 'Fix 1.9.4 paper support.'
-- 'Fix require-item for 1.12.2 or lower'
+- 'Fixed support for multi-level menus.'
 commands:
   virtualmenu:
     description: Main command for VirtualMenu.
