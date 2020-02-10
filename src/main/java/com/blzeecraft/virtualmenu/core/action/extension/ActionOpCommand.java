@@ -1,5 +1,4 @@
-package com.blzeecraft.virtualmenu.core.action.actions;
-
+package com.blzeecraft.virtualmenu.core.action.extension;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.action.Action;
@@ -9,10 +8,11 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import lombok.ToString;
 
 @ToString
-public class ActionCommand extends Action {
+public class ActionOpCommand extends Action {
+
 	protected final String command;
 
-	public ActionCommand(LogNode node, ResolvedLineConfig rlc) {
+	public ActionOpCommand(LogNode node, ResolvedLineConfig rlc) {
 		super(node, rlc);
 		this.command = rlc.getAsString("command");
 	}
@@ -21,7 +21,6 @@ public class ActionCommand extends Action {
 	public void execute(IUser<?> user) {
 		user.performCommand(command.replace("<player>", user.getName()));
 	}
-
 
 
 }

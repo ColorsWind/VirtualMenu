@@ -4,13 +4,23 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
+/**
+ * 这个类代表一个动作.这个类是不可变的.<p>
+ * 动作可以是一个命令,也可以是诸如发送actionbar这样的其他操作.<p>
+ * 动作是由 {@link MenuActionEvent} 或 {@link IconActionEvent} 触发的,<p>
+ * 两者分别对应菜单配置中events和icon下的action.
+ * @author colors_wind
+ * @date 2020-02-10
+ */
 public abstract class Action implements IAction, LoggerObject {
 
 	protected final LogNode node;

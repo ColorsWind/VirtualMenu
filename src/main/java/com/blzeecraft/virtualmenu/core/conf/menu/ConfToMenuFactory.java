@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.OptionalInt;
 
-import com.blzeecraft.virtualmenu.core.action.Actions;
+import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.Conditions;
@@ -62,9 +62,9 @@ public class ConfToMenuFactory {
 		conf.events.forEach((k, v) -> {
 			try {
 				EventType eventType = EventType.valueOf(k);
-				IAction actions = Actions.parse(eNode.sub("actions"), v.action);
+				IAction actions = ActionUtils.parse(eNode.sub("actions"), v.action);
 				ICondition conditions = Conditions.parse(eNode.sub("conditions"), v.condtion);
-				IAction handler = Actions.wrap(actions, conditions);
+				IAction handler = ActionUtils.wrap(actions, conditions);
 				builder.addEventHandler(eventType, handler);
 			} catch (IllegalArgumentException e) {
 				PluginLogger.warning(eNode, "未知事件类型: " + k + ", 已经忽略.");
@@ -112,7 +112,7 @@ public class ConfToMenuFactory {
 		AbstractItem<?> cache = readItem(node, conf);
 		ICondition clickCondition = Conditions.parse(node.sub("click-condition"), conf.click_condition);
 		ICondition viewCondition = Conditions.parse(node.sub("view-condition"), conf.view_condition);
-		IAction action = Actions.parse(node.sub("action"), conf.action);
+		IAction action = ActionUtils.parse(node.sub("action"), conf.action);
 		return new SimpleIcon(priority, cache, clickCondition, viewCondition, action);
 	}
 	

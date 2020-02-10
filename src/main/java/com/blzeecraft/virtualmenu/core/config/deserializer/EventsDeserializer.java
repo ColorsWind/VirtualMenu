@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.action.Actions;
+import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.condition.Conditions;
 import com.blzeecraft.virtualmenu.core.config.node.ObjectNode;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -25,7 +25,7 @@ public class EventsDeserializer implements IDeserializer<EventHandler> {
 	@Override
 	public EventHandler apply(LogNode node) {
 		val condition = Conditions.parse(node, condition.orElse(Collections.emptyList()));
-		val action = Actions.parse(node, action.orElse(Collections.emptyList()));
+		val action = ActionUtils.parse(node, action.orElse(Collections.emptyList()));
 		return new EventHandler(condition, action);
 
 	}

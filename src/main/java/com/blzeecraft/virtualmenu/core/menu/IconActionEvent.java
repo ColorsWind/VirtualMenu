@@ -37,6 +37,11 @@ public class IconActionEvent extends MenuEvent {
 		this.current = current;
 		this.cancel = cancel;
 	}
+
+	@Override
+	public ClickType getClickType() {
+		return type;
+	}
 	
 	
 	

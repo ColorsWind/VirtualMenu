@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.action.actions;
+package com.blzeecraft.virtualmenu.core.action.extension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

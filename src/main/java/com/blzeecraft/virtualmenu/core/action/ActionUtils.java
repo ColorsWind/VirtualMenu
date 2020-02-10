@@ -13,11 +13,11 @@ import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 import lombok.val;
 
 /**
- * 动作常用方法
+ * 动作的工具类
  * @author colors_wind
- *
+ * @date 2020-02-10
  */
-public class Actions {
+public class ActionUtils {
 	
 	/**
 	 * 空的动作, 对任何 {@link IconActionEvent} 都不会执行任何操作

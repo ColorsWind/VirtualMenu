@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
@@ -21,21 +22,32 @@ import lombok.val;
  * @author colors_wind
  *
  */
-@AllArgsConstructor
 @ToString
+@AllArgsConstructor
 public class SimpleIcon implements Icon {
 	
 	protected final int priority;
 	protected final AbstractItem<?> cache;
-	protected final Function<IconActionEvent, Optional<String>> clickCondition;
-	protected final Predicate<IconActionEvent> viewCondition;
-	protected final Consumer<IconActionEvent> command;
+	protected final Function<MenuEvent, Optional<String>> clickCondition;
+	protected final Predicate<MenuEvent> viewCondition;
+	protected final Consumer<MenuEvent> command;
 	
 	public SimpleIcon(AbstractItem<?> cache, ICondition clickCondition,
 			ICondition viewCondition, IAction command) {
 		this(0, cache, clickCondition, viewCondition, command);
 	}
 	
+	
+	public SimpleIcon(int priority, AbstractItem<?> cache, ICondition clickCondition,
+			ICondition viewCondition, IAction command) {
+		super();
+		this.priority = priority;
+		this.cache = cache;
+		this.clickCondition = clickCondition;
+		this.viewCondition = viewCondition;
+		this.command = command;
+	}
+
 
 	@Override
 	public AbstractItem<?> view(IUser<?> user) {
@@ -79,11 +91,5 @@ public class SimpleIcon implements Icon {
 	public AbstractItem<?> update(IUser<?> user) {
 		return view(user);
 	}
-
-
-
-
-	
-
 
 }

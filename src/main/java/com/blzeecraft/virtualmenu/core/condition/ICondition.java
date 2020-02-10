@@ -4,17 +4,14 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
-import com.blzeecraft.virtualmenu.core.menu.ClickType;
+import com.blzeecraft.virtualmenu.core.IScope;
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 
-public interface ICondition extends Function<IconActionEvent, Optional<String>>, Predicate<IconActionEvent> {
+public interface ICondition extends Function<MenuEvent, Optional<String>>, Predicate<MenuEvent>, IScope {
 
 	@Override
-	public default boolean test(IconActionEvent e) {
-		return !this.apply(e).isPresent();
+	default boolean test(MenuEvent event) {
+		return !this.apply(event).isPresent();
 	}
 	
-	public default ClickType[] scope() {
-		return ClickType.values();
-	}
 }

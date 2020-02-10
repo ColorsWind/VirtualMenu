@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.action.actions;
+package com.blzeecraft.virtualmenu.core.action.extension;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.action.Action;

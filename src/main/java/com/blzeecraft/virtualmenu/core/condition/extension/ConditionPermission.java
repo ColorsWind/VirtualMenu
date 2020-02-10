@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.condition.conditions;
+package com.blzeecraft.virtualmenu.core.condition.extension;
 
 import java.util.Optional;
 

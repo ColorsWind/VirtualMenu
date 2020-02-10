@@ -2,7 +2,8 @@ package com.blzeecraft.virtualmenu.core.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
+
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 
 import lombok.val;
 
@@ -15,7 +16,7 @@ public class MultiAction implements IAction {
 	}
 
 	@Override
-	public void accept(IconActionEvent e) {
+	public void accept(MenuEvent e) {
 		for(val action : actions) {
 			action.accept(e);
 		}
