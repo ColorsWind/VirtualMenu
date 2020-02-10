@@ -1,6 +1,6 @@
 package com.blzeecraft.virtualmenu.core.module;
 
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowClick;
@@ -30,7 +30,7 @@ public class PacketHandler {
 		val rawSlot = packet.getRawSlot();
 		val slot = getSlot(rawSlot, menu.getSize());
 		val type = packet.getClickType();
-		val event = new ClickEvent(user, type,
+		val event = new IconActionEvent(user, type,
 				slot, rawSlot, packet.getClickedItem());
 		if ((event.isCancel() || slot == packet.getRawSlot()) && !type.isBorderClick()) { 
 			packet.setCancel(true);

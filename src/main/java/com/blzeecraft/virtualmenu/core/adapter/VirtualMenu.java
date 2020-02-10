@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.core.adapter;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+import com.blzeecraft.virtualmenu.core.IScheduler;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
@@ -15,6 +16,7 @@ import com.blzeecraft.virtualmenu.core.packet.AbstractPacketSetSlot;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowItems;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowOpen;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
@@ -31,6 +33,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 @UtilityClass
 public class VirtualMenu {
 
+	@Getter
 	private static IPacketAdapter packetAdapter;
 	private static IPlatformAdapter platformAdapter;
 
@@ -194,6 +197,10 @@ public class VirtualMenu {
 	
 	public IMenuType[] getMenuTypes() {
 		return platformAdapter.getMenuTypes();
+	}
+	
+	public static IScheduler getScheduler() {
+		return null;
 	}
 
 }

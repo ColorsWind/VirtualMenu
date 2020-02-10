@@ -8,7 +8,7 @@ import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
 /**
@@ -42,7 +42,7 @@ public abstract class Condition implements ICondition, LoggerObject {
 	
 
 	@Override
-	public Optional<String> apply(ClickEvent e) {
+	public Optional<String> apply(IconActionEvent e) {
 		if (types.contains(e.getType())) {
 			return Optional.of(message);
 		}
@@ -55,10 +55,10 @@ public abstract class Condition implements ICondition, LoggerObject {
 		return Optional.of("发送严重错误, 请联系管理员.");
 	}
 
-	public abstract Optional<String> check(ClickEvent e);
+	public abstract Optional<String> check(IconActionEvent e);
 
 	@Override
-	public boolean test(ClickEvent e) {
+	public boolean test(IconActionEvent e) {
 		return !this.apply(e).isPresent();
 	}
 

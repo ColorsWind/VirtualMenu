@@ -8,13 +8,13 @@ import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class EventHandler implements Consumer<ClickEvent> {
+public class EventHandler implements Consumer<IconActionEvent> {
 	protected final ICondition condition;
 	protected final IAction action;
 	
 	
 	@Override
-	public void accept(ClickEvent e) {
+	public void accept(IconActionEvent e) {
 		if (condition.test(e)) {
 			action.accept(e);
 		}

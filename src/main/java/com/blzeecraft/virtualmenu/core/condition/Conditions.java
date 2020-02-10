@@ -19,7 +19,7 @@ import lombok.val;
 public class Conditions {
 
 	/**
-	 * 空的条件, 对任何 {@link ClickEvent} 都返回 {@link Optional#empty()}
+	 * 空的条件, 对任何 {@link IconActionEvent} 都返回 {@link Optional#empty()}
 	 */
 	public static final ICondition EMPTY_CONDITION = e -> Optional.empty();
 

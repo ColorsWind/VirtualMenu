@@ -35,19 +35,14 @@ public class PacketManager {
 				.ifPresent(menu -> closePacketMenu(user, menu));
 	}
 	
-	public static void closePacketMenu(IUser<?> user, IPacketMenu menu) {
-		VirtualMenu.createPacketCloseWindow(user, menu.getWindowId()).send();
-	}
-
-	public static void openPacketMenu(IUser<?> user, IPacketMenu menu) {
-		val open = VirtualMenu.createPacketWindOpen(user, menu.getWindowId(), menu.getType(), menu.getTitle());
-		val items = VirtualMenu.createPacketWindowItems(user, menu.getWindowId(), menu.viewItems(user));
-		open.send();
-		items.send();
-	}
 	
 	protected static ConcurrentMap<IUser<?>, IPacketMenu> getOpenMenus() {
 		return INSTANCE.openMenus;
+	}
+
+	public static void openPacketMenu(IUser<T> iUser, IPacketMenu menu) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

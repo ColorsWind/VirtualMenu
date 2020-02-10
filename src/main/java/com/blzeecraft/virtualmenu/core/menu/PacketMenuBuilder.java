@@ -4,6 +4,8 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.blzeecraft.virtualmenu.core.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
@@ -15,7 +17,7 @@ public class PacketMenuBuilder {
 
 	protected IMenuType type;
 	protected Icon[] icons;
-	protected Map<EventType, Consumer<ClickEvent>> events;
+	protected Map<EventType, Consumer<MenuActionEvent>> events;
 	protected int refresh;
 	protected String title;
 
@@ -65,7 +67,7 @@ public class PacketMenuBuilder {
 		throw new IllegalArgumentException("该菜单已满,无法继续添加icon");
 	}
 
-	public PacketMenuBuilder addEventHandler(@NonNull EventType type, @NonNull Consumer<ClickEvent> handle) {
+	public PacketMenuBuilder addEventHandler(@NonNull EventType type, @NonNull Consumer<? extends MenuEvent> handle) {
 		events.put(type, handle);
 		return this;
 	}

@@ -10,7 +10,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.PlayerCache;
+import com.blzeecraft.virtualmenu.core.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -34,7 +35,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	protected final String title;
 	protected final IMenuType type;
 	protected final Icon[] icons;
-	protected final Map<EventType, ? extends Consumer<ClickEvent>> events;
+	protected final Map<EventType, ? extends Consumer<MenuActionEvent>> events;
 	
 	protected final Set<IUser<?>> viewers;
 
@@ -47,7 +48,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		this.events = new EnumMap<>(EventType.class);
 	}
 	
-	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, ? extends Consumer<ClickEvent>> events) {
+	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, ? extends Consumer<MenuActionEvent>> events) {
 		this.refresh = refresh;
 		this.title = title;
 		this.type = type;
@@ -74,22 +75,26 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	}
 
 	@Override
-	public void click(ClickEvent e) {
-		val index = e.getSlot();
+	public void handle(IconActionEvent event) {
+		val index = event.getSlot();
 		if (index < icons.length) {
 			val icon = icons[index];
 			if (icon != null) {
-				icon.accept(e);
+				icon.accept(event);
 			}
 		}
-
+	}
+	
+	@Override
+	public void handle(MenuActionEvent event) {
+		events.get(event.getEventType()).accept(event);
 	}
 
 
 	@Override
 	public boolean addViewer(IUser<?> user) {
 		this.viewers.add(user);
-		user.setPlayerCache(new PlayerCache(this));
+		user.setPlayerCache(new UserSession(this));
 		return true;
 	}
 

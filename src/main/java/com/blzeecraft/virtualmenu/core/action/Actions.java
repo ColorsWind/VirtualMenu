@@ -8,7 +8,7 @@ import com.blzeecraft.virtualmenu.core.config.line.InvalidLineFormatException;
 import com.blzeecraft.virtualmenu.core.config.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 import lombok.val;
 
@@ -20,7 +20,7 @@ import lombok.val;
 public class Actions {
 	
 	/**
-	 * 空的动作, 对任何 {@link ClickEvent} 都不会执行任何操作
+	 * 空的动作, 对任何 {@link IconActionEvent} 都不会执行任何操作
 	 */
 	public static IAction EMPTY_ACTION = e -> {};
 	

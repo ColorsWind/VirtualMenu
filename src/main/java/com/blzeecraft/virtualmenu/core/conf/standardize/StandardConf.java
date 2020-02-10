@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.core.conf.standardize;
 
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 
 import lombok.ToString;
 
@@ -38,10 +39,10 @@ public class StandardConf extends SubConf {
 		public List<String> action;
 		public List<String> view_condition;
 		public List<String> click_condition;
-		public int priority;
-		public int postion_x;
-		public int postion_y;
-		public int slot;
+		public OptionalInt priority;
+		public OptionalInt postion_x;
+		public OptionalInt postion_y;
+		public OptionalInt slot;
 		
 	}
 	

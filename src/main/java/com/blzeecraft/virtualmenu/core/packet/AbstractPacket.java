@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
 
@@ -22,7 +24,7 @@ public abstract class AbstractPacket<T> implements IWrappedObject<T> {
 	protected final T handle;
 	protected final IUser<?> user;
 	
-	public abstract boolean send();
+	public abstract void send() throws InvocationTargetException;
 	
 
 }

@@ -4,11 +4,11 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
 public abstract class Action implements IAction, LoggerObject {
@@ -23,13 +23,13 @@ public abstract class Action implements IAction, LoggerObject {
 	}
 	
 	@Override
-	public void accept(ClickEvent e) {
-		if (types.contains(e.getType())) {
+	public void accept(MenuEvent event) {
+		if (types.contains(event.getClickType())) {
 			try {
-				execute(e.getUser());
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				PluginLogger.warning(node, "执行动作时发生异常, 该动作已经被忽略.");
+				execute(event.getUser());
+			} catch (Exception e) {
+				PluginLogger.warning(node, "处理菜单事件时发生严重异常.");
+				e.printStackTrace();
 			}
 		}
 	}

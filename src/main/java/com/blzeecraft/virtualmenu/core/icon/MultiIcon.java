@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.core.icon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Optional;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ import lombok.val;
 
 /**
  * 多个 {@link Icon} 复合,用于支持优先级显示,这个类是不可变的.
+ * 
  * @author colors_wind
  *
  */
@@ -47,13 +49,13 @@ public class MultiIcon implements Icon {
 	}
 
 	@Override
-	public Optional<String> canClick(ClickEvent e) {
+	public Optional<String> canClick(IconActionEvent e) {
 		val user = e.getUser();
 		return viewIcon(user).map(icon -> icon.canClick(e)).orElse(Optional.of("找不到可见的Icon"));
 	}
 
 	@Override
-	public void accept(ClickEvent e) {
+	public void accept(IconActionEvent e) {
 		viewIcon(e.getUser()).ifPresent(icon -> icon.accept(e));
 	}
 
@@ -77,6 +79,19 @@ public class MultiIcon implements Icon {
 	@Override
 	public AbstractItem<?> update(IUser<?> user) {
 		return viewIcon(user).map(icon -> icon.update(user)).orElse(VirtualMenu.emptyItem());
+	}
+
+	public static MultiIcon of(Icon origin, Icon toCombined) {
+		if (origin instanceof MultiIcon) {
+			// flat
+			List<Icon> originIcons = ((MultiIcon) origin).getIcons();
+			List<Icon> newIcons = new ArrayList<>(originIcons.size() + 1);
+			newIcons.addAll(originIcons);
+			newIcons.add(toCombined);
+			return new MultiIcon(newIcons);
+		} else {
+			return new MultiIcon(new Icon[] { origin, toCombined });
+		}
 	}
 
 }

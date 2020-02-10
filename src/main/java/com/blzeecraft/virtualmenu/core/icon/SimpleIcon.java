@@ -10,7 +10,7 @@ import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
@@ -27,9 +27,9 @@ public class SimpleIcon implements Icon {
 	
 	protected final int priority;
 	protected final AbstractItem<?> cache;
-	protected final Function<ClickEvent, Optional<String>> clickCondition;
-	protected final Predicate<ClickEvent> viewCondition;
-	protected final Consumer<ClickEvent> command;
+	protected final Function<IconActionEvent, Optional<String>> clickCondition;
+	protected final Predicate<IconActionEvent> viewCondition;
+	protected final Consumer<IconActionEvent> command;
 	
 	public SimpleIcon(AbstractItem<?> cache, ICondition clickCondition,
 			ICondition viewCondition, IAction command) {
@@ -51,12 +51,12 @@ public class SimpleIcon implements Icon {
 	}
 
 	@Override
-	public Optional<String> canClick(ClickEvent e) {
+	public Optional<String> canClick(IconActionEvent e) {
 		return clickCondition.apply(e);
 	}
 
 	@Override
-	public void accept(ClickEvent e) {
+	public void accept(IconActionEvent e) {
 		val user = e.getUser();
 		if (canView(user)) {
 			val deny = clickCondition.apply(e);

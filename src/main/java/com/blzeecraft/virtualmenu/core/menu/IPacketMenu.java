@@ -3,7 +3,9 @@ package com.blzeecraft.virtualmenu.core.menu;
 import java.util.Collection;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import lombok.val;
@@ -25,7 +27,9 @@ public interface IPacketMenu {
 		return getType().size();
 	}
 
-	void click(ClickEvent e);
+	void handle(IconActionEvent event);
+	
+	void handle(MenuActionEvent event);
 
 	boolean addViewer(IUser<?> user);
 
@@ -34,6 +38,10 @@ public interface IPacketMenu {
 	Collection<IUser<?>> getViewers();
 
 	AbstractItem<?> viewItem(IUser<?> user, int slot);
+	
+	default EnumUpdateDelay getUpdateDelay() {
+		return EnumUpdateDelay.NEVER;
+	}
 
 	default AbstractItem<?>[] viewItems(IUser<?> user) {
 		int size = getSize();

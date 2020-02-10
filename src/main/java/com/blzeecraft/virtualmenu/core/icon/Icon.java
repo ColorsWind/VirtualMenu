@@ -5,14 +5,14 @@ import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.ClickEvent;
+import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 /**
  * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
  * @author colors_wind
  *
  */
-public interface Icon extends Comparable<Icon>, Consumer<ClickEvent> {
+public interface Icon extends Comparable<Icon>, Consumer<IconActionEvent> {
 	
 
 	/**
@@ -34,7 +34,7 @@ public interface Icon extends Comparable<Icon>, Consumer<ClickEvent> {
 	 * @param e 点击的事件
 	 * @return 如果允许玩家点击,返回 {@link Optional#empty} 否则返回拒绝的信息
 	 */
-	Optional<String> canClick(ClickEvent e);
+	Optional<String> canClick(IconActionEvent e);
 	
 	/**
 	 * 获取这个{@link Icon}显示的优先级
@@ -42,7 +42,7 @@ public interface Icon extends Comparable<Icon>, Consumer<ClickEvent> {
 	 */
 	int getPriority();
 	
-	void accept(ClickEvent e);
+	void accept(IconActionEvent e);
 	
 	@Override
 	/**

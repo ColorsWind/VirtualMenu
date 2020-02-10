@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.core.menu;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.blzeecraft.virtualmenu.core.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -12,7 +13,7 @@ public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 	
 
 	public PacketMenu(LogNode node, int refresh, String title, IMenuType type, Icon[] icons,
-			Map<EventType, ? extends Consumer<ClickEvent>> events) {
+			Map<EventType, ? extends Consumer<MenuActionEvent>> events) {
 		super(refresh, title, type, icons, events);
 		this.node = node;
 	}
