@@ -7,6 +7,12 @@ import com.blzeecraft.virtualmenu.core.MenuEvent;
 
 import lombok.val;
 
+/**
+ * 用于包装多个动作, 这个类是不可变的.
+ * 
+ * @author colors_wind
+ * @date 2020-02-07
+ */
 public class MultiAction implements IAction {
 	
 	protected final List<IAction> actions;

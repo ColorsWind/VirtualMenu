@@ -8,7 +8,7 @@ import com.blzeecraft.virtualmenu.core.IScope;
 import com.blzeecraft.virtualmenu.core.MenuEvent;
 
 /**
- * 
+ * 代表条件
  * @author colors_wind
  * @date 2020-02-11
  */
