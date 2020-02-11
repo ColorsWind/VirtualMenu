@@ -35,7 +35,7 @@ public class PacketHandler {
 		if ((event.isCancel() || slot == packet.getRawSlot()) && !type.isBorderClick()) { 
 			packet.setCancel(true);
 			//下面开始考虑重设背包显示
-			if (menu.isStoreOnly()) {
+			if (menu.totalUpdate()) {
 				menu.update(user, slot);
 				if (type.isShiftClick() || type.isKeyboardClick()) {
 					user.updateInventory();

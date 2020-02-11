@@ -1,50 +1,44 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 代表玩家点击菜单时客户端发送给玩家的数据包
+ * 代表玩家点击菜单时客户端发送给服务端的 Packet.
  * @author colors_wind
  *
- * @param <T> 被封装的数据包类型
  */
-@NonNull
-@Getter
 @ToString(callSuper = true)
-public abstract class AbstractPacketWindowClick<T> extends AbstractPacket<T> {
-
-	protected final int windowId;
-	protected final int rawSlot;
-	protected final ClickType clickType;
-	protected final AbstractItem<?> clickedItem;
-	
-	/**
-	 * 如果该选项为true，拦截此数据包
-	 */
-	@Setter
-	private boolean cancel;
+public abstract class AbstractPacketWindowClick<T> extends AbstractWindowPacket<T> {
 	
 
-	public AbstractPacketWindowClick(T handle, IUser<?> user, int windowId, int rawSlot, ClickType clickType, AbstractItem<?> clickedItem) {
-		super(handle, user);
-		this.windowId = windowId;
-		this.rawSlot = rawSlot;
-		this.clickType = clickType;
-		this.clickedItem = clickedItem;
-
+	public AbstractPacketWindowClick(T handle) {
+		super(handle);
 	}
 	
+	public abstract void setActionNumber(short num);
+	public abstract short getActionNumber();
 	
-	public ClickType getClickType(ClickMode mode, int button, int slot){
-		switch(mode) {
+	public abstract void setRawSlot(int slot);
+	public abstract int getRawSlot();
+	
+	public abstract void setClickMode(ClickMode mode);
+	public abstract ClickMode getClickMode();
+	
+	public abstract void setButton(int button);
+	public abstract int getButton();
+	
+	public abstract void setClickedItem(AbstractItem<?> item);
+	public abstract AbstractItem<?> getClickedItem();
+	
+	public ClickType getClickType(){
+		int button = getButton();
+		//please check slot before invoke this method
+		int slot = getRawSlot(); 
+		switch(getClickMode()) {
 		case PICKUP: 
 			if (button == 0) {
 				return ClickType.LEFT;
