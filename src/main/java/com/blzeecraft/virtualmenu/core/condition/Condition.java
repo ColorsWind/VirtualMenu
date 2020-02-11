@@ -16,9 +16,10 @@ import com.blzeecraft.virtualmenu.core.menu.ClickType;
  * 条件是诸如玩家等级,拥有的权限,持有的金钱等.<p>
  * 条件分为两种:view-condition和click-condition,都在icon下配置.<p>
  * 检查条件时不推荐对玩家进行有副作用的操作(如检查玩家金钱时扣除金钱),
- * 因为条件可能不只一个,任何一个条件不满足都不会继续执行,
- * 同时插件不保证view-condition中条件被检查的次数.<p>
+ * 若条件在click-condition中设置:条件可能不只一个,任何一个条件不满足都不会继续执行,
+ * 若条件在view-condition中设置:插件不能保证view-condition中条件被检查的次数.
  * 
+ * @see ICondition
  * @author colors_wind
  * @date 2020-02-10
  */

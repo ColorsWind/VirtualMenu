@@ -2,11 +2,10 @@ package com.blzeecraft.virtualmenu.core.condition.extension;
 
 import java.util.Optional;
 
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.Condition;
 import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
-
 import lombok.ToString;
 import lombok.val;
 
@@ -28,7 +27,7 @@ public class ConditionLevel extends Condition {
 	}
 
 	@Override
-	public Optional<String> check(IconActionEvent e) {
+	public Optional<String> check(MenuEvent e) {
 		val user = e.getUser();
 		int newLevel = user.getLevel() - level;
 		if (newLevel < 0) {

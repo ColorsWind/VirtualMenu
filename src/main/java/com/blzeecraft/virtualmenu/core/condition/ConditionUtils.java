@@ -12,11 +12,11 @@ import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import lombok.val;
 
 /**
- * 条件常用方法
+ * 条件的工具类
  * @author colors_wind
  *
  */
-public class Conditions {
+public class ConditionUtils {
 
 	/**
 	 * 空的条件, 对任何 {@link IconActionEvent} 都返回 {@link Optional#empty()}
@@ -26,7 +26,7 @@ public class Conditions {
 	/**
 	 * 解析条件, 该方法一定会返回一个可用的结果
 	 * 
-	 * @param node 条件所属的日志节点
+	 * @param node 条件所属的 LogNode
 	 * @param line 待解析的字符串
 	 * @return 解析结果
 	 */
@@ -41,11 +41,11 @@ public class Conditions {
 	}
 
 	/**
-	 * 解析条件, 该方法一定会返回一个可用的结果
+	 * 解析条件, 该方法一定会返回一个可用的结果.
 	 * 
 	 * @param node 条件所属的日志节点
 	 * @param line 待解析的字符串列表
-	 * @return 解析结果
+	 * @return 解析结果, 如果没有任何结果, 返回 {@link #EMPTY_CONDITION}
 	 */
 	public static ICondition parse(LogNode node, List<String> lines) {
 		List<ICondition> cds = new ArrayList<>(lines.size());

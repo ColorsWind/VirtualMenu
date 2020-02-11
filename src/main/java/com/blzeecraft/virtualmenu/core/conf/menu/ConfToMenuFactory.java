@@ -9,7 +9,7 @@ import java.util.OptionalInt;
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.condition.Conditions;
+import com.blzeecraft.virtualmenu.core.condition.ConditionUtils;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
@@ -32,7 +32,7 @@ import net.md_5.bungee.api.ChatColor;
 public class ConfToMenuFactory {
 	public static Map<ClickType, ICondition> EMPTY_CONDITION = Arrays.stream(ClickType.values()).map(type -> {
 		val m = new EnumMap<ClickType, ICondition>(ClickType.class);
-		m.put(type, Conditions.EMPTY_CONDITION);
+		m.put(type, ConditionUtils.EMPTY_CONDITION);
 		return m;
 	}).reduce((map1, map2) -> {
 		map1.putAll(map2);
@@ -63,7 +63,7 @@ public class ConfToMenuFactory {
 			try {
 				EventType eventType = EventType.valueOf(k);
 				IAction actions = ActionUtils.parse(eNode.sub("actions"), v.action);
-				ICondition conditions = Conditions.parse(eNode.sub("conditions"), v.condtion);
+				ICondition conditions = ConditionUtils.parse(eNode.sub("conditions"), v.condtion);
 				IAction handler = ActionUtils.wrap(actions, conditions);
 				builder.addEventHandler(eventType, handler);
 			} catch (IllegalArgumentException e) {
@@ -110,8 +110,8 @@ public class ConfToMenuFactory {
 	public static Icon readIcon(LogNode node, IconConf conf) {
 		int priority = conf.priority.orElse(0); //default 0
 		AbstractItem<?> cache = readItem(node, conf);
-		ICondition clickCondition = Conditions.parse(node.sub("click-condition"), conf.click_condition);
-		ICondition viewCondition = Conditions.parse(node.sub("view-condition"), conf.view_condition);
+		ICondition clickCondition = ConditionUtils.parse(node.sub("click-condition"), conf.click_condition);
+		ICondition viewCondition = ConditionUtils.parse(node.sub("view-condition"), conf.view_condition);
 		IAction action = ActionUtils.parse(node.sub("action"), conf.action);
 		return new SimpleIcon(priority, cache, clickCondition, viewCondition, action);
 	}
