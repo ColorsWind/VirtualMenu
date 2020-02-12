@@ -1,7 +1,6 @@
 package com.blzeecraft.virtualmenu.core;
 
 import com.blzeecraft.virtualmenu.core.menu.EventType;
-import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -11,8 +10,8 @@ import lombok.ToString;
 public class MenuActionEvent extends MenuEvent {
 	protected final EventType eventType;
 
-	public MenuActionEvent(IUser<?> user, IPacketMenu menu, EventType eventType) {
-		super(user, menu);
+	public MenuActionEvent(UserSession session, EventType eventType) {
+		super(session);
 		this.eventType = eventType;
 	}
 

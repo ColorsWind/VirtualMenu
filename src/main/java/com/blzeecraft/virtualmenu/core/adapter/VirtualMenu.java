@@ -11,10 +11,11 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.module.PacketHandler;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketSetSlot;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowItems;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowOpen;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInCloseWindow;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowItems;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowOpen;
+import com.blzeecraft.virtualmenu.core.packet.IPacketAdapter;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -26,7 +27,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
  * 代表 VirtualMenu 核心, 用来转发对适配器单例的调用.
  * 
  * @author colors_wind
- * @see com.blzeecraft.virtualmenu.core.adapter.IPacketAdapter
+ * @see com.blzeecraft.virtualmenu.core.packet.IPacketAdapter
  * @see com.blzeecraft.virtualmenu.core.adapter.IPlatformAdapter
  * @see com.blzeecraft.virtualmenu.core.IUser
  */
@@ -59,22 +60,22 @@ public class VirtualMenu {
 
 
 	@NonNull
-	public AbstractPacketCloseWindow<?> createPacketCloseWindow(IUser<?> user, int windowId) {
+	public AbstractPacketInCloseWindow<?> createPacketCloseWindow(IUser<?> user, int windowId) {
 		return packetAdapter.createPacketCloseWindow(user, windowId);
 	}
 
 	@NonNull
-	public AbstractPacketWindowOpen<?> createPacketWindOpen(IUser<?> user, int windowId, IMenuType type, String title) {
+	public AbstractPacketOutWindowOpen<?> createPacketWindOpen(IUser<?> user, int windowId, IMenuType type, String title) {
 		return packetAdapter.createPacketWindOpen(user, windowId, type, title);
 	}
 
 	@NonNull
-	public AbstractPacketSetSlot<?> createPacketSetSlot(IUser<?> user, int windowId, int slot, AbstractItem<?> item) {
+	public AbstractPacketOutSetSlot<?> createPacketSetSlot(IUser<?> user, int windowId, int slot, AbstractItem<?> item) {
 		return packetAdapter.createPacketSetSlot(user, windowId, slot, item);
 	}
 
 	@NonNull
-	public AbstractPacketWindowItems<?> createPacketWindowItems(IUser<?> user, int windowId, AbstractItem<?>[] items) {
+	public AbstractPacketOutWindowItems<?> createPacketWindowItems(IUser<?> user, int windowId, AbstractItem<?>[] items) {
 		return packetAdapter.createPacketWindowItems(user, windowId, items);
 	}
 

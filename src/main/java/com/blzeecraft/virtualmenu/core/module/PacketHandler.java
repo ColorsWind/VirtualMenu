@@ -2,8 +2,8 @@ package com.blzeecraft.virtualmenu.core.module;
 
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketCloseWindow;
-import com.blzeecraft.virtualmenu.core.packet.AbstractPacketWindowClick;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInCloseWindow;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInWindowClick;
 
 import lombok.val;
 
@@ -14,14 +14,14 @@ import lombok.val;
  */
 public class PacketHandler {
 
-	public void handle(AbstractPacketCloseWindow<?> packet) {
+	public void handle(AbstractPacketInCloseWindow<?> packet) {
 		IPacketMenu menu = PacketManager.INSTANCE.openMenus.remove(packet.getUser());
 		if (menu != null) {
 			menu.removeViewer(packet.getUser());
 		}
 	}
 
-	public void handle(AbstractPacketWindowClick<?> packet) {
+	public void handle(AbstractPacketInWindowClick<?> packet) {
 		val menu = PacketManager.INSTANCE.openMenus.remove(packet.getUser());
 		if (menu == null) {
 			return;

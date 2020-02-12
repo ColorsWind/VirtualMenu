@@ -11,9 +11,9 @@ import lombok.ToString;
  * 
  */
 @ToString(callSuper = true)
-public abstract class AbstractPacketWindowOpen<T> extends AbstractWindowPacket<T> {
+public abstract class AbstractPacketOutWindowOpen<T> extends AbstractWindowPacket<T> {
 
-	public AbstractPacketWindowOpen(T handle) {
+	public AbstractPacketOutWindowOpen(T handle) {
 		super(handle);
 	}
 

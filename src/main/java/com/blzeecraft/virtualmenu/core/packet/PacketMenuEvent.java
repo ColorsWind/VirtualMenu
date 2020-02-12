@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
+import com.blzeecraft.virtualmenu.core.UserSession;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +16,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public abstract class PacketMenuEvent {
-	protected final IUser<?> user;
-	protected final IPacketMenu menu;
+	protected final UserSession session;
 	
 
 }

@@ -1,9 +1,8 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
-import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
-
 import lombok.Getter;
 import lombok.ToString;
 
@@ -18,8 +17,8 @@ public class PacketMenuClickEvent extends PacketMenuEvent {
 
 	protected final IconActionEvent event;
 	
-	public PacketMenuClickEvent(IUser<?> user, IPacketMenu menu, IconActionEvent event) {
-		super(user, menu);
+	public PacketMenuClickEvent(UserSession session, IconActionEvent event) {
+		super(session);
 		this.event = event;
 	}
 

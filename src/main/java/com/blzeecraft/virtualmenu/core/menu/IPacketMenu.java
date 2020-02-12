@@ -70,6 +70,7 @@ public interface IPacketMenu {
 
 	/**
 	 * 处理用户打开菜单, 这个方法会在创建打开菜单封包前由 {@link PacketManager} 调用.
+	 * 注意 {@link MenuActionEvent} 将稍后由 {@link PacketManager} 调用. 这里不需要处理这个.
 	 * 
 	 * @param session 用户会话
 	 */
@@ -77,6 +78,7 @@ public interface IPacketMenu {
 
 	/**
 	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link PacketManager} 调用.
+	 * 注意 {@link MenuActionEvent} 在稍早些已由 {@link PacketManager} 调用. 这里不需要再处理这个.
 	 * 
 	 * @param user 用户
 	 */

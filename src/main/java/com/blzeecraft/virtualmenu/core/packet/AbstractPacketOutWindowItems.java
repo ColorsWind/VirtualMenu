@@ -10,9 +10,9 @@ import lombok.ToString;
  *
  */
 @ToString(callSuper = true)
-public abstract class AbstractPacketWindowItems<T> extends AbstractWindowPacket<T> {
+public abstract class AbstractPacketOutWindowItems<T> extends AbstractWindowPacket<T> {
 
-	public AbstractPacketWindowItems(T handle) {
+	public AbstractPacketOutWindowItems(T handle) {
 		super(handle);
 	}
 

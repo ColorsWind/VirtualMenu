@@ -1,8 +1,7 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
-
+import com.blzeecraft.virtualmenu.core.UserSession;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -19,8 +18,8 @@ import lombok.ToString;
 public class PacketMenuCloseEvent extends PacketMenuEvent {
 	protected final boolean quitGame;
 
-	public PacketMenuCloseEvent(IUser<?> user, IPacketMenu menu, boolean quitGame) {
-		super(user, menu);
+	public PacketMenuCloseEvent(UserSession session, boolean quitGame) {
+		super(session);
 		this.quitGame = quitGame;
 	}
 	

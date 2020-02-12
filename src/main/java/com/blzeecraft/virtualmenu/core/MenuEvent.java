@@ -16,12 +16,19 @@ import lombok.ToString;
 @Getter
 public abstract class MenuEvent {
 	
-	protected final IUser<?> user;
-	protected final IPacketMenu menu;
+	protected final UserSession session;
 	
 	
 	public ClickType getClickType() {
 		return ClickType.UNKNOWN;
+	}
+	
+	public IUser<?> getUser() {
+		return session.getUser();
+	}
+	
+	public IPacketMenu getMenu() {
+		return session.getMenu();
 	}
 
 }

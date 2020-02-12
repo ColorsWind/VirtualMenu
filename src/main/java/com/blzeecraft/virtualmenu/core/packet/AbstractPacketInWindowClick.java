@@ -12,10 +12,10 @@ import lombok.ToString;
  *
  */
 @ToString(callSuper = true)
-public abstract class AbstractPacketWindowClick<T> extends AbstractWindowPacket<T> {
+public abstract class AbstractPacketInWindowClick<T> extends AbstractWindowPacket<T> {
 	
 
-	public AbstractPacketWindowClick(T handle) {
+	public AbstractPacketInWindowClick(T handle) {
 		super(handle);
 	}
 	

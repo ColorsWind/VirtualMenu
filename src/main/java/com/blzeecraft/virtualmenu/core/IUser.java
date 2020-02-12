@@ -106,6 +106,8 @@ public interface IUser<T> extends IWrappedObject<T> {
 
 	String getName();
 
+	void closeInventory();
+
 
 	
 	
