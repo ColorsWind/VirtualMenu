@@ -1,8 +1,6 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.MenuActionEvent;
