@@ -1,10 +1,6 @@
 package com.blzeecraft.virtualmenu.core.conf.file;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Map;
 
@@ -20,10 +16,8 @@ public class YamlReader implements IFileReader {
 	}
 
 	@Override
-	public Map<String, Object> convert(File file, LogNode node) throws IOException {
+	public Map<String, Object> convert(LogNode node, Reader reader) throws IOException {
 		Yaml yaml = new Yaml();
-		InputStream ins = new FileInputStream(file);
-		Reader reader = new InputStreamReader(ins, IFileReader.ENCODE);
 		Map<String,Object> map = yaml.load(reader);
 		return map;
 	}

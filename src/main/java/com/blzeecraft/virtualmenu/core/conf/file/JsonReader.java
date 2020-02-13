@@ -1,10 +1,6 @@
 package com.blzeecraft.virtualmenu.core.conf.file;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Map;
 
@@ -18,14 +14,16 @@ public class JsonReader implements IFileReader {
 		return new String[] {"json"};
 	}
 
+
+
+	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> convert(File file, LogNode node) throws IOException {
+	public Map<String, Object> convert(LogNode node, Reader reader) throws IOException {
 		Gson gson = new Gson();
-		InputStream ins = new FileInputStream(file);
-		Reader reader = new InputStreamReader(ins, IFileReader.ENCODE);
-		@SuppressWarnings("unchecked")
 		Map<String,Object> map = gson.fromJson(reader, Map.class);
 		return map;
 	}
+	
+
 
 }
