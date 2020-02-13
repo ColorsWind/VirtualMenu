@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.core.menu;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 
 import lombok.Getter;
@@ -28,9 +28,9 @@ public class IconActionEvent extends MenuEvent {
 	 */
 	private boolean cancel = true;
 
-	public IconActionEvent(IUser<?> user, IPacketMenu menu, ClickType type, int rawSlot, int slot,
+	public IconActionEvent(UserSession session, ClickType type, int rawSlot, int slot,
 			AbstractItem<?> current, boolean cancel) {
-		super(user, menu);
+		super(session);
 		this.type = type;
 		this.rawSlot = rawSlot;
 		this.slot = slot;

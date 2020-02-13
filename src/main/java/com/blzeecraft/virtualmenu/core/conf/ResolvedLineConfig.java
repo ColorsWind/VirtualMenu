@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.line;
+package com.blzeecraft.virtualmenu.core.conf;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import java.util.OptionalLong;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import com.blzeecraft.virtualmenu.core.config.MissingRequiredObjectException;
-import com.blzeecraft.virtualmenu.core.config.ObjectConvertException;
-import com.blzeecraft.virtualmenu.core.config.object.ObjectParser;
+import com.blzeecraft.virtualmenu.core.conf.exception.MissingRequiredObjectException;
+import com.blzeecraft.virtualmenu.core.conf.exception.ObjectConvertException;
+import com.blzeecraft.virtualmenu.core.conf.standardize.ObjectWrapper;
 
 import lombok.NonNull;
 import lombok.ToString;
@@ -54,27 +54,27 @@ public class ResolvedLineConfig {
 	}
 	
 	public OptionalInt getAsOptInt(@NonNull String key) {
-		return new ObjectParser(getAsString(key)).asOptInteger();
+		return new ObjectWrapper(getAsString(key)).asOptInteger();
 	}
 
 	public int getAsInt(@NonNull String key) throws ObjectConvertException {
-		return new ObjectParser(getAsString(key)).asInteger();
+		return new ObjectWrapper(getAsString(key)).asInteger();
 	}
 	
 	public OptionalLong getAsOptLong(@NonNull String key) {
-		return new ObjectParser(getAsString(key)).asOptLong();
+		return new ObjectWrapper(getAsString(key)).asOptLong();
 	}
 
 	public long getAsLong(@NonNull String key) throws ObjectConvertException {
-		return new ObjectParser(getAsString(key)).asLong();
+		return new ObjectWrapper(getAsString(key)).asLong();
 	}
 	
 	public OptionalDouble getAsOptDouble(@NonNull String key) {
-		return new ObjectParser(getAsString(key)).asOptDouble();
+		return new ObjectWrapper(getAsString(key)).asOptDouble();
 	}
 
 	public double getAsDouble(@NonNull String key) throws ObjectConvertException {
-		return new ObjectParser(getAsString(key)).asDouble();
+		return new ObjectWrapper(getAsString(key)).asDouble();
 	}
 
 	public boolean getAsBoolean(@NonNull String key) {

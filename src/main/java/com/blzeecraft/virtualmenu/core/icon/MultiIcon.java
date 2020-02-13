@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
@@ -38,37 +37,37 @@ public class MultiIcon implements Icon {
 	}
 
 	@Override
-	public AbstractItem<?> view(IUser<?> user) {
-		return viewIcon(user).map(icon -> icon.view(user)).orElse(VirtualMenu.emptyItem());
-
+	public AbstractItem<?> view(UserSession session) {
+		return session.getCacheItem(session.getCacheIcon(this));
+	}
+	
+	@Override
+	public AbstractItem<?> refreshItem(UserSession session) {
+		return session.getCacheIcon(this).refreshItem(session);
 	}
 
 	@Override
-	public boolean canView(IUser<?> user) {
-		return view(user).isEmpty();
+	public boolean canView(UserSession session) {
+		return view(session).isEmpty();
 	}
 
 	@Override
 	public Optional<String> canClick(IconActionEvent e) {
-		val user = e.getUser();
-		return viewIcon(user).map(icon -> icon.canClick(e)).orElse(Optional.of("找不到可见的Icon"));
+		return viewIcon(e.getSession()).canClick(e);
 	}
 
 	@Override
 	public void accept(IconActionEvent e) {
-		viewIcon(e.getUser()).ifPresent(icon -> icon.accept(e));
+		viewIcon(e.getSession()).accept(e);
 	}
 
-	public Optional<Icon> viewIcon(IUser<?> user) {
-		return user.getPlayerCache().viewIcon.computeIfAbsent(this, k -> {
-			for (val i : icons) {
-				if (i.canView(user)) {
-					return Optional.of(i);
-				}
-			}
-			return Optional.empty();
-		});
-
+	/**
+	 * 获取缓存的该用户显示的真实 Icon.
+	 * @param session 用户会话
+	 * @return Icon
+	 */
+	public Icon viewIcon(UserSession session) {
+		return session.getCacheIcon(this);
 	}
 
 	@Override
@@ -76,10 +75,6 @@ public class MultiIcon implements Icon {
 		return 0;
 	}
 
-	@Override
-	public AbstractItem<?> update(IUser<?> user) {
-		return viewIcon(user).map(icon -> icon.update(user)).orElse(VirtualMenu.emptyItem());
-	}
 
 	public static MultiIcon of(Icon origin, Icon toCombined) {
 		if (origin instanceof MultiIcon) {

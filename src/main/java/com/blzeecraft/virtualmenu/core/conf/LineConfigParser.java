@@ -1,10 +1,11 @@
-package com.blzeecraft.virtualmenu.core.config.line;
+package com.blzeecraft.virtualmenu.core.conf;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-import com.blzeecraft.virtualmenu.core.config.InvalidConfigException;
+import com.blzeecraft.virtualmenu.core.conf.exception.InvalidConfigException;
+import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.AccessLevel;

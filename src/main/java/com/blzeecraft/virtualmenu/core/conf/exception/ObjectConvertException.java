@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config;
+package com.blzeecraft.virtualmenu.core.conf.exception;
 
 public class ObjectConvertException extends InvalidObjectException {
 

@@ -98,9 +98,11 @@ public interface IUser<T> extends IWrappedObject<T> {
 		VirtualMenu.updateInventory(this);
 	}
 	
-	UserSession getPlayerCache();
+	UserSession getCurrentSession();
 	
-	void setPlayerCache(UserSession cache);
+	//concurrent
+	void setCurrentSession(UserSession session);
+
 	
 	IconActionEvent getViewEvent();
 

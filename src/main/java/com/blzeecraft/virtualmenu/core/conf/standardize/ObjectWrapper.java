@@ -16,8 +16,8 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.blzeecraft.virtualmenu.core.config.MissingRequiredObjectException;
-import com.blzeecraft.virtualmenu.core.config.ObjectConvertException;
+import com.blzeecraft.virtualmenu.core.conf.exception.MissingRequiredObjectException;
+import com.blzeecraft.virtualmenu.core.conf.exception.ObjectConvertException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.val;

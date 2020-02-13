@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.core.menu;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -8,10 +9,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.UserSession;
+import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -20,58 +23,48 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.val;
 
-
 /**
  * 代表一个菜单
+ * 
  * @author colors_wind
  *
  */
-@Getter
 @ToString
 public abstract class AbstractPacketMenu implements IPacketMenu {
 
-	
+	@Getter
 	protected final int refresh;
+	@Getter
 	protected final String title;
+	@Getter
 	protected final IMenuType type;
-	protected final Icon[] icons;
-	protected final Map<EventType, ? extends Consumer<MenuActionEvent>> events;
-	
-	protected final Set<IUser<?>> viewers;
+
+	protected final Icon[] icons; // not null
+	protected final Map<EventType, Consumer<MenuEvent>> menuAction; // not null
+
+	protected final Set<UserSession> sessions;
 
 	public AbstractPacketMenu(int refresh, String title, IMenuType type) {
-		this.refresh = refresh;
-		this.title = title;
-		this.type = type;
-		this.icons = new Icon[type.size()];
-		this.viewers = new HashSet<>();
-		this.events = new EnumMap<>(EventType.class);
+		this(refresh, title, type, new Icon[type.size()], new EnumMap<>(EventType.class));
 	}
-	
-	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons, Map<EventType, ? extends Consumer<MenuActionEvent>> events) {
+
+	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons,
+			Map<EventType, ? extends Consumer<MenuEvent>> events) {
 		this.refresh = refresh;
 		this.title = title;
 		this.type = type;
 		this.icons = new Icon[type.size()];
 		System.arraycopy(icons, 0, this.icons, 0, this.icons.length);
-		this.viewers = new HashSet<>();
-		this.events = new EnumMap<>(events);
-	}
-	
-	public void update(IUser<?> user, long tick, int slot) {
-		if (refresh > 0 && tick % refresh == 0) {
-			viewIcon(user, slot).ifPresent(icon -> {
-				user.getPlayerCache().viewItem.replace(icon, icon.update(user));
-				this.update(user, slot);
-			});
-		}
-	}
-	
-	public void update(IUser<?> user, long tick) {
-		if (refresh > 0 && tick % refresh == 0) {
-			user.getPlayerCache().viewItem.replaceAll((k,v) -> k.update(user));
-			this.update(user);
-		}
+		this.sessions = new HashSet<>();
+		this.menuAction = new EnumMap<>(events);
+
+		// fill
+		Arrays.stream(EventType.values()).forEach(key -> this.menuAction.putIfAbsent(key, ActionUtils.EMPTY_ACTION));
+		IntStream.range(0, icons.length).forEach(i -> {
+			if (icons[i] == null) {
+				icons[i] = UserSession.EMPTY_ICON;
+			}
+		});
 	}
 
 	@Override
@@ -84,38 +77,38 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 			}
 		}
 	}
-	
+
 	@Override
 	public void handle(MenuActionEvent event) {
-		events.get(event.getEventType()).accept(event);
-	}
-
-
-	@Override
-	public boolean addViewer(IUser<?> user) {
-		this.viewers.add(user);
-		user.setPlayerCache(new UserSession(this));
-		return true;
+		menuAction.get(event.getEventType()).accept(event);
 	}
 
 	@Override
-	public boolean removeViewer(IUser<?> user) {
-		this.viewers.remove(user);
-		user.setPlayerCache(null);
-		return true;
+	public Collection<UserSession> getSessions() {
+		return Collections.unmodifiableSet(this.sessions);
 	}
 
 	@Override
-	public Collection<IUser<?>> getViewers() {
-		return Collections.unmodifiableCollection(viewers);
+	public AbstractItem<?>[] addViewer(UserSession session) {
+		sessions.add(session);
+		return session.init(icons);
 	}
 
 	@Override
-	public AbstractItem<?> viewItem(IUser<?> user, int slot) {
-		return viewIcon(user, slot).map(icon -> icon.view(user)).orElse(VirtualMenu.emptyItem());
+	public void removeViewer(UserSession session) {
+		sessions.remove(session);
 	}
 
-	public Optional<Icon> viewIcon(IUser<?> user, int slot) {
+	@Override
+	public AbstractItem<?> viewItem(UserSession session, int slot) {
+		if (slot < icons.length) {
+			return session.getCacheItem(icons[slot]);
+		}
+		return VirtualMenu.emptyItem();
+
+	}
+
+	public Optional<Icon> viewIcon(UserSession session, int slot) {
 		if (slot < icons.length) {
 			val icon = icons[slot];
 			if (icon != null) {
@@ -124,6 +117,5 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		}
 		return Optional.empty();
 	}
-
 
 }

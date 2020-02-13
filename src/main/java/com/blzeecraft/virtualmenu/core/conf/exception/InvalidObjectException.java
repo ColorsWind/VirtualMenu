@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config;
+package com.blzeecraft.virtualmenu.core.conf.exception;
 
 /**
  * 尝试读取解析的配置中一个无效的元素(如不存在,类型不正确)时抛出的移除 

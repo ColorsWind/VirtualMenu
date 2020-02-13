@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.Condition;
-import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.config.line;
+package com.blzeecraft.virtualmenu.core.conf.exception;
 
 /**
  * 尝试解析一个无效的字符串抛出的异常

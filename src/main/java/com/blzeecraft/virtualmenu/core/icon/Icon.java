@@ -3,31 +3,46 @@ package com.blzeecraft.virtualmenu.core.icon;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
+import com.blzeecraft.virtualmenu.core.UserSession;
+import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 /**
  * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
+ * Icon 不应该修改 {@link UserSession} 中的字段.
+ * 所有对 UserSession 的中修改应该由 {@link PacketManager} 进行.
  * @author colors_wind
  *
  */
 public interface Icon extends Comparable<Icon>, Consumer<IconActionEvent> {
-	
 
 	/**
-	 * 获取玩家显示的物品
-	 * @param user
-	 * @return 如果不显示任何物品, 返回 {@link Optional#empty} 否则返回应显示的物品
+	 * 获取玩家显示的物品(缓存).
+	 * @param session 用户会话
+	 * @return 如果不显示任何物品, 返回 {@link VirtualMenu#emptyItem()} 否则返回应显示的物品
 	 */
-	AbstractItem<?> view(IUser<?> user);
+	default AbstractItem<?> view(UserSession session) {
+		return session.getCacheItem(this);
+	}
 	
 	/**
-	 * 检查玩家是否能查看这个{@link Icon}
-	 * @param user
-	 * @return
+	 * 重新生成 Item. 通常用于刷新变量. 注意这个方法不会刷新 {@link UseSession} 中的缓存.
+	 * @param session UserSession
+	 * @return 如果不显示任何物品, 返回 {@link VirtualMenu#emptyItem()} 否则返回应显示的物品.
+	 * @see {@link #update(UserSession)
 	 */
-	boolean canView(IUser<?> user);
+	AbstractItem<?> refreshItem(UserSession session);
+	
+	
+	/**
+	 * 检查玩家是否能查看这个 Icon.
+	 * @param session UserSession
+	 * @return 如果可以看见返回 {@code true}, 否则返回 {@code false}.
+	 */
+	boolean canView(UserSession session);
 	
 	/**
 	 * 检查玩家是否能点击这个{@link Icon}
@@ -45,16 +60,20 @@ public interface Icon extends Comparable<Icon>, Consumer<IconActionEvent> {
 	void accept(IconActionEvent e);
 	
 	@Override
-	/**
-	 * 升序排列
-	 * @param o 另一个{@link Icon}
-	 * @return 比较结果
-	 */
 	default int compareTo(Icon o) {
 		return Integer.compare(this.getPriority(), o.getPriority());
 	}
+	
+	/**
+	 * 该 Icon 是否为 {@link EmptyIcon}
+	 * @return {@code true} 如果这里 Icon 为 {@link EmptyIcon}, 否则返回 {@code false}.
+	 */
+	default boolean isEmpty() {
+		return false;
+	}
 
-	AbstractItem<?> update(IUser<?> user);
+	
+	
 	
 
 }

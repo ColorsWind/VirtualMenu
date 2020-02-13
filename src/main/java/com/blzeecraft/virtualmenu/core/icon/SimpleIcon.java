@@ -5,8 +5,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
@@ -50,16 +50,16 @@ public class SimpleIcon implements Icon {
 
 
 	@Override
-	public AbstractItem<?> view(IUser<?> user) {
-		if (canView(user)) {
+	public AbstractItem<?> view(UserSession session) {
+		if (canView(session)) {
 			return cache;
 		}
 		return VirtualMenu.emptyItem();
 	}
 
 	@Override
-	public boolean canView(IUser<?> user) {
-		return viewCondition.test(user.getViewEvent());
+	public boolean canView(UserSession session) {
+		return viewCondition.test(session.getUser().getViewEvent());
 	}
 
 	@Override
@@ -69,8 +69,9 @@ public class SimpleIcon implements Icon {
 
 	@Override
 	public void accept(IconActionEvent e) {
+		val session = e.getSession();
 		val user = e.getUser();
-		if (canView(user)) {
+		if (canView(session)) {
 			val deny = clickCondition.apply(e);
 			if (deny.isPresent()) {
 				user.sendMessage(deny.get());
@@ -88,8 +89,8 @@ public class SimpleIcon implements Icon {
 
 
 	@Override
-	public AbstractItem<?> update(IUser<?> user) {
-		return view(user);
+	public AbstractItem<?> refreshItem(UserSession session) {
+		return view(session);
 	}
 
 }

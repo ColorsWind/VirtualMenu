@@ -22,7 +22,6 @@ import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
  */
 public class PacketManager {
 	public static final LogNode LOG_NODE = LogNode.of("#PacketManager");
-	private static final ConcurrentMap<IUser<?>, UserSession> USER_SESSION = new ConcurrentHashMap<>();
 	
 	public static void openMenu(IUser<?> user, IPacketMenu menu) {
 		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> openMenuUncheck(user, menu));
@@ -41,9 +40,13 @@ public class PacketManager {
 	}
 	
 	public static void closePacketMenu(IUser<?> user) {
-		UserSession session = USER_SESSION.get(user);
+		UserSession session = user.getCurrentSession();
 		if (session != null) {
 			IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
+			// handle close event first
+			PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
+			handleEvent(event);
+			// create and send packet
 			AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
 			packetWindowClose.setWindowId(session.getMenu().getWindowId());
 			try {
@@ -60,7 +63,7 @@ public class PacketManager {
 		user.closeInventory(); // ensure inventory are closed.
 		UserSession session = new UserSession(user, menu);
 		menu.addViewer(session);
-		USER_SESSION.put(user, session);
+		user.setCurrentSession(session);
 		// create packet
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
 		AbstractPacketOutWindowOpen<?> packetWindowOpen = adapter.createPacketWindOpen();
@@ -84,6 +87,10 @@ public class PacketManager {
 	}
 
 
+	/**
+	 * 处理玩家点击菜单事件。
+	 * @param event
+	 */
 	public static void handleEvent(PacketMenuClickEvent event) {
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
@@ -91,12 +98,16 @@ public class PacketManager {
 		menu.handle(clickEvent);
 	}
 
+	/**
+	 * 处理玩家关闭菜单事件. 无论玩家是否主动关闭菜单, 都要调用这个方法进行处理.
+	 * @param event
+	 */
 	public static void handleEvent(PacketMenuCloseEvent event) {
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
 		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.OPEN_MENU);
 		menu.handle(quitEvent);
-		
+		session.getUser().setCurrentSession(null);
 	}
 
 }

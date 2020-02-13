@@ -7,7 +7,7 @@ import java.io.IOException;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.action.Action;
 import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.config.line.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.ToString;

@@ -69,20 +69,23 @@ public interface IPacketMenu {
 	void handle(MenuActionEvent event);
 
 	/**
-	 * 处理用户打开菜单, 这个方法会在创建打开菜单封包前由 {@link PacketManager} 调用.
-	 * 注意 {@link MenuActionEvent} 将稍后由 {@link PacketManager} 调用. 这里不需要处理这个.
+	 * 处理用户打开菜单, 这个方法会在创建打开菜单 Packet 前由 {@link PacketManager} 调用. 这里应该向 注意
+	 * {@link IPacketMenu#handle(MenuActionEvent)} 将稍后由 {@link PacketManager} 调用.
+	 * 这里只需要对 {@link UserSession} 进行初始化.
+	 * 
+	 * @param session 用户会话
+	 * @return 菜单内的 Icon.
+	 */
+	AbstractItem<?>[] addViewer(UserSession session);
+
+	/**
+	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link PacketManager} 调用. 注意
+	 * {@link IPacketMenu#handle(MenuActionEvent)} 在稍早些已由 {@link PacketManager} 调用.
+	 * 这里不需要再处理这个.
 	 * 
 	 * @param session 用户会话
 	 */
-	void addViewer(UserSession session);
-
-	/**
-	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link PacketManager} 调用.
-	 * 注意 {@link MenuActionEvent} 在稍早些已由 {@link PacketManager} 调用. 这里不需要再处理这个.
-	 * 
-	 * @param user 用户
-	 */
-	void removeViewer(IUser<?> user);
+	void removeViewer(UserSession session);
 
 	/**
 	 * 获取当前打开这个菜单的用户. 最好覆盖默认方法以提高效率.
@@ -101,16 +104,17 @@ public interface IPacketMenu {
 	Collection<UserSession> getSessions();
 
 	/**
-	 * 获取指定slot客户端显示的物品.
+	 * 获取指定slot客户端显示的物品(缓存).
+	 * 
 	 * @param session 用户会话
-	 * @param slot 这个物品的slot
+	 * @param slot    这个物品的slot
 	 * @return 显示的物品
 	 */
 	AbstractItem<?> viewItem(UserSession session, int slot);
 
 	/**
-	 * 获取整个菜单客户端显示的物品.
-	 * 最好覆盖默认方法以提高效率.
+	 * 获取整个菜单客户端显示的物品. 最好覆盖默认方法以提高效率.
+	 * 
 	 * @param session
 	 * @return
 	 */
@@ -122,9 +126,10 @@ public interface IPacketMenu {
 		}
 		return items;
 	}
-	
+
 	/**
 	 * 获取菜单的更新延时(间隔), 这个只对变量更新有效.
+	 * 
 	 * @return 更新延时(间隔)
 	 */
 	default EnumUpdateDelay getUpdateDelay() {
@@ -133,8 +138,8 @@ public interface IPacketMenu {
 
 	/**
 	 * 玩家点击菜单插件恢复客户端显示时是否应该更新(即恢复客户端显示)所有的项目. 这应该是一个常量.
-	 * 如果菜单有特殊的功能,如合成台,熔炉等,为保证客户端正确显示, 必须返回 {@code true}.
-	 * 其他情况可返回 {@code false}, 这样插件只会更新直接相关联 Icon 和玩家背包中相应的项目.
+	 * 如果菜单有特殊的功能,如合成台,熔炉等,为保证客户端正确显示, 必须返回 {@code true}. 其他情况可返回 {@code false},
+	 * 这样插件只会更新直接相关联 Icon 和玩家背包中相应的项目.
 	 * 
 	 * @return {@code true} 如果需要更新所有项目, 否则返回 {@code false}
 	 */
