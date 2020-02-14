@@ -2,10 +2,10 @@ package com.blzeecraft.virtualmenu.core.schedule;
 
 public interface IScheduler {
 
-	void runTaskLater(Runnable task, long delay);
+	AbstractTask<?> runTaskLater(Runnable task, long delay);
 
-	void runTaskGuaranteePrimaryThread(Runnable task);
+	AbstractTask<?> runTaskGuaranteePrimaryThread(Runnable task);
 
-	void runTaskAsync(Runnable task);
+	AbstractTask<?> runTaskAsync(Runnable task);
 
 }

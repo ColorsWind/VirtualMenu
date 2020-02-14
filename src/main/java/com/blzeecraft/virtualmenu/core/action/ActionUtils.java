@@ -3,12 +3,12 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 import lombok.val;
 

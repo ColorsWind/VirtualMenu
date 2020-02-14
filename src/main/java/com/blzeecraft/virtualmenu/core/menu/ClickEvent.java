@@ -1,7 +1,7 @@
 package com.blzeecraft.virtualmenu.core.menu;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 import lombok.Data;
 

@@ -6,6 +6,7 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 /**
  * 服务端平台适配器

@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.core.menu;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.action.IAction;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 
 import lombok.AllArgsConstructor;

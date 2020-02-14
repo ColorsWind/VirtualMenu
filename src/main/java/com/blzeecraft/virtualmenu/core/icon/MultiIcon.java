@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.UserSession;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.Getter;
 import lombok.ToString;

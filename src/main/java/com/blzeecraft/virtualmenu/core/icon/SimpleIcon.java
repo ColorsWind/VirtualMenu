@@ -5,13 +5,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.blzeecraft.virtualmenu.core.MenuEvent;
-import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.IAction;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;

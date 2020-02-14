@@ -2,15 +2,15 @@ package com.blzeecraft.virtualmenu.core.packet;
 
 import java.lang.reflect.InvocationTargetException;
 
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.MenuActionEvent;
-import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
+import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 /**
  * 处理有关 Packet 和 UserSession 的逻辑.

@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import com.blzeecraft.virtualmenu.core.IScope;
-import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.action.IScope;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 
 /**
  * 代表条件

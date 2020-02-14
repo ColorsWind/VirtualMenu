@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 
 import lombok.val;
 

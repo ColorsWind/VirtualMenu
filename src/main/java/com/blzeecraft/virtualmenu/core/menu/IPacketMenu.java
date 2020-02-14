@@ -3,12 +3,13 @@ package com.blzeecraft.virtualmenu.core.menu;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import com.blzeecraft.virtualmenu.core.UserSession;
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.val;
 

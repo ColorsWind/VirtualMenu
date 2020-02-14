@@ -1,10 +1,11 @@
-package com.blzeecraft.virtualmenu.core;
+package com.blzeecraft.virtualmenu.core.user;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.UUID;
 
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.IWrappedObject;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 
 import net.md_5.bungee.api.chat.BaseComponent;

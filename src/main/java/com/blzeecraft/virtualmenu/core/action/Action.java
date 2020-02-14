@@ -3,15 +3,15 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.EnumSet;
 import java.util.Set;
 
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.MenuActionEvent;
-import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 /**
  * 这个类代表一个动作.这个类是不可变的.<p>

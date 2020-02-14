@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.ToString;
 import lombok.val;

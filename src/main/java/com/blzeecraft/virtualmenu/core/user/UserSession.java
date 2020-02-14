@@ -1,10 +1,11 @@
-package com.blzeecraft.virtualmenu.core;
+package com.blzeecraft.virtualmenu.core.user;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;

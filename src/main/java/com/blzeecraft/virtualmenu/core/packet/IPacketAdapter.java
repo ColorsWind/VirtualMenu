@@ -2,7 +2,7 @@ package com.blzeecraft.virtualmenu.core.packet;
 
 import java.lang.reflect.InvocationTargetException;
 
-import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 /**
  * Packet 适配器, 用于处理发送 Packet 逻辑.

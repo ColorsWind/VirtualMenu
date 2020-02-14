@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.core.menu;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;

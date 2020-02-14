@@ -1,9 +1,9 @@
 package com.blzeecraft.virtualmenu.core.action.extension;
 
-import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.action.Action;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 import lombok.ToString;
 

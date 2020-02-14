@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.MenuEvent;
+import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+
 import lombok.val;
 
 /**

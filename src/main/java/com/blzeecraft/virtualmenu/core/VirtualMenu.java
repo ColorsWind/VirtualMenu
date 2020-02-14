@@ -7,6 +7,7 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.packet.IPacketAdapter;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
+import com.blzeecraft.virtualmenu.core.user.IUser;
 
 /**
  * 代表 VirtualMenu 核心, 用来转发对适配器单例的调用.
@@ -14,7 +15,7 @@ import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
  * @author colors_wind
  * @see com.blzeecraft.virtualmenu.core.packet.IPacketAdapter
  * @see IPlatformAdapter
- * @see com.blzeecraft.virtualmenu.core.IUser
+ * @see com.blzeecraft.virtualmenu.core.user.IUser
  */
 public class VirtualMenu {
 	private static IPacketAdapter packetAdapter;

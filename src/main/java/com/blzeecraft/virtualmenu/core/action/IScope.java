@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core;
+package com.blzeecraft.virtualmenu.core.action;
 
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 

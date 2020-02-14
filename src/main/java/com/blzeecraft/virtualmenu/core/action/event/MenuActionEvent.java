@@ -1,6 +1,7 @@
-package com.blzeecraft.virtualmenu.core;
+package com.blzeecraft.virtualmenu.core.action.event;
 
 import com.blzeecraft.virtualmenu.core.menu.EventType;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.Getter;
 import lombok.ToString;

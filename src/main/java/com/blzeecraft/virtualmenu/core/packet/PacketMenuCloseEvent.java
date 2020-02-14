@@ -1,7 +1,8 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
-import com.blzeecraft.virtualmenu.core.IUser;
-import com.blzeecraft.virtualmenu.core.UserSession;
+import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
+
 import lombok.Getter;
 import lombok.ToString;
 

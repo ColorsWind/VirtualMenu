@@ -4,11 +4,11 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.user.UserSession;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
-import com.blzeecraft.virtualmenu.core.UserSession;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
 /**
  * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
