@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.blzeecraft.virtualmenu.core.IUser;
 import com.blzeecraft.virtualmenu.core.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.UserSession;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
@@ -38,8 +38,7 @@ public class PacketManager {
 	}
 	
 	public static void closePacketMenu(IUser<?> user) {
-		UserSession session = user.getCurrentSession();
-		if (session != null) {
+		user.getCurrentSession().ifPresent(session -> {
 			IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
 			// handle close event first
 			PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
@@ -53,12 +52,12 @@ public class PacketManager {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
-		}
+		});
 	}
 
 	public static void openMenuUncheck(IUser<?> user, IPacketMenu menu) {
-		user.closePacketMenu(); // ensure packet-menu are closed.
-		user.closeInventory(); // ensure inventory are closed.
+		closePacketMenu(user); // ensure packet-menu are closed.
+		closeInventory(user); // ensure inventory are closed.
 		UserSession session = new UserSession(user, menu);
 		menu.addViewer(session);
 		user.setCurrentSession(session);

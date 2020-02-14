@@ -5,8 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.Action;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
@@ -24,7 +24,7 @@ public class ActionBungeeCord extends Action {
 
 	@Override
 	public void execute(IUser<?> user) {
-		VirtualMenu.runTaskAsync(() -> {
+		VirtualMenu.getScheduler().runTaskAsync(() -> {
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			DataOutputStream out = new DataOutputStream(byteArray);
 			try {

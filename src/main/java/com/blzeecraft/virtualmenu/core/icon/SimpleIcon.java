@@ -7,8 +7,8 @@ import java.util.function.Predicate;
 
 import com.blzeecraft.virtualmenu.core.MenuEvent;
 import com.blzeecraft.virtualmenu.core.UserSession;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.IAction;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
@@ -59,7 +59,7 @@ public class SimpleIcon implements Icon {
 
 	@Override
 	public boolean canView(UserSession session) {
-		return viewCondition.test(session.getUser().getViewEvent());
+		return viewCondition.test(new MenuEvent(session));
 	}
 
 	@Override

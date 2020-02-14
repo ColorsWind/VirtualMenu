@@ -1,8 +1,8 @@
 package com.blzeecraft.virtualmenu.core.action.extension;
 
 import com.blzeecraft.virtualmenu.core.IUser;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.Action;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
@@ -19,7 +19,7 @@ public class ActionConsoleCommand extends Action {
 
 	@Override
 	public void execute(IUser<?> user) {
-		VirtualMenu.performCommandAsConsole(command.replace("<player>", user.getName()));
+		VirtualMenu.getConsole().performCommand(command.replace("<player>", user.getName()));
 		
 	}
 

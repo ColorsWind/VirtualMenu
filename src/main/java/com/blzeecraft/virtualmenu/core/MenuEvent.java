@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Getter
-public abstract class MenuEvent {
+public class MenuEvent {
 	
 	protected final UserSession session;
 	

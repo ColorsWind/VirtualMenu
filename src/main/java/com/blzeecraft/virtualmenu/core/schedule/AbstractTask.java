@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.adapter;
+package com.blzeecraft.virtualmenu.core.schedule;
 
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
 

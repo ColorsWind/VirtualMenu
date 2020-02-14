@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.core.icon;
 import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.UserSession;
-import com.blzeecraft.virtualmenu.core.adapter.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.menu.IconActionEvent;
 
