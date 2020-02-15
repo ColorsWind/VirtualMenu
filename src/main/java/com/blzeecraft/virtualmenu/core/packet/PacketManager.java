@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.core.packet;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
@@ -20,11 +21,11 @@ import com.blzeecraft.virtualmenu.core.user.UserSession;
  */
 public class PacketManager {
 	public static final LogNode LOG_NODE = LogNode.of("#PacketManager");
-	
+
 	public static void openMenu(IUser<?> user, IPacketMenu menu) {
 		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> openMenuUncheck(user, menu));
 	}
-	
+
 	public static void closeInventory(IUser<?> user) {
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
 		AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
@@ -36,23 +37,25 @@ public class PacketManager {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void closePacketMenu(UserSession session) {
+		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
+		// handle close event first
+		PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
+		handleEvent(event);
+		// create and send packet
+		AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
+		packetWindowClose.setWindowId(session.getMenu().getWindowId());
+		try {
+			PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发送异常.");
+			adapter.sendServerPacket(session.getUser(), packetWindowClose);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void closePacketMenu(IUser<?> user) {
-		user.getCurrentSession().ifPresent(session -> {
-			IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
-			// handle close event first
-			PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
-			handleEvent(event);
-			// create and send packet
-			AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
-			packetWindowClose.setWindowId(session.getMenu().getWindowId());
-			try {
-				PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发送异常.");
-				adapter.sendServerPacket(user, packetWindowClose);
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		});
+		user.getCurrentSession().ifPresent(PacketManager::closePacketMenu);
 	}
 
 	public static void openMenuUncheck(IUser<?> user, IPacketMenu menu) {
@@ -83,9 +86,9 @@ public class PacketManager {
 		menu.handle(event);
 	}
 
-
 	/**
 	 * 处理玩家点击菜单事件。
+	 * 
 	 * @param event
 	 */
 	public static void handleEvent(PacketMenuClickEvent event) {
@@ -97,6 +100,7 @@ public class PacketManager {
 
 	/**
 	 * 处理玩家关闭菜单事件. 无论玩家是否主动关闭菜单, 都要调用这个方法进行处理.
+	 * 
 	 * @param event
 	 */
 	public static void handleEvent(PacketMenuCloseEvent event) {
@@ -105,6 +109,11 @@ public class PacketManager {
 		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.OPEN_MENU);
 		menu.handle(quitEvent);
 		session.getUser().setCurrentSession(null);
+	}
+
+	public static void closeAllMenu() {
+		VirtualMenu.getUsersOnline().stream().map(IUser::getCurrentSession).filter(Optional::isPresent)
+				.map(Optional::get).forEach(PacketManager::closePacketMenu);
 	}
 
 }

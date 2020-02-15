@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -18,9 +20,28 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
  * @see com.blzeecraft.virtualmenu.core.user.IUser
  */
 public class VirtualMenu {
+	public static final String PREFIX = "§b[§aVirtual§eMenu§b] ";
+
 	private static IPacketAdapter packetAdapter;
 	private static IPlatformAdapter platformAdapter;
 
+	/**
+	 * @return
+	 * @see IPlatformAdapter#getUsersOnline()
+	 */
+	public static Collection<IUser<?>> getUsersOnline() {
+		return platformAdapter.getUsersOnline();
+	}
+	
+	/**
+	 * @return
+	 * @see IPlatformAdapter#getDataFolder()
+	 */
+	public static File getDataFolder() {
+		return platformAdapter.getDataFolder();
+	}
+
+	
 	/**
 	 * @param name
 	 * @return

@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.Optional;
 
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -15,6 +17,17 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
  */
 public interface IPlatformAdapter {
 	
+	/**
+	 * 获取插件的数据目录.
+	 * @return 数据目录
+	 */
+	File getDataFolder();
+	
+	/**
+	 * 获取当前在线的所有玩家(不包括控制台).
+	 * @return 在线的玩家
+	 */
+	Collection<IUser<?>> getUsersOnline();
 	
 	/**
 	 * 通过用户名获取在线的玩家.

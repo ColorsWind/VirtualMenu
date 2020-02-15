@@ -34,14 +34,27 @@ public class FileToMapFactory {
 			}
 		}
 	}
-
-	public static Map<String, Object> convert(LogNode node, File file) throws IOException {
+	
+	public static String getExtensionName(File file) {
 		String name = file.getName();
 		int dot = name.lastIndexOf(".");
 		if (dot < 0 || dot == name.length()) {
+			return "";
+		}
+		return name.substring(dot + 1).toLowerCase();
+	}
+	
+	public static String getFileNameNoEx(File file) {
+		String name = file.getName();
+		int dot = name.lastIndexOf(".");
+		return name.substring(0, dot);
+	}
+
+	public static Map<String, Object> convert(LogNode node, File file) throws IOException {
+		String type = getExtensionName(file);
+		if (type.isEmpty()) {
 			throw new UnsupportedFileException(node, "无扩展名");
 		}
-		String type = name.substring(dot + 1).toLowerCase();
 		IFileReader reader = SUPPORT_READER.get(type);
 		if (reader == null) {
 			throw new UnsupportedFileException(node, type);
@@ -58,6 +71,9 @@ public class FileToMapFactory {
 		
 	}
 	
+	public static boolean vaildFileType(File file) {
+		return SUPPORT_READER.containsKey(getExtensionName(file));
+	}
 	
 	public static Reader inputFromFile(File file) throws IOException {
 		InputStream ins = new FileInputStream(file);
