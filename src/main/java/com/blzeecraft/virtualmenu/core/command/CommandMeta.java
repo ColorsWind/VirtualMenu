@@ -102,6 +102,10 @@ public class CommandMeta {
 	public int getRequireArgsCount() {
 		return requireArgs.length;
 	}
+	
+	public boolean visable() {
+		return !usage.isEmpty();
+	}
 
 
 	public boolean invoke(IUser<?> sender, String[] args) {

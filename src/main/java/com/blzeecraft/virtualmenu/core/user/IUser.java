@@ -40,6 +40,16 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 * @param component
 	 */
 	void sendMessage(BaseComponent... component);
+	
+	/**
+	 * 给用户发送消息.
+	 * 
+	 * @param msg
+	 */
+	default void sendMessageWithPrefix(String msg) {
+		this.sendMessage(new StringBuilder(VirtualMenu.PREFIX.length() + msg.length()).append(VirtualMenu.PREFIX)
+				.append(msg).toString());
+	}
 
 	/**
 	 * 给用户发送消息.
@@ -49,13 +59,16 @@ public interface IUser<T> extends IWrappedObject<T> {
 	void sendMessage(String msg);
 
 	/**
-	 * 给用户玩家带插件前缀的消息.
+	 * 给用户发送消息.
 	 * 
 	 * @param msg
 	 */
-	default void sendMessageWithPrefix(String msg) {
-		this.sendMessage(new StringBuilder(VirtualMenu.PREFIX.length() + msg.length()).append(VirtualMenu.PREFIX)
-				.append(msg).toString());
+	default void sendMessage(String... msg) {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0;i<msg.length;i++) {
+			sb.append(msg[i]);
+		}
+		this.sendMessage(sb.toString());
 	}
 	
 	/**
