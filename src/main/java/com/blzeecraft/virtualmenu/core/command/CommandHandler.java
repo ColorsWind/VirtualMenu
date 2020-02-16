@@ -14,7 +14,7 @@ public class CommandHandler {
 
 	public boolean process(IUser<?> sender, String label, String[] args) {
 		if (args.length == 0) {
-			sendHelp(sender);
+			sendHelp(sender, label);
 			return true;
 		}
 		Collection<CommandMeta> possibleMatch = COMMAND.get(args[0].toLowerCase());
@@ -39,8 +39,12 @@ public class CommandHandler {
 		return true;
 	}
 
-	private void sendHelp(IUser<?> sender) {
-		// TODO Auto-generated method stub
+	private void sendHelp(IUser<?> sender, String label) {
+		sender.sendMessageWithPrefix("§a~~~~~~ §e§lVirtualMenu Help §a~~~~~");
+		COMMAND.values().stream().flatMap(Collection::stream).distinct().filter(CommandMeta::visable).forEach(meta -> {
+			sender.sendMessage("§a/" , label, " ", meta.getUsage());
+		});	
+		
 		
 	}
 
