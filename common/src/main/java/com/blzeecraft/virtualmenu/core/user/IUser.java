@@ -39,7 +39,7 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 * 
 	 * @param component
 	 */
-	void sendMessage(BaseComponent... component);
+	void sendMessage(BaseComponent... components);
 	
 	/**
 	 * 给用户发送消息.

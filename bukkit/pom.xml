@@ -19,12 +19,12 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-		<!--Spigot API -->
+		<!--Paper API -->
 		<dependency>
-           <groupId>org.spigotmc</groupId>
-           <artifactId>spigot-api</artifactId>
-           <version>1.13.2-R0.1-SNAPSHOT</version>
-           <scope>provided</scope>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
 		</dependency>
 		
 		<!-- Vault API -->

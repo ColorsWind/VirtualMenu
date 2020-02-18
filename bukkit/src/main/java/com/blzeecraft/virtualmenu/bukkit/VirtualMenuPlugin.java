@@ -10,7 +10,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 	
 	@Getter
 	private static VirtualMenuPlugin instance;
-	
+
 	
 	public IEconomyHook getEconomy() {
 		return null;

@@ -3,6 +3,8 @@ package com.blzeecraft.virtualmenu.core.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
+
 import lombok.NonNull;
 
 /**
@@ -78,7 +80,7 @@ public abstract class AbstractItemBuilder<T> {
 		return this;
 	}
 	
-	public abstract AbstractItem<T> build();
+	public abstract AbstractItem<T> build(LogNode node);
 
 
 }

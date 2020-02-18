@@ -25,14 +25,13 @@ public abstract class AbstractItem<T> implements IWrappedObject<T> {
 	
 	protected final String[] copyOfLore;
 	
-	public AbstractItem(T handle, String id, int amount, String name, List<String> lore, String nbt) {
+	protected AbstractItem(T handle, String id, int amount, String name, List<String> lore, String nbt) {
 		this.handle = handle;
 		this.id = id;
 		this.amount = amount;
 		this.name = name;
 		this.lore = Collections.unmodifiableList(lore);
 		this.nbt = nbt;
-		
 		this.copyOfLore = lore.toArray(new String[0]);
 	}
 	

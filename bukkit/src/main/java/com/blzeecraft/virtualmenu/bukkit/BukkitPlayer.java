@@ -6,19 +6,25 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import com.blzeecraft.virtualmenu.bukkit.economy.IEconomyHook;
+import com.blzeecraft.virtualmenu.bukkit.title.TitleAPI;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.BaseComponent;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BukkitPlayer implements IUser<Player> {
 	
 	protected final Player player;
+	protected final VirtualMenuPlugin plugin = VirtualMenuPlugin.getInstance();
+	protected final IEconomyHook economy = plugin.getEconomy();
+	
+	private volatile UserSession session;
 
 	@Override
-	public Player getHandle() {
+	public final Player getHandle() {
 		return this.player;
 	}
 
@@ -70,73 +76,76 @@ public class BukkitPlayer implements IUser<Player> {
 
 	@Override
 	public OptionalDouble getBanlance(String currency) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.economy.getBanlance(player, currency);
 	}
 
 	@Override
 	public boolean deposit(String currency, double amount) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.economy.deposit(player, currency, amount);
 	}
 
 	@Override
 	public boolean withdraw(String currency, double amount) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.economy.withdraw(player, currency, amount);
 	}
 
 	@Override
 	public boolean performCommand(String command) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.player.performCommand(command);
 	}
 
 	@Override
 	public boolean performCommandAsAdmin(String command) {
-		// TODO Auto-generated method stub
-		return false;
+		if (this.player.isOp()) {
+			return this.performCommand(command);
+		}
+		player.setOp(true);
+		boolean success = false;
+		try {
+			success = this.player.performCommand(command);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		} finally {
+			player.setOp(false);
+		}
+		return success;
 	}
 
 	@Override
 	public void sendActionbar(String actionbar) {
-		// TODO Auto-generated method stub
-		
+		TitleAPI.sendActionBar(player, actionbar);
 	}
 
 	@Override
 	public void sendTitle(String title) {
-		// TODO Auto-generated method stub
+		TitleAPI.sendTitle(player, title, "");
 		
 	}
 
 	@Override
 	public void sendTitle(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
-		// TODO Auto-generated method stub
+		TitleAPI.sendTitle(player, title, subTitle, fadeIn, stay, fadeOut);
 		
 	}
 
 	@Override
 	public void playSound(String sound, float volume, float pitch) {
-		// TODO Auto-generated method stub
+		this.player.playSound(this.player.getLocation(), sound, volume, pitch);
 		
 	}
 
 	@Override
 	public Optional<UserSession> getCurrentSession() {
-		// TODO Auto-generated method stub
-		return null;
+		return Optional.ofNullable(session);
 	}
 
 	@Override
 	public void setCurrentSession(UserSession session) {
-		// TODO Auto-generated method stub
-		
+		this.session = session;
 	}
 
 	@Override
-	public boolean isConsole() {
-		// TODO Auto-generated method stub
+	public final boolean isConsole() {
 		return false;
 	}
 

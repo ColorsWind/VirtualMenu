@@ -10,6 +10,7 @@ import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
@@ -30,21 +31,21 @@ public class DynamicIcon extends SimpleIcon {
 	protected final Function<IUser<?>, String> name;
 	protected final Function<IUser<?>, List<String>> lore;
 
-	public DynamicIcon(int priority, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition,
+	public DynamicIcon(LogNode node, int priority, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition,
 			IAction command, Function<IUser<?>, String> name, Function<IUser<?>, List<String>> lore) {
-		super(priority, cache, clickCondition, viewCondition, command);
+		super(node, priority, cache, clickCondition, viewCondition, command);
 		this.name = name;
 		this.lore = lore;
 	}
 
-	public DynamicIcon(AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition, IAction command,
+	public DynamicIcon(LogNode node, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition, IAction command,
 			Function<IUser<?>, String> name, Function<IUser<?>, List<String>> lore) {
-		this(0, cache, clickCondition, viewCondition, command, name, lore);
+		this(node, 0, cache, clickCondition, viewCondition, command, name, lore);
 	}
 
-	public DynamicIcon(int priority, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition,
+	public DynamicIcon(LogNode node, int priority, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition,
 			IAction command, BiFunction<String, IUser<?>, String> replacer) {
-		this(priority, cache, clickCondition, viewCondition, command, user -> replacer.apply(cache.getName(), user),
+		this(node, priority, cache, clickCondition, viewCondition, command, user -> replacer.apply(cache.getName(), user),
 				user -> {
 					String[]  lores = cache.getCopyOfLore();
 					for (int i = 0; i < lores.length; i++) {
@@ -54,9 +55,9 @@ public class DynamicIcon extends SimpleIcon {
 				});
 	}
 
-	public DynamicIcon(AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition, IAction command,
+	public DynamicIcon(LogNode node, AbstractItem<?> cache, ICondition clickCondition, ICondition viewCondition, IAction command,
 			BiFunction<String, IUser<?>, String> replacer) {
-		this(0, cache, clickCondition, viewCondition, command, replacer);
+		this(node, 0, cache, clickCondition, viewCondition, command, replacer);
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class DynamicIcon extends SimpleIcon {
 		val user = session.getUser();
 		builder.name(name.apply(user));
 		builder.lore(lore.apply(user));
-		val item = builder.build();
+		val item = builder.build(this.getLogNode());
 		return item;
 	}
 

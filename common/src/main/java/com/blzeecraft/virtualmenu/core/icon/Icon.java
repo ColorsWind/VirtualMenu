@@ -9,6 +9,7 @@ import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 /**
  * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
@@ -70,6 +71,14 @@ public interface Icon extends Comparable<Icon>, Consumer<IconActionEvent> {
 	 */
 	default boolean isEmpty() {
 		return false;
+	}
+	
+	/**
+	 * 获取该 Icon 对应的 LogNode.
+	 * @return 对应的 LogNode.
+	 */
+	default LogNode getLogNode() {
+		return LogNode.of("#Icon");
 	}
 
 	

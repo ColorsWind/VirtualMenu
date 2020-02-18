@@ -11,6 +11,7 @@ import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.AllArgsConstructor;
@@ -26,21 +27,22 @@ import lombok.val;
 @AllArgsConstructor
 public class SimpleIcon implements Icon {
 	
+	protected final LogNode node;
 	protected final int priority;
 	protected final AbstractItem<?> cache;
 	protected final Function<MenuEvent, Optional<String>> clickCondition;
 	protected final Predicate<MenuEvent> viewCondition;
 	protected final Consumer<MenuEvent> command;
 	
-	public SimpleIcon(AbstractItem<?> cache, ICondition clickCondition,
+	public SimpleIcon(LogNode node, AbstractItem<?> cache, ICondition clickCondition,
 			ICondition viewCondition, IAction command) {
-		this(0, cache, clickCondition, viewCondition, command);
+		this(node, 0, cache, clickCondition, viewCondition, command);
 	}
 	
 	
-	public SimpleIcon(int priority, AbstractItem<?> cache, ICondition clickCondition,
+	public SimpleIcon(LogNode node, int priority, AbstractItem<?> cache, ICondition clickCondition,
 			ICondition viewCondition, IAction command) {
-		super();
+		this.node = node;
 		this.priority = priority;
 		this.cache = cache;
 		this.clickCondition = clickCondition;

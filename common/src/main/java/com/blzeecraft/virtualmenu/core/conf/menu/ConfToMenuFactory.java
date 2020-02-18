@@ -113,7 +113,7 @@ public class ConfToMenuFactory {
 		ICondition clickCondition = ConditionUtils.parse(node.sub("click-condition"), conf.click_condition);
 		ICondition viewCondition = ConditionUtils.parse(node.sub("view-condition"), conf.view_condition);
 		IAction action = ActionUtils.parse(node.sub("action"), conf.action);
-		return new SimpleIcon(priority, cache, clickCondition, viewCondition, action);
+		return new SimpleIcon(node, priority, cache, clickCondition, viewCondition, action);
 	}
 	
 	public static AbstractItem<?> readItem(LogNode node, IconConf conf) {
@@ -123,7 +123,7 @@ public class ConfToMenuFactory {
 		iBuilder.nbt(conf.nbt);
 		iBuilder.name(conf.name);
 		iBuilder.lore(conf.lore);
-		AbstractItem<?> item = iBuilder.build();
+		AbstractItem<?> item = iBuilder.build(node);
 		return item;
 	}
 
