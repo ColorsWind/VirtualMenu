@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.test;
+	package com.blzeecraft.virtualmenu.core.test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,11 +18,12 @@ public class StandardMenuFileTest {
 	
 	@Test
 	public void testConvert() throws Exception {
-		File file = new File(".\\resources\\example.yml");
+		File file = new File(".\\main\\resources\\example.yml");
 		Yaml yaml = new Yaml();
 		InputStream ins = new FileInputStream(file);
 		Reader reader = new InputStreamReader(ins, "utf-8");
-		Map<String,Object> map = yaml.load(reader);
+		@SuppressWarnings("unchecked")
+		Map<String,Object> map = (Map<String, Object>) yaml.load(reader);
 		StandardConf menu = MapToConfFactory.convert(LogNode.ROOT, map);
 		System.out.println(menu.toString());
 	}

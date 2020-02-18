@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.blzeecraft.virtualmenu.core.conf.file.FileToMapFactory;
 import com.blzeecraft.virtualmenu.core.conf.file.YamlReader;
@@ -18,7 +18,7 @@ public class IconConfTest {
 	
 	@Test
 	public void test() throws IOException {
-		File file = new File(".\\resources\\example.yml");
+		File file = new File(".\\main\\resources\\example.yml");
 		FileToMapFactory.register(new YamlReader());
 		
 		LogNode fNode = LogNode.of(file.getName());

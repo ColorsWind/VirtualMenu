@@ -16,7 +16,7 @@ public class FileToConfTest {
 	
 	@Test
 	public void test() throws IOException {
-		File file = new File(".\\resources\\example.yml");
+		File file = new File(".\\main\\resources\\example.yml");
 		FileToMapFactory.register(new YamlReader());
 		
 		LogNode fNode = LogNode.of(file.getName());
