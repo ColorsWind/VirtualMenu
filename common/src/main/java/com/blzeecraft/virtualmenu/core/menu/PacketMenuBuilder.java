@@ -29,7 +29,7 @@ public class PacketMenuBuilder {
 
 	public PacketMenuBuilder type(@NonNull IMenuType type) {
 		this.type = type;
-		this.icons = new Icon[type.size()];
+		this.icons = new Icon[type.getSize()];
 		return this;
 	}
 

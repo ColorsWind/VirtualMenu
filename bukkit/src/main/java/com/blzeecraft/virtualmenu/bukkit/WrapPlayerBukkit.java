@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 @RequiredArgsConstructor
-public class BukkitPlayer implements IUser<Player> {
+public class WrapPlayerBukkit implements IUser<Player> {
 	
 	protected final Player player;
 	protected final VirtualMenuPlugin plugin = VirtualMenuPlugin.getInstance();

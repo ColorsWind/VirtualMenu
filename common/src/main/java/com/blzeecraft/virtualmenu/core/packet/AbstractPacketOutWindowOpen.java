@@ -17,7 +17,7 @@ public abstract class AbstractPacketOutWindowOpen<T> extends AbstractWindowPacke
 		super(handle);
 	}
 
-	public abstract void setTitle(String titile);
+	public abstract void setTitle(String title);
 
 	public abstract String getTitle();
 

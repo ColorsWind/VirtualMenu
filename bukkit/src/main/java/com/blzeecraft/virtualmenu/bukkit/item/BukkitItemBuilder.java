@@ -24,6 +24,10 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 		meta.setDisplayName("§c无效物品类型,请检查配置.");
 		FALLBACK.setItemMeta(meta);
 	}
+	
+	public BukkitItemBuilder() {
+		this.id = FALLBACK.getType().name();
+	}
 
 	public BukkitItemBuilder(BukkitItem bukkitItem) {
 		this.id = bukkitItem.getId();

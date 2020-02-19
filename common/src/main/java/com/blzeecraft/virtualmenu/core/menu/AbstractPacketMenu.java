@@ -46,7 +46,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	protected final Set<UserSession> sessions;
 
 	public AbstractPacketMenu(int refresh, String title, IMenuType type) {
-		this(refresh, title, type, new Icon[type.size()], new EnumMap<>(EventType.class));
+		this(refresh, title, type, new Icon[type.getSize()], new EnumMap<>(EventType.class));
 	}
 
 	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons,
@@ -54,7 +54,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		this.refresh = refresh;
 		this.title = title;
 		this.type = type;
-		this.icons = new Icon[type.size()];
+		this.icons = new Icon[type.getSize()];
 		System.arraycopy(icons, 0, this.icons, 0, this.icons.length);
 		this.sessions = new HashSet<>();
 		this.menuAction = new EnumMap<>(events);

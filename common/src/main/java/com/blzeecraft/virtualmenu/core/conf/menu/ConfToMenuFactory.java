@@ -72,7 +72,7 @@ public class ConfToMenuFactory {
 		});
 
 		/* ########## icons ########## */
-		Icon[] icons = new Icon[type.size()];
+		Icon[] icons = new Icon[type.getSize()];
 		LogNode iNode = node.sub("icons");
 		for(Entry<String, IconConf> entry : conf.icons.entrySet()) {
 			val iConf = entry.getValue();

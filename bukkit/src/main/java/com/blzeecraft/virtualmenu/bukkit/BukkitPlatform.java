@@ -10,9 +10,8 @@ import java.util.concurrent.ConcurrentMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.blzeecraft.virtualmenu.bukkit.item.BukkitItemBuilder;
 import com.blzeecraft.virtualmenu.core.IPlatformAdapter;
-import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 import com.blzeecraft.virtualmenu.core.user.IUser;
@@ -22,15 +21,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BukkitPlatform implements IPlatformAdapter {
 	
-	protected final ConcurrentMap<Player, BukkitPlayer> playerMap = new ConcurrentHashMap<>();
-	protected final BukkitConsole console = new BukkitConsole(Bukkit.getConsoleSender());
-	
 	private final VirtualMenuPlugin plugin;
+	protected final ConcurrentMap<Player, WrapPlayerBukkit> playerMap;
+	protected final WrapConsoleBukkit console;
+	protected final WrapSchedulerBukkit scheduler;
 
+	public BukkitPlatform(VirtualMenuPlugin plugin) {
+		this.plugin = plugin;
+		playerMap = new ConcurrentHashMap<>();
+		console = new WrapConsoleBukkit(Bukkit.getConsoleSender());
+		scheduler = new WrapSchedulerBukkit(plugin);
+	}
+	
 	@Override
 	public File getDataFolder() {
-		// TODO Auto-generated method stub
-		return null;
+		return plugin.getDataFolder();
 	}
 
 	@Override
@@ -58,33 +63,31 @@ public class BukkitPlatform implements IPlatformAdapter {
 	}
 
 	@Override
-	public AbstractItem<?> emptyItem() {
-		// TODO Auto-generated method stub
-		return null;
+	public BukkitItem emptyItem() {
+		return BukkitItem.EMPTY_ITEM;
 	}
 
 	@Override
-	public AbstractItemBuilder<?> createItemBuilder() {
-		// TODO Auto-generated method stub
-		return null;
+	public BukkitItemBuilder createItemBuilder() {
+		return new BukkitItemBuilder();
 	}
 
 	@Override
 	public Optional<IMenuType> getMenuType(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return Optional.ofNullable(MenuType.valueOf(name.toUpperCase()));
 	}
 
 	@Override
 	public IMenuType[] getMenuTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		return MenuType.values();
 	}
 
 	@Override
 	public IScheduler getScheduler() {
-		// TODO Auto-generated method stub
-		return null;
+		return scheduler;
+		
+		
+		 
 	}
 
 }

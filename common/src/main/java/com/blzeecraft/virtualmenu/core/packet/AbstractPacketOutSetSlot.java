@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public abstract class AbstractPacketOutSetSlot<T> extends AbstractWindowPacket<T> {
 
-	public AbstractPacketOutSetSlot(T handle, AbstractItem<?> item) {
+	public AbstractPacketOutSetSlot(T handle) {
 		super(handle);
 	}
 

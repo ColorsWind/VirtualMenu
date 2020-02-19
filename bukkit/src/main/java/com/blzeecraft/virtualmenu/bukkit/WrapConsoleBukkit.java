@@ -15,7 +15,7 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
 @RequiredArgsConstructor
-public class BukkitConsole implements IUser<ConsoleCommandSender> {
+public class WrapConsoleBukkit implements IUser<ConsoleCommandSender> {
 	
 	public static final UUID CONSOLE_UUID = UUID.nameUUIDFromBytes(new byte[16]);
 	protected final ConsoleCommandSender console;

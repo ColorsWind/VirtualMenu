@@ -50,7 +50,7 @@ public interface IPacketMenu {
 	 * @return 菜单容量
 	 */
 	default int getSize() {
-		return getType().size();
+		return getType().getSize();
 	}
 
 	/**

@@ -7,12 +7,22 @@ package com.blzeecraft.virtualmenu.core.menu;
  */
 public interface IMenuType {
 	
-	int getTypeId();
+	int getIndex();
 	
 	String getType();
 	
-	int size();
+	default int getLegacyIndex() {
+		throw new UnsupportedOperationException();
+	}
+	
+	default String getMinecraftKey() {
+		throw new UnsupportedOperationException();
+	}
+	
+	int getSize();
 
 	boolean isItemMenu();
+
+
 	
 }

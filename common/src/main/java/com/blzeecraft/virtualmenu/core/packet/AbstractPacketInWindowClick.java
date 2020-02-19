@@ -19,9 +19,6 @@ public abstract class AbstractPacketInWindowClick<T> extends AbstractWindowPacke
 		super(handle);
 	}
 	
-	public abstract void setActionNumber(short num);
-	public abstract short getActionNumber();
-	
 	public abstract void setRawSlot(int slot);
 	public abstract int getRawSlot();
 	
