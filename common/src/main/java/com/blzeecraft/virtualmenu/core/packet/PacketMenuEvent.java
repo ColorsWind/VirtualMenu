@@ -5,7 +5,6 @@ import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -19,8 +18,7 @@ import lombok.ToString;
 public abstract class PacketMenuEvent {
 	protected final UserSession session;
 	
-	@Setter
-	protected boolean cancelPacket = false;
+
 	
 
 }

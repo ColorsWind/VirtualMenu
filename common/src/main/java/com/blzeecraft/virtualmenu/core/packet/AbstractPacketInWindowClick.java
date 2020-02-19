@@ -33,7 +33,7 @@ public abstract class AbstractPacketInWindowClick<T> extends AbstractWindowPacke
 	
 	public ClickType getClickType(){
 		int button = getButton();
-		//please check slot before invoke this method
+		//maybe you need to check slot before invoke this method
 		int slot = getRawSlot(); 
 		switch(getClickMode()) {
 		case PICKUP: 

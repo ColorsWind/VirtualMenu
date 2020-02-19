@@ -3,7 +3,6 @@ package com.blzeecraft.virtualmenu.core.packet;
 import java.lang.reflect.InvocationTargetException;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 

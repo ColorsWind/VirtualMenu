@@ -121,7 +121,13 @@ public class WrapConsoleBukkit implements IUser<ConsoleCommandSender> {
 
 	@Override
 	public final boolean isConsole() {
-		return true;
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void updateInventory() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

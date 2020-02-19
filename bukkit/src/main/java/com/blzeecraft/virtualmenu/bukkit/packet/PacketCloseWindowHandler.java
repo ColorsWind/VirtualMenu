@@ -26,7 +26,11 @@ public class PacketCloseWindowHandler extends PacketAdapter implements Listener 
 	public void onPacketReceiving(PacketEvent e) {
 		platform.getUserExact(e.getPlayer()).flatMap(IUser::getCurrentSession).ifPresent(session -> {
 			PacketPlayInCloseWindow packet = new PacketPlayInCloseWindow(e.getPacket());
-			PacketManager.map(session, packet).ifPresent(PacketManager::handleEvent);
+			PacketManager.map(session, packet).ifPresent(event -> {
+				PacketManager.handleEvent(event);
+				e.setReadOnly(false);
+				e.setCancelled(true);
+			});
 		});
 	}
 

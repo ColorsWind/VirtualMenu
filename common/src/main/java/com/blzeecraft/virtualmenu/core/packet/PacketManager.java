@@ -55,6 +55,8 @@ public class PacketManager {
 			e.printStackTrace();
 		}
 	}
+	
+	
 
 	public static void closePacketMenu(IUser<?> user) {
 		user.getCurrentSession().ifPresent(PacketManager::closePacketMenu);
@@ -88,17 +90,7 @@ public class PacketManager {
 		menu.handle(event);
 	}
 
-	/**
-	 * 处理玩家点击菜单事件。
-	 * 
-	 * @param event
-	 */
-	public static void handleEvent(PacketMenuClickEvent event) {
-		UserSession session = event.getSession();
-		IPacketMenu menu = session.getMenu();
-		IconActionEvent clickEvent = event.getEvent();
-		menu.handle(clickEvent);
-	}
+
 	
 	public static Optional<PacketMenuCloseEvent> map(UserSession session, AbstractPacketInCloseWindow<?> packet) {
 		if (session.getMenu().getWindowId() == packet.getWindowId()) {
@@ -108,60 +100,72 @@ public class PacketManager {
 		
 	}
 	
-	public static Optional<PacketMenuClickEvent> map(UserSession session, AbstractPacketInWindowClick<?> packet) {
+	public static Optional<PacketMenuClickEvent> map(UserSession session, AbstractPacketInWindowClick<?> packet) { 
 		IPacketMenu menu = session.getMenu();
-		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
-		IUser<?> user = session.getUser();
 		if (menu.getWindowId() == packet.getWindowId()) {
 			ClickType type = packet.getClickType();
-			int windowId = menu.getWindowId();
 			int size = menu.getSize();
 			int rawSlot = packet.getRawSlot();
+			int slot = rawSlot < size ? rawSlot : rawSlot - size;
 			AbstractItem<?> clickedItem = packet.getClickedItem();
-			switch(type) {
-			case CONTROL_DROP:
-			case DROP:
-				AbstractPacketOutSetSlot<?> drop_resetHold = createResetHoldPacket();
-				adapter.sendServerPacketWrap(user, drop_resetHold);
-				break;
-			case RIGHT:
-			case LEFT:
-				AbstractPacketOutSetSlot<?> click_resetHold = createResetHoldPacket();
-				AbstractPacketOutSetSlot<?> click_resetClick = createResetClickPacket(windowId, rawSlot, size, clickedItem);
-				VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
-					adapter.sendServerPacketWrap(user, click_resetHold, click_resetClick);
-				});
-				break;
-			case MIDDLE:
-			case DOUBLE_CLICK:
-			case CREATIVE:
-			case NUMBER_KEY:
-			case SHIFT_LEFT:
-			case SHIFT_RIGHT:
-			case UNKNOWN:
-			default:
-				//full update
-
-
-				break;
-			case WINDOW_BORDER_LEFT:
-				break;
-			case WINDOW_BORDER_RIGHT:
-				break;
-
-				break;
-			
-			}
-			if (menu.getSize() > packet.getRawSlot()) {
-				//click packet menu
-				
-				
-			}
-
-			//packet.getClickMode()
+			PacketMenuClickEvent event = new PacketMenuClickEvent(session, new IconActionEvent(session, type, rawSlot, slot, clickedItem, false));
+			return Optional.of(event);
 		}
 		return Optional.empty();
-		
+	}
+	
+	private static void sendResetPacket(PacketMenuClickEvent event) {
+		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
+		UserSession session = event.getSession();
+		IUser<?> user = session.getUser();
+		IconActionEvent iconEvent = event.getEvent();
+		IPacketMenu menu = iconEvent.getMenu();
+		switch(event.getEvent().getClickType()) {
+		case CONTROL_DROP:
+		case DROP:
+			// update click slot
+			int drop_windowId = iconEvent.getMenu().getWindowId();
+			int drop_rawSlot = iconEvent.getRawSlot();
+			int drop_slot = iconEvent.getSlot();
+			AbstractItem<?> drop_clickedItem = iconEvent.getCurrent();
+			AbstractPacketOutSetSlot<?> drop_resetClick= createResetClickPacket(drop_windowId, drop_rawSlot, drop_slot, drop_clickedItem);
+			adapter.sendServerPacketWrap(user, drop_resetClick);
+			break;
+		case RIGHT:
+		case LEFT:
+			// update click slot and hold;
+			int click_windowId = iconEvent.getMenu().getWindowId();
+			int click_rawSlot = iconEvent.getRawSlot();
+			int click_slot = iconEvent.getSlot();
+			AbstractItem<?> click_clickedItem = iconEvent.getCurrent();
+			AbstractPacketOutSetSlot<?> click_resetHold = createResetHoldPacket();
+			AbstractPacketOutSetSlot<?> click_resetClick = createResetClickPacket(click_windowId, click_rawSlot, click_slot, click_clickedItem);
+			adapter.sendServerPacketWrap(user, click_resetHold, click_resetClick);
+			break;
+		case MIDDLE:
+		case DOUBLE_CLICK:
+		case CREATIVE:
+		case NUMBER_KEY:
+		case SHIFT_LEFT:
+		case SHIFT_RIGHT:
+		case UNKNOWN:
+		default:
+			// full update
+			int full_windowId = menu.getWindowId();
+			AbstractPacketOutSetSlot<?> full_resetHold = createResetHoldPacket();
+			AbstractPacketOutWindowItems<?> full_resetMenu = adapter.createPacketWindowItems();
+			full_resetMenu.setWindowId(full_windowId);
+			full_resetMenu.setItems(menu.viewItems(event.getSession()));
+			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+				adapter.sendServerPacketWrap(user, full_resetMenu, full_resetHold);
+				user.updateInventory();
+			});
+			break;
+		case WINDOW_BORDER_LEFT:
+		case WINDOW_BORDER_RIGHT:
+			// nope
+			break;
+		}
 	}
 	
 	private static AbstractPacketOutSetSlot<?> createResetHoldPacket() {
@@ -186,6 +190,8 @@ public class PacketManager {
 		}
 		return resetClick;
 	}
+	
+	
 
 	/**
 	 * 处理玩家关闭菜单事件. 无论玩家是否主动关闭菜单, 都要调用这个方法进行处理.
@@ -198,6 +204,30 @@ public class PacketManager {
 		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.OPEN_MENU);
 		menu.handle(quitEvent);
 		session.getUser().setCurrentSession(null);
+	}
+	
+	/**
+	 * 处理玩家点击菜单事件。
+	 * 
+	 * @param event
+	 */
+	public static void handleEvent(PacketMenuClickEvent event) {
+		sendResetPacket(event);
+		UserSession session = event.getSession();
+		IPacketMenu menu = session.getMenu();
+		switch(event.event.getClickType()) {
+		case WINDOW_BORDER_LEFT:
+			menu.handle(new MenuActionEvent(session, EventType.LEFT_BORDER_CLICK));
+			break;
+		case WINDOW_BORDER_RIGHT:
+			menu.handle(new MenuActionEvent(session, EventType.RIGHT_BORDER_CLICK));
+			break;
+		default:
+			IconActionEvent clickEvent = event.getEvent();
+			menu.handle(clickEvent);
+			break;
+		}
+
 	}
 
 	public static void closeAllMenu() {

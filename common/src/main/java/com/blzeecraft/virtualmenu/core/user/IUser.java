@@ -244,4 +244,9 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 */
 	boolean isConsole();
 
+	/**
+	 * 刷新玩家的背包. 
+	 */
+	void updateInventory();
+
 }

@@ -149,5 +149,10 @@ public class WrapPlayerBukkit implements IUser<Player> {
 		return false;
 	}
 
+	@Override
+	public void updateInventory() {
+		player.updateInventory();	
+	}
+
 
 }
