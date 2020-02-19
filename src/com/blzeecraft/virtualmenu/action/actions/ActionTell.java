@@ -8,6 +8,7 @@ import com.blzeecraft.virtualmenu.action.ActionType;
 import com.blzeecraft.virtualmenu.logger.ILog;
 
 import lombok.ToString;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 @ToString
 public class ActionTell extends AbstractAction {
@@ -19,8 +20,12 @@ public class ActionTell extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
-		p.sendMessage(message.replace("<player>", p.getName()));
+	public void execute(Player p, boolean isPlaceholderAPI) {
+		String text = message;
+		if (isPlaceholderAPI) {
+			text = PlaceholderAPI.setPlaceholders(p, text);
+		}
+		p.sendMessage(text.replace("<player>", p.getName()));
 	}
 
 }

@@ -11,7 +11,6 @@ import com.blzeecraft.virtualmenu.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.action.ActionType;
 import com.blzeecraft.virtualmenu.logger.ILog;
-
 public class ActionBungeeCord extends AbstractAction {
 
 	public ActionBungeeCord(ILog parent, String raw) {
@@ -19,8 +18,7 @@ public class ActionBungeeCord extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
-		
+	public void execute(Player p, boolean isPlaceholderAPI) {
 		Bukkit.getScheduler().runTaskAsynchronously(VirtualMenuPlugin.getInstance(), () -> {
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			DataOutputStream out = new DataOutputStream(byteArray);

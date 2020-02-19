@@ -8,6 +8,7 @@ import com.blzeecraft.virtualmenu.action.ActionType;
 import com.blzeecraft.virtualmenu.logger.ILog;
 
 import lombok.ToString;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 @ToString
 public class ActionConsoleCommand extends AbstractAction {
@@ -17,8 +18,12 @@ public class ActionConsoleCommand extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), raw.replace("<player>", p.getName()));
+	public void execute(Player p, boolean isPlaceholderAPI) {
+		String text = raw;
+		if (isPlaceholderAPI) {
+			text = PlaceholderAPI.setPlaceholders(p, text);
+		}
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), text.replace("<player>", p.getName()));
 	}
 
 }

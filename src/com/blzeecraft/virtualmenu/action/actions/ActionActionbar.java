@@ -7,6 +7,8 @@ import com.blzeecraft.virtualmenu.action.ActionType;
 import com.blzeecraft.virtualmenu.logger.ILog;
 import com.blzeecraft.virtualmenu.title.TitleAPI;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class ActionActionbar extends AbstractAction {
 
 	public ActionActionbar(ILog parent, String raw) {
@@ -14,8 +16,12 @@ public class ActionActionbar extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
-		TitleAPI.sendActionBar(p, raw.replace("<player>", p.getName()));
+	public void execute(Player p, boolean isPlaceholderAPI) {
+		String text = raw;
+		if (isPlaceholderAPI) {
+			text = PlaceholderAPI.setPlaceholders(p, text);
+		}
+		TitleAPI.sendActionBar(p, text.replace("<player>", p.getName()));
 	}
 
 }

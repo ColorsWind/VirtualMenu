@@ -100,14 +100,14 @@ public class ChestMenu implements IConfig {
 				return;
 			}
 			if(viewer.canClick()) {
-				VirtualMenuPlugin.getInstance().runOnPrimaryThread(() -> icon.onClick(p, type));
+				VirtualMenuPlugin.getInstance().runOnPrimaryThread(() -> icon.onClick(p, type, icon.isPlaceholderapi()));
 			}
 		} else {
 			if (events != null) {
 				VirtualMenuPlugin.getInstance().runOnPrimaryThread(() -> {
 					List<AbstractAction> action = events.get(event);
 					if (action != null) {
-						AbstractAction.run(action, p);
+						AbstractAction.run(action, p, false);
 					}
 				});
 			}

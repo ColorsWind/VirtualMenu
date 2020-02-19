@@ -100,7 +100,7 @@ public class Icon extends ViewItem implements IConfig {
 		return item;
 	}
 	
-	public void onClick(Player p, ClickType type) {
+	public void onClick(Player p, ClickType type, boolean isPlaceholderAPI) {
 		if (! canView(p)) {
 			return;
 		}
@@ -177,7 +177,7 @@ public class Icon extends ViewItem implements IConfig {
 		if (command != null) {
 			List<AbstractAction> cmds = command.get(type);
 			if (cmds != null) {
-				AbstractAction.run(cmds, p);
+				AbstractAction.run(cmds, p, isPlaceholderAPI);
 			}
 			
 		}

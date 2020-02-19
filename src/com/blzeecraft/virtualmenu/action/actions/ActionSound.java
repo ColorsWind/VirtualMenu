@@ -46,7 +46,7 @@ public class ActionSound extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
+	public void execute(Player p, boolean isPlaceholderAPI) {
 		p.playSound(p.getLocation(), sound, volume, pitch);
 	}
 	

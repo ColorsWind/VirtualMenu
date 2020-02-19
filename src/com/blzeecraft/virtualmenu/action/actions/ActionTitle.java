@@ -57,7 +57,7 @@ public class ActionTitle extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
+	public void execute(Player p, boolean isPlaceholderAPI) {
 		TitleAPI.sendTitle(p, title, subtitle, fadeIn, stay, fadeOut);
 	}
 	

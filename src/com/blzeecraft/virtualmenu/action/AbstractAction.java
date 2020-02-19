@@ -34,7 +34,7 @@ public abstract class AbstractAction implements ILog {
 	}
 	
 
-	public abstract void execute(Player p);
+	public abstract void execute(Player p, boolean isPlaceholderAPI);
 	
 	protected boolean execute(Player p, String command) {
 		PlayerCommandPreprocessEvent event = new PlayerCommandPreprocessEvent(p, "/" + 	command);
@@ -45,10 +45,10 @@ public abstract class AbstractAction implements ILog {
 		return true;
 	}
 
-	public static void run(List<AbstractAction> cmds, Player p) {
+	public static void run(List<AbstractAction> cmds, Player p, boolean isPlaceholderAPI) {
 		try {
 			for (AbstractAction cmd : cmds) {
-				cmd.execute(p);
+				cmd.execute(p, isPlaceholderAPI);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

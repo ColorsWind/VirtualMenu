@@ -6,6 +6,8 @@ import com.blzeecraft.virtualmenu.action.AbstractAction;
 import com.blzeecraft.virtualmenu.action.ActionType;
 import com.blzeecraft.virtualmenu.logger.ILog;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class ActionCommand extends AbstractAction {
 
 	public ActionCommand(ILog parent, String raw) {
@@ -13,8 +15,12 @@ public class ActionCommand extends AbstractAction {
 	}
 
 	@Override
-	public void execute(Player p) {
-		this.execute(p, raw.replace("<player>", p.getName()));
+	public void execute(Player p, boolean isPlaceholderAPI) {
+		String text = raw;
+		if (isPlaceholderAPI) {
+			text = PlaceholderAPI.setPlaceholders(p, text);
+		}
+		this.execute(p, text.replace("<player>", p.getName()));
 	}
 
 }
