@@ -5,13 +5,14 @@ import org.bukkit.inventory.ItemStack;
 import com.blzeecraft.virtualmenu.bukkit.BukkitItem;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 
 public class PacketPlayOutSetSlot extends AbstractPacketOutSetSlot<PacketContainer> {
 	protected final PacketContainer packet = super.packet; // 避免强制准换
 	
-	public PacketPlayOutSetSlot(PacketContainer handle) {
-		super(handle);
+	public PacketPlayOutSetSlot() {
+		super(new PacketContainer(PacketType.Play.Server.SET_SLOT));
 	}
 
 	@Override

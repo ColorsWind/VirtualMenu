@@ -6,8 +6,10 @@ import java.util.Optional;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
+import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
+import com.blzeecraft.virtualmenu.core.menu.ClickType;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.user.IUser;
@@ -66,7 +68,7 @@ public class PacketManager {
 		user.setCurrentSession(session);
 		// create packet
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
-		AbstractPacketOutWindowOpen<?> packetWindowOpen = adapter.createPacketWindOpen();
+		AbstractPacketOutWindowOpen<?> packetWindowOpen = adapter.createPacketWindowOpen();
 		packetWindowOpen.setWindowId(menu.getWindowId());
 		packetWindowOpen.setTitle(menu.getTitle());
 		AbstractPacketOutWindowItems<?> packetWindowItems = adapter.createPacketWindowItems();
@@ -97,6 +99,93 @@ public class PacketManager {
 		IconActionEvent clickEvent = event.getEvent();
 		menu.handle(clickEvent);
 	}
+	
+	public static Optional<PacketMenuCloseEvent> map(UserSession session, AbstractPacketInCloseWindow<?> packet) {
+		if (session.getMenu().getWindowId() == packet.getWindowId()) {
+			return Optional.of(new PacketMenuCloseEvent(session, false));
+		}
+		return Optional.empty();
+		
+	}
+	
+	public static Optional<PacketMenuClickEvent> map(UserSession session, AbstractPacketInWindowClick<?> packet) {
+		IPacketMenu menu = session.getMenu();
+		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
+		IUser<?> user = session.getUser();
+		if (menu.getWindowId() == packet.getWindowId()) {
+			ClickType type = packet.getClickType();
+			int windowId = menu.getWindowId();
+			int size = menu.getSize();
+			int rawSlot = packet.getRawSlot();
+			AbstractItem<?> clickedItem = packet.getClickedItem();
+			switch(type) {
+			case CONTROL_DROP:
+			case DROP:
+				AbstractPacketOutSetSlot<?> drop_resetHold = createResetHoldPacket();
+				adapter.sendServerPacketWrap(user, drop_resetHold);
+				break;
+			case RIGHT:
+			case LEFT:
+				AbstractPacketOutSetSlot<?> click_resetHold = createResetHoldPacket();
+				AbstractPacketOutSetSlot<?> click_resetClick = createResetClickPacket(windowId, rawSlot, size, clickedItem);
+				VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+					adapter.sendServerPacketWrap(user, click_resetHold, click_resetClick);
+				});
+				break;
+			case MIDDLE:
+			case DOUBLE_CLICK:
+			case CREATIVE:
+			case NUMBER_KEY:
+			case SHIFT_LEFT:
+			case SHIFT_RIGHT:
+			case UNKNOWN:
+			default:
+				//full update
+
+
+				break;
+			case WINDOW_BORDER_LEFT:
+				break;
+			case WINDOW_BORDER_RIGHT:
+				break;
+
+				break;
+			
+			}
+			if (menu.getSize() > packet.getRawSlot()) {
+				//click packet menu
+				
+				
+			}
+
+			//packet.getClickMode()
+		}
+		return Optional.empty();
+		
+	}
+	
+	private static AbstractPacketOutSetSlot<?> createResetHoldPacket() {
+		AbstractPacketOutSetSlot<?> resetHold = VirtualMenu.getPacketAdapter().createPacketSetSlot();
+		resetHold.setWindowId(-1);
+		resetHold.setSlot(-1);
+		resetHold.setItem(VirtualMenu.emptyItem());
+		return resetHold;
+	}
+	
+	private static AbstractPacketOutSetSlot<?> createResetClickPacket(int windowId, int rawSlot, int size, AbstractItem<?> clickedItem) {
+		AbstractPacketOutSetSlot<?> resetClick = VirtualMenu.getPacketAdapter().createPacketSetSlot();
+		if (size > rawSlot) {
+			resetClick.setWindowId(windowId);
+			resetClick.setWindowId(rawSlot);
+			resetClick.setItem(clickedItem);
+		} else {
+			int slot = rawSlot - size;
+			resetClick.setWindowId(-1);
+			resetClick.setWindowId(slot);
+			resetClick.setItem(clickedItem);
+		}
+		return resetClick;
+	}
 
 	/**
 	 * 处理玩家关闭菜单事件. 无论玩家是否主动关闭菜单, 都要调用这个方法进行处理.
@@ -115,5 +204,6 @@ public class PacketManager {
 		VirtualMenu.getUsersOnline().stream().map(IUser::getCurrentSession).filter(Optional::isPresent)
 				.map(Optional::get).forEach(PacketManager::closePacketMenu);
 	}
+	
 
 }

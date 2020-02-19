@@ -2,6 +2,9 @@ package com.blzeecraft.virtualmenu.core.packet;
 
 import java.lang.reflect.InvocationTargetException;
 
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 
 /**
@@ -17,7 +20,7 @@ public interface IPacketAdapter {
 
 	AbstractPacketOutCloseWindow<?> createPacketCloseWindow();
 
-	AbstractPacketOutWindowOpen<?> createPacketWindOpen();
+	AbstractPacketOutWindowOpen<?> createPacketWindowOpen();
 
 	AbstractPacketOutSetSlot<?> createPacketSetSlot();
 
@@ -25,5 +28,27 @@ public interface IPacketAdapter {
 
 	void sendServerPacket(IUser<?> user, AbstractWindowPacket<?> packet) throws InvocationTargetException;
 	
+	
+	default void sendServerPacketWrap(IUser<?> user, AbstractWindowPacket<?> packet) {
+		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+			try {
+				sendServerPacket(user, packet);
+			} catch (InvocationTargetException e) {
+				PluginLogger.warning(PacketManager.LOG_NODE, "尝试向玩家发送 Packet 时出现异常.");
+			}
+		});
+	}
+	
+	default void sendServerPacketWrap(IUser<?> user, AbstractWindowPacket<?> packet1, AbstractWindowPacket<?> packet2) {
+		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+			try {
+				sendServerPacket(user, packet1);
+				sendServerPacket(user, packet2);
+			} catch (InvocationTargetException e) {
+				PluginLogger.warning(PacketManager.LOG_NODE, "尝试向玩家发送 Packet 时出现异常.");
+			}
+		});
+
+	}
 	
 }

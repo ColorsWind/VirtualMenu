@@ -1257,11 +1257,11 @@ public enum XMaterial {
     /**
      * The current version of the server.
      *
-     * @return the current server version or 0.0 if unknown.
+     * @return the current server version or 0 if unknown.
      * @see #isNewVersion()
      * @since 2.0.0
      */
-    public static double getVersion() {
+    public static int getVersion() {
         return VERSION;
     }
 
