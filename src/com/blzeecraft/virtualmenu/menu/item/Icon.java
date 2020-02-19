@@ -133,7 +133,7 @@ public class Icon extends ViewItem implements IConfig {
 			if (PlayerPointsBridge.hasValidPlugin()) {
 				if (!PlayerPointsBridge.takePoints(p, points)) {
 					if (pointsMessage == null) {
-						Settings.sendMessage(p, String.format(Settings.getInstance().getLang_noEnoughMoney(), points));
+						Settings.sendMessage(p, String.format(Settings.getInstance().getLang_noEnoughPoint(), points));
 					} else {
 						p.sendMessage(String.format(pointsMessage, points));
 					}
