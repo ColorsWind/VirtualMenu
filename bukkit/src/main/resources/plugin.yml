@@ -1,0 +1,21 @@
+name: VirtualMenu
+main: com.blzeecraft.virtualmenu.bukkit.VirtualMenuPlugin
+version: maven-version
+softdepend: [PlaceHolderAPI, PlayerPoints, Vault, LangUtils, GemsEconomy]
+depend: [ProtocolLib]
+api-version: 1.13
+commands:
+  virtualmenu:
+    description: Main command for VirtualMenu.
+    usage: /<command> <reload/open>
+    aliases: [vm]
+    permission: virtualmenu.admin
+
+permissions:
+  virtualmenu.admin:
+    description: Gives access to all virtualmenu commands
+    default: op
+    children:
+      virtualmenu.open.self: false
+      virtualmenu.open.others: false
+      virtualmenu.reload: false
