@@ -15,7 +15,7 @@ public class CommandHandler {
 	public static final LogNode LOG_NODE = LogNode.of("#CommandHandler");
 	private static final Map<String, Collection<CommandMeta>> COMMAND = new HashMap<>();
 
-	public boolean process(IUser<?> sender, String label, String[] args) {
+	public static boolean process(IUser<?> sender, String label, String[] args) {
 		if (args.length == 0) { // 无参数命令
 			sendHelp(sender, label);
 			return true;
@@ -46,7 +46,7 @@ public class CommandHandler {
 		}
 	}
 
-	private void sendHelp(IUser<?> sender, String label) {
+	private static void sendHelp(IUser<?> sender, String label) {
 		sender.sendMessageWithPrefix("§a~~~~~~ §e§lVirtualMenu Help §a~~~~~");
 		COMMAND.values().stream().flatMap(Collection::stream).distinct().filter(CommandMeta::visable)
 				.filter(meta -> !(meta.isPlayerOnly() && sender.isConsole())).forEach(meta -> {
@@ -55,7 +55,7 @@ public class CommandHandler {
 
 	}
 
-	private void suggestCommand(IUser<?> sender, String label, Collection<CommandMeta> command) {
+	private static void suggestCommand(IUser<?> sender, String label, Collection<CommandMeta> command) {
 		sender.sendMessageWithPrefix("§a是想输入这些命令吗? ");
 		command.stream().filter(CommandMeta::visable).filter(meta -> !(meta.isPlayerOnly() && sender.isConsole()))
 				.forEach(meta -> {

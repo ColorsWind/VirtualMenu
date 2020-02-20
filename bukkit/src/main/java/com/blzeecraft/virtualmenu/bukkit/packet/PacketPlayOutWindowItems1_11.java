@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.bukkit.BukkitItem;
+import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowItems;
 import com.comphenix.protocol.PacketType;
@@ -30,8 +30,8 @@ public class PacketPlayOutWindowItems1_11 extends AbstractPacketOutWindowItems<P
 	@Override
 	public AbstractItem<?>[] getItems() {
 		List<ItemStack> itemList = packet.getItemListModifier().read(0);
-		return itemList.stream().map(BukkitItem::new).collect(Collectors.toList())
-				.toArray(new BukkitItem[itemList.size()]);
+		return itemList.stream().map(WrapItemBukkit::new).collect(Collectors.toList())
+				.toArray(new WrapItemBukkit[itemList.size()]);
 	}
 
 	@Override

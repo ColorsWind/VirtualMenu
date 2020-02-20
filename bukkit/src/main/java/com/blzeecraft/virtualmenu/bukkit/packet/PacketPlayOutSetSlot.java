@@ -2,7 +2,7 @@ package com.blzeecraft.virtualmenu.bukkit.packet;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.bukkit.BukkitItem;
+import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
 import com.comphenix.protocol.PacketType;
@@ -32,7 +32,7 @@ public class PacketPlayOutSetSlot extends AbstractPacketOutSetSlot<PacketContain
 
 	@Override
 	public AbstractItem<?> getItem() {
-		return new BukkitItem(packet.getItemModifier().read(0));
+		return new WrapItemBukkit(packet.getItemModifier().read(0));
 	}
 
 	@Override

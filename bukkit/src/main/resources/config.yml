@@ -1,0 +1,18 @@
+# 支持的经济系统设置
+EconomyHook:
+  # 是否使用 Vault 接口
+  Vault: true
+  # 是否使用 PlayerPoints 接口
+  PlayerPoints: true
+  # 是否使用 GemsEconomy 接口
+  GemsEconomy: true
+# 多货币体系, 这里为每个接口绑定货币, 可使用 '*' 代表所有货币.
+# e.g 消费1000金钱 -> 不满足任何绑定 -> 使用Vault 接口
+#     消费1000点券 -> 满足PlayerPoints绑定 -> 使用 PP 接口
+# esp 如果不满足任何绑定且没有配置 '*', 插件将默认: 动作不执行, 条件不满足.
+MultiCurrency:
+  Vault: '*'
+  PlayerPoints: [点券]
+  # GemsEconomy 支持多货币, 所以 VirtualMenu 会将货币名称传递给 GE.
+  GemsEconomy: [铜币, 银币, 金币]
+

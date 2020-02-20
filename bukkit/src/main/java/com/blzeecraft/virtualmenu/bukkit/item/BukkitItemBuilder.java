@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.blzeecraft.virtualmenu.bukkit.BukkitItem;
+import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
 import com.blzeecraft.virtualmenu.bukkit.Settings;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -29,7 +29,7 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 		this.id = FALLBACK.getType().name();
 	}
 
-	public BukkitItemBuilder(BukkitItem bukkitItem) {
+	public BukkitItemBuilder(WrapItemBukkit bukkitItem) {
 		this.id = bukkitItem.getId();
 		this.amount = bukkitItem.getAmount();
 		this.name = bukkitItem.getName();
@@ -38,12 +38,12 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 	}
 
 	@Override
-	public BukkitItem build(LogNode node) {
+	public WrapItemBukkit build(LogNode node) {
 		// id not set
 		if (this.id == null) {
 			PluginLogger.severe(node, "未设置物品ID,请检查配置.");
 			ItemStack item = ItemUtils.setDisplayname(FALLBACK.clone(), "未设置物品ID");
-			return new BukkitItem(item, "");
+			return new WrapItemBukkit(item, "");
 		}
 		StringTokenizer tokenizer = new StringTokenizer(this.id);
 		String mainId = tokenizer.nextToken();
@@ -74,7 +74,7 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 			}
 			return item;
 		}).orElse(FALLBACK);
-		return new BukkitItem(itemStack, this.nbt);
+		return new WrapItemBukkit(itemStack, this.nbt);
 	}
 	
 	private Optional<Byte> parseByte(String s) {

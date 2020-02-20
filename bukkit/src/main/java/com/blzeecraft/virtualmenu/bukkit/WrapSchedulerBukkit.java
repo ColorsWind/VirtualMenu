@@ -8,8 +8,10 @@ import com.blzeecraft.virtualmenu.core.schedule.AbstractTask;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @RequiredArgsConstructor
+@ToString
 public class WrapSchedulerBukkit implements IScheduler {
 	protected final VirtualMenuPlugin plugin;
 	protected final BukkitScheduler scheduler = Bukkit.getScheduler();

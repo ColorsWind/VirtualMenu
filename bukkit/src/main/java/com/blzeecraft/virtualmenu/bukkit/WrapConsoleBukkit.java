@@ -11,9 +11,11 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+@ToString
 @RequiredArgsConstructor
 public class WrapConsoleBukkit implements IUser<ConsoleCommandSender> {
 	

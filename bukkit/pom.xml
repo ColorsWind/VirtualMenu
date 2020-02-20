@@ -68,5 +68,12 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
+
+		<!-- GemsEconomy  -->	
+		<dependency>
+			<groupId>me.xanium</groupId>
+			<artifactId>GemsEconomy</artifactId>
+			<version>4.8.3</version>
+		</dependency>
     </dependencies>
 </project>    

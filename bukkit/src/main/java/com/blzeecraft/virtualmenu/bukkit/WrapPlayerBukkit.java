@@ -11,17 +11,23 @@ import com.blzeecraft.virtualmenu.bukkit.title.TitleAPI;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
-import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.md_5.bungee.api.chat.BaseComponent;
 
-@RequiredArgsConstructor
+@ToString
 public class WrapPlayerBukkit implements IUser<Player> {
 	
 	protected final Player player;
-	protected final VirtualMenuPlugin plugin = VirtualMenuPlugin.getInstance();
-	protected final IEconomyHook economy = plugin.getEconomy();
+	protected final VirtualMenuPlugin plugin;
+	protected final IEconomyHook economy;
 	
 	private volatile UserSession session;
+	
+	public WrapPlayerBukkit(Player player, VirtualMenuPlugin plugin) {
+		this.player = player;
+		this.plugin = plugin;
+		this.economy = plugin.getEconomy();
+	}
 
 	@Override
 	public final Player getHandle() {

@@ -63,8 +63,8 @@ public class BukkitPlatform implements IPlatformAdapter {
 	}
 
 	@Override
-	public BukkitItem emptyItem() {
-		return BukkitItem.EMPTY_ITEM;
+	public WrapItemBukkit emptyItem() {
+		return WrapItemBukkit.EMPTY_ITEM;
 	}
 
 	@Override

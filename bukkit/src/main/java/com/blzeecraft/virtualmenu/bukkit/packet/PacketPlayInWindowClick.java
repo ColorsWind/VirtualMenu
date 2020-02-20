@@ -2,7 +2,7 @@ package com.blzeecraft.virtualmenu.bukkit.packet;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.bukkit.BukkitItem;
+import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInWindowClick;
 import com.blzeecraft.virtualmenu.core.packet.ClickMode;
@@ -53,7 +53,7 @@ public class PacketPlayInWindowClick extends AbstractPacketInWindowClick<PacketC
 	@Override
 	public AbstractItem<?> getClickedItem() {
 		ItemStack clickedItem = packet.getItemModifier().read(0);
-		return new BukkitItem(clickedItem);
+		return new WrapItemBukkit(clickedItem);
 	}
 
 	@Override
