@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.IUser;
@@ -13,46 +16,51 @@ public class CommandHandler {
 	private static final Map<String, Collection<CommandMeta>> COMMAND = new HashMap<>();
 
 	public boolean process(IUser<?> sender, String label, String[] args) {
-		if (args.length == 0) {
+		if (args.length == 0) { // 无参数命令
 			sendHelp(sender, label);
 			return true;
 		}
 		Collection<CommandMeta> possibleMatch = COMMAND.get(args[0].toLowerCase());
-		if (possibleMatch == null) {
+		if (possibleMatch == null) { // 找不到子命令
 			sender.sendMessageWithPrefix("§c找不到子命令: ", args[0]);
-			for(Entry<String, Collection<CommandMeta>> entry : COMMAND.entrySet()) {
-				if (calculateSimilarity(entry.getKey(), args[0]) > 0.75F) {
-					suggestCommand(sender, label, entry.getValue());
-				} else {
-					sender.sendMessageWithPrefix("§a输入 /", label, " 可查看可用的命令.");
-				}
+			Set<CommandMeta> toSuggest = COMMAND.entrySet().stream()
+					.filter(entry -> calculateSimilarity(entry.getKey(), args[0]) > 0.75F).map(Entry::getValue)
+					.flatMap(Collection::stream).collect(Collectors.toSet());
+			if (toSuggest.size() == 0) {
+				sender.sendMessageWithPrefix("§a输入 /", label, " 可查看可用的命令.");
+			} else {
+				suggestCommand(sender, label, toSuggest);
 			}
 			return true;
+		} 
+		// 找到子命令
+		Optional<CommandMeta> match = possibleMatch.stream().filter(meta -> meta.getRequireArgsCount() == args.length - 1).findFirst();
+		if (match.isPresent()) { 
+			// 参数个数正确
+			return match.get().invoke(sender, args);
+		}  else {
+			//参数个数错误
+			sender.sendMessageWithPrefix("§c参数个数不正确");
+			suggestCommand(sender, label, possibleMatch);
+			return true;
 		}
-		for(CommandMeta meta : possibleMatch) {
-			if (meta.getRequireArgsCount() == args.length -1) {
-				return meta.invoke(sender, args);
-			}
-		}
-		sender.sendMessageWithPrefix("§c参数个数不正确");
-		suggestCommand(sender, label, possibleMatch);
-		return true;
 	}
 
 	private void sendHelp(IUser<?> sender, String label) {
 		sender.sendMessageWithPrefix("§a~~~~~~ §e§lVirtualMenu Help §a~~~~~");
-		COMMAND.values().stream().flatMap(Collection::stream).distinct().filter(CommandMeta::visable).forEach(meta -> {
-			sender.sendMessage("§a/" , label, " ", meta.getUsage());
-		});	
-		
-		
+		COMMAND.values().stream().flatMap(Collection::stream).distinct().filter(CommandMeta::visable)
+				.filter(meta -> !(meta.isPlayerOnly() && sender.isConsole())).forEach(meta -> {
+					sender.sendMessage("§a/", label, " ", meta.getUsage());
+				});
+
 	}
 
 	private void suggestCommand(IUser<?> sender, String label, Collection<CommandMeta> command) {
 		sender.sendMessageWithPrefix("§a是想输入这些命令吗? ");
-		command.stream().filter(CommandMeta::visable).forEach(meta -> {
-			sender.sendMessage("§b/" , label, " ", meta.getUsage());
-		});	
+		command.stream().filter(CommandMeta::visable).filter(meta -> !(meta.isPlayerOnly() && sender.isConsole()))
+				.forEach(meta -> {
+					sender.sendMessage("§b/", label, " ", meta.getUsage());
+				});
 		sender.sendMessageWithPrefix("§a输入 /", label, " 可查看帮助.");
 	}
 

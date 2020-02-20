@@ -111,6 +111,14 @@ public class CommandMeta {
 	public boolean invoke(IUser<?> sender, String[] args) {
 		// args: arg1, arg2 ...
 		// parameters: callstack, arg1, arg2, ...
+		if (sender.isConsole() && this.playerOnly) {
+			sender.sendMessageWithPrefix("§c该命令只能由玩家执行.");
+			return true;
+		}
+		if (this.requirePermission.isPresent() && !sender.hasPermission(this.requirePermission.get())) {
+			sender.sendMessageWithPrefix("§c你没有权限执行该命令.");
+			return true;
+		}
 		Object[] parameters = new Object[args.length + 1];
 		for (int i = 0; i < args.length; i++) {
 			try {
