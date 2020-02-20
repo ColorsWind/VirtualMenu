@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.core;
 import java.io.File;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
@@ -82,9 +83,19 @@ public interface IPlatformAdapter {
 	IScheduler getScheduler();
 
 	
-	
+	/**
+	 * 获取适配器的版本.
+	 * @return 版本
+	 */
+	String getVersion();
 
-
+	/**
+	 * 获取日志输出器.
+	 * @return 日志输出器
+	 */
+	default Logger getLogger() {
+		return Logger.getLogger("VirtualMenu");
+	}
 
 	
 	

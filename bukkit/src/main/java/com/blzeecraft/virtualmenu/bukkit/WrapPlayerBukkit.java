@@ -16,17 +16,15 @@ import net.md_5.bungee.api.chat.BaseComponent;
 
 @ToString
 public class WrapPlayerBukkit implements IUser<Player> {
-	
+
 	protected final Player player;
 	protected final VirtualMenuPlugin plugin;
-	protected final IEconomyHook economy;
-	
+
 	private volatile UserSession session;
-	
-	public WrapPlayerBukkit(Player player, VirtualMenuPlugin plugin) {
+
+	public WrapPlayerBukkit(VirtualMenuPlugin plugin, Player player) {
 		this.player = player;
 		this.plugin = plugin;
-		this.economy = plugin.getEconomy();
 	}
 
 	@Override
@@ -53,12 +51,11 @@ public class WrapPlayerBukkit implements IUser<Player> {
 	public void sendMessage(String msg) {
 		this.player.sendMessage(msg);
 	}
-	
+
 	@Override
 	public void sendMessage(String... msg) {
 		this.player.sendMessage(msg);
 	}
-	
 
 	@Override
 	public void sendPluginMessage(String channel, byte[] byteArray) {
@@ -82,17 +79,26 @@ public class WrapPlayerBukkit implements IUser<Player> {
 
 	@Override
 	public OptionalDouble getBanlance(String currency) {
-		return this.economy.getBanlance(player, currency);
+		return this.plugin.getEconomy(currency).map(econ -> econ.getBanlance(player, currency))
+				.orElse(OptionalDouble.empty());
 	}
 
 	@Override
 	public boolean deposit(String currency, double amount) {
-		return this.economy.deposit(player, currency, amount);
+		Optional<IEconomyHook> econ = this.plugin.getEconomy(currency);
+		if (econ.isPresent()) {
+			return econ.get().deposit(player, currency, amount);
+		}
+		return false;
 	}
 
 	@Override
 	public boolean withdraw(String currency, double amount) {
-		return this.economy.withdraw(player, currency, amount);
+		Optional<IEconomyHook> econ = this.plugin.getEconomy(currency);
+		if (econ.isPresent()) {
+			return econ.get().withdraw(player, currency, amount);
+		}
+		return false;
 	}
 
 	@Override
@@ -125,19 +131,19 @@ public class WrapPlayerBukkit implements IUser<Player> {
 	@Override
 	public void sendTitle(String title) {
 		TitleAPI.sendTitle(player, title, "");
-		
+
 	}
 
 	@Override
 	public void sendTitle(String title, String subTitle, int fadeIn, int stay, int fadeOut) {
 		TitleAPI.sendTitle(player, title, subTitle, fadeIn, stay, fadeOut);
-		
+
 	}
 
 	@Override
 	public void playSound(String sound, float volume, float pitch) {
 		this.player.playSound(this.player.getLocation(), sound, volume, pitch);
-		
+
 	}
 
 	@Override
@@ -157,8 +163,7 @@ public class WrapPlayerBukkit implements IUser<Player> {
 
 	@Override
 	public void updateInventory() {
-		player.updateInventory();	
+		player.updateInventory();
 	}
-
 
 }

@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
-import com.blzeecraft.virtualmenu.bukkit.Settings;
+import com.blzeecraft.virtualmenu.bukkit.conf.Settings;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;

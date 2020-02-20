@@ -2,7 +2,6 @@ package com.blzeecraft.virtualmenu.bukkit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -58,19 +57,6 @@ public class ReflectUtils {
 		return new ItemStack(Material.AIR);
 	}
 
-	public static Player[] getPlayerOnline() {
-		try {
-			Method method = Bukkit.class.getMethod("getOnlinePlayers");
-			if (method.getReturnType().isArray()) {
-				return (Player[]) method.invoke(null);
-			} else {
-				return ((Collection<?>) method.invoke(null)).toArray(new Player[0]);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new Player[0];
-	}
 
 	public static ItemStack asNMSCopy(ItemStack original) {
 		try {

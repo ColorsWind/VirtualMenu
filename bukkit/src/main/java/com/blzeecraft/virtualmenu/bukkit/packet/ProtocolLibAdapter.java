@@ -3,8 +3,10 @@ package com.blzeecraft.virtualmenu.bukkit.packet;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Supplier;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.blzeecraft.virtualmenu.bukkit.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.bukkit.item.XMaterial;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
@@ -14,6 +16,7 @@ import com.blzeecraft.virtualmenu.core.packet.AbstractWindowPacket;
 import com.blzeecraft.virtualmenu.core.packet.IPacketAdapter;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
 
 public class ProtocolLibAdapter implements IPacketAdapter {
@@ -39,6 +42,19 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 		}
 	}
 
+	private final VirtualMenuPlugin plugin;
+	private final ProtocolManager protocolManager;
+	private final PacketCloseWindowHandler closeHandler;
+	private final PacketCloseWindowHandler clickHandler;
+
+
+	public ProtocolLibAdapter(VirtualMenuPlugin plugin) {
+		this.plugin = plugin;
+		this.protocolManager = ProtocolLibrary.getProtocolManager();
+		this.closeHandler = new PacketCloseWindowHandler(plugin);
+		this.clickHandler = new PacketCloseWindowHandler(plugin);
+	}
+
 	@Override
 	public AbstractPacketOutCloseWindow<?> createPacketCloseWindow() {
 		return SUPPLIER_CLOSE_WINDOW.get();
@@ -61,9 +77,19 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 
 	@Override
 	public void sendServerPacket(IUser<?> user, AbstractWindowPacket<?> packet) throws InvocationTargetException {
-		ProtocolLibrary.getProtocolManager().sendServerPacket((Player) user.getHandle(),
+		protocolManager.sendServerPacket((Player) user.getHandle(),
 				(PacketContainer) packet.getHandle());
 	}
-	
+
+	@Override
+	public String getVersion() {
+		return "ProtocolLib PacketAdapter";
+	}
+
+	public void registerEvent() {
+		protocolManager.addPacketListener(clickHandler);
+		protocolManager.addPacketListener(closeHandler);
+		Bukkit.getPluginManager().registerEvents(closeHandler, plugin);
+	}
 
 }

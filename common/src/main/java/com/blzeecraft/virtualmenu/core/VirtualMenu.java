@@ -3,9 +3,12 @@ package com.blzeecraft.virtualmenu.core;
 import java.io.File;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.packet.IPacketAdapter;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
@@ -25,6 +28,16 @@ public class VirtualMenu {
 	private static IPacketAdapter packetAdapter;
 	private static IPlatformAdapter platformAdapter;
 
+	public static void setup(IPacketAdapter packetAdapter) {
+		VirtualMenu.packetAdapter = packetAdapter;
+		PluginLogger.info(LogNode.ROOT, "使用 PacketAdapter: " + platformAdapter.getVersion());
+	}
+	
+	public static void setup(IPlatformAdapter platformAdapter) {
+		VirtualMenu.platformAdapter = platformAdapter;
+		PluginLogger.info(LogNode.ROOT, "使用 PlatformAdapter: " + platformAdapter.getVersion());
+	}
+	
 	/**
 	 * @return
 	 * @see IPlatformAdapter#getUsersOnline()
@@ -108,6 +121,14 @@ public class VirtualMenu {
 	public static IScheduler getScheduler() {
 		return platformAdapter.getScheduler();
 	}
+	
+	/**
+	 * @return
+	 * @see IPlatformAdapter#getLogger()
+	 */
+	public static Logger getLogger() {
+		return platformAdapter.getLogger();
+	}
 
 	/**
 	 * 获取服务端平台适配器.
@@ -126,5 +147,8 @@ public class VirtualMenu {
 	public static IPacketAdapter getPacketAdapter() {
 		return packetAdapter;
 	}
+
+
+
 
 }

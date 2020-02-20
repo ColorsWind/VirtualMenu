@@ -50,4 +50,6 @@ public interface IPacketAdapter {
 
 	}
 	
+	String getVersion();
+	
 }

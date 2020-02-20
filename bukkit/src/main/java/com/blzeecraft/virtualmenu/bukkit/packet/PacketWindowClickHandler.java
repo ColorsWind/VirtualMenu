@@ -12,7 +12,7 @@ import com.comphenix.protocol.events.PacketEvent;
 public class PacketWindowClickHandler  extends PacketAdapter {
 	private final BukkitPlatform platform;
 
-	public PacketWindowClickHandler(VirtualMenuPlugin plugin, PacketManager manager) {
+	public PacketWindowClickHandler(VirtualMenuPlugin plugin) {
 		super(plugin, ListenerPriority.MONITOR, 
 				PacketType.Play.Client.WINDOW_CLICK);
 		this.platform = plugin.getPlatformAdapter();

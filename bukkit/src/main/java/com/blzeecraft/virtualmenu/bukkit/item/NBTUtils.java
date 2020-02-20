@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.bukkit.inventory.ItemStack;
 
-import com.blzeecraft.virtualmenu.bukkit.Settings;
+import com.blzeecraft.virtualmenu.bukkit.conf.Settings;
 import com.comphenix.protocol.wrappers.nbt.NbtCompound;
 import com.comphenix.protocol.wrappers.nbt.NbtFactory;
 import com.comphenix.protocol.wrappers.nbt.NbtWrapper;

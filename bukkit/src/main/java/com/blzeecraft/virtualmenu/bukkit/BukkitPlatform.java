@@ -1,6 +1,8 @@
 package com.blzeecraft.virtualmenu.bukkit;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -9,6 +11,11 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.blzeecraft.virtualmenu.bukkit.item.BukkitItemBuilder;
 import com.blzeecraft.virtualmenu.core.IPlatformAdapter;
@@ -19,7 +26,7 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BukkitPlatform implements IPlatformAdapter {
+public class BukkitPlatform implements IPlatformAdapter, Listener {
 	
 	private final VirtualMenuPlugin plugin;
 	protected final ConcurrentMap<Player, WrapPlayerBukkit> playerMap;
@@ -31,6 +38,21 @@ public class BukkitPlatform implements IPlatformAdapter {
 		playerMap = new ConcurrentHashMap<>();
 		console = new WrapConsoleBukkit(Bukkit.getConsoleSender());
 		scheduler = new WrapSchedulerBukkit(plugin);
+	}
+	
+	public void registerEvent() {
+		Bukkit.getPluginManager().registerEvents(this, plugin);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void handle(PlayerJoinEvent e) {
+		WrapPlayerBukkit user = new WrapPlayerBukkit(plugin, e.getPlayer());
+		playerMap.put(e.getPlayer(), user);
+	}
+	
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void handle(PlayerQuitEvent e) {
+		playerMap.remove(e.getPlayer());
 	}
 	
 	@Override
@@ -85,9 +107,26 @@ public class BukkitPlatform implements IPlatformAdapter {
 	@Override
 	public IScheduler getScheduler() {
 		return scheduler;
-		
-		
-		 
+	}
+	
+	@Override
+	public String getVersion() {
+		return "BukkitPlatform";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Collection<? extends Player> getPlayerOnline() {
+		try {
+			Method method = Bukkit.class.getMethod("getOnlinePlayers");
+			if (method.getReturnType().isArray()) {
+				return Arrays.asList((Player[]) method.invoke(null));
+			} else {
+				return ((Collection<? extends Player>) method.invoke(null));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return Collections.emptySet();
 	}
 
 }

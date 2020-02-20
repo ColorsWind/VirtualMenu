@@ -15,4 +15,8 @@ MultiCurrency:
   PlayerPoints: [点券]
   # GemsEconomy 支持多货币, 所以 VirtualMenu 会将货币名称传递给 GE.
   GemsEconomy: [铜币, 银币, 金币]
+# 是否启用NBT支持, 启用可支持NBT, 但某些特殊的服务端可能会出现问题.
+SupportNBT: true
+# 是否使用XMaterial提供物品类型高级匹配功能, 如果是MOD服建议关闭.
+UseXMaterial: true
 
