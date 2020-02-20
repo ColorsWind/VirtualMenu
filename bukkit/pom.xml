@@ -101,6 +101,7 @@
 			<groupId>me.xanium</groupId>
 			<artifactId>GemsEconomy</artifactId>
 			<version>4.8.3</version>
+            <scope>provided</scope>
 		</dependency>
     </dependencies>
 </project>    
