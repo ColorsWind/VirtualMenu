@@ -18,7 +18,7 @@ public class StandardMenuFileTest {
 	
 	@Test
 	public void testConvert() throws Exception {
-		File file = new File(".\\main\\resources\\example.yml");
+		File file = new File(".\\src\\main\\resources\\example.yml");
 		Yaml yaml = new Yaml();
 		InputStream ins = new FileInputStream(file);
 		Reader reader = new InputStreamReader(ins, "utf-8");

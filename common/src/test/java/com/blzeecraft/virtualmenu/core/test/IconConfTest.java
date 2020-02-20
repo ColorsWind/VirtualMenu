@@ -18,7 +18,7 @@ public class IconConfTest {
 	
 	@Test
 	public void test() throws IOException {
-		File file = new File(".\\main\\resources\\example.yml");
+		File file = new File(".\\src\\main\\resources\\example.yml");
 		FileToMapFactory.register(new YamlReader());
 		
 		LogNode fNode = LogNode.of(file.getName());
