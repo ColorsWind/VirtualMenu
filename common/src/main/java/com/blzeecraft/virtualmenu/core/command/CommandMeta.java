@@ -1,10 +1,13 @@
 package com.blzeecraft.virtualmenu.core.command;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.menu.MenuManager;
@@ -18,6 +21,7 @@ import lombok.ToString;
 
 /**
  * 代表一个一个合法的 CommandHandler.
+ * 
  * @author colors_wind
  * @date 2020-02-15
  */
@@ -67,7 +71,12 @@ public class CommandMeta {
 			return MenuManager.getMenu(s).orElseThrow(() -> new IllegalCommandArgumentException("§a找不到菜单 %arg%."));
 		});
 	}
-	
+
+	public static List<CommandMeta> analysis(Object instance) {
+		return Arrays.stream(instance.getClass().getMethods()).filter(method -> method.getAnnotation(Usage.class) != null)
+				.map(method -> analysis(instance, method)).collect(Collectors.toList());
+	}
+
 	public static CommandMeta analysis(Object instance, Method method) {
 		boolean playerOnly = method.getAnnotation(PlayerOnly.class) != null;
 		String usage = method.getAnnotation(Usage.class).value();
@@ -102,11 +111,10 @@ public class CommandMeta {
 	public int getRequireArgsCount() {
 		return requireArgs.length;
 	}
-	
+
 	public boolean visable() {
 		return !usage.isEmpty();
 	}
-
 
 	public boolean invoke(IUser<?> sender, String[] args) {
 		// args: arg1, arg2 ...

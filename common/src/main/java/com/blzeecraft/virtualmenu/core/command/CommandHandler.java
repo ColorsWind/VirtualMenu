@@ -1,19 +1,58 @@
 package com.blzeecraft.virtualmenu.core.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.blzeecraft.virtualmenu.core.command.extension.CommandList;
+import com.blzeecraft.virtualmenu.core.command.extension.CommandOpenMenu;
+import com.blzeecraft.virtualmenu.core.command.extension.CommandReload;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 
 public class CommandHandler {
 	public static final LogNode LOG_NODE = LogNode.of("#CommandHandler");
 	private static final Map<String, Collection<CommandMeta>> COMMAND = new HashMap<>();
+	static {
+		registerCommand(new CommandList());
+		registerCommand(new CommandOpenMenu());
+		registerCommand(new CommandReload());
+	}
+	/**
+	 * 注册命令.
+	 * @param command
+	 * @return 成功添加的子命令个数, 命令名不同的子命令会单独计算.
+	 */
+	public static int registerCommand(SubCommandBase command) {
+		List<String> firstArgument = Arrays.stream(command.name).map(String::toLowerCase).collect(Collectors.toList());
+		long successTotal = CommandMeta.analysis(command).stream().mapToInt(meta -> {
+			int success = (int) firstArgument.stream().mapToInt(name -> {
+				Collection<CommandMeta> registered = COMMAND.get(name);
+				if (registered == null) {
+					COMMAND.put(name, new ArrayList<>(Arrays.asList(meta)));
+					return 1;
+				} else {
+					if (registered.stream().anyMatch(
+							registeredMeta -> meta.getRequireArgsCount() == registeredMeta.getRequireArgsCount())) {
+						return 0;
+					} else {
+						registered.add(meta);
+						return 1;
+					}
+				}
+			}).count();
+			return success;
+		}).count();
+
+		return (int) successTotal;
+	}
 
 	public static boolean process(IUser<?> sender, String label, String[] args) {
 		if (args.length == 0) { // 无参数命令
@@ -32,14 +71,15 @@ public class CommandHandler {
 				suggestCommand(sender, label, toSuggest);
 			}
 			return true;
-		} 
+		}
 		// 找到子命令
-		Optional<CommandMeta> match = possibleMatch.stream().filter(meta -> meta.getRequireArgsCount() == args.length - 1).findFirst();
-		if (match.isPresent()) { 
+		Optional<CommandMeta> match = possibleMatch.stream()
+				.filter(meta -> meta.getRequireArgsCount() == args.length - 1).findFirst();
+		if (match.isPresent()) {
 			// 参数个数正确
 			return match.get().invoke(sender, args);
-		}  else {
-			//参数个数错误
+		} else {
+			// 参数个数错误
 			sender.sendMessageWithPrefix("§c参数个数不正确");
 			suggestCommand(sender, label, possibleMatch);
 			return true;
