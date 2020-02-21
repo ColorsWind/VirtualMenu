@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
-import com.blzeecraft.virtualmenu.core.conf.LineConfigObject;
-import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.conf.line.LineConfigObject;
+import com.blzeecraft.virtualmenu.core.conf.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;

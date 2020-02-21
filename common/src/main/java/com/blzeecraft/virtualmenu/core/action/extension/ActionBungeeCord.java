@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.Action;
-import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
+import com.blzeecraft.virtualmenu.core.conf.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 

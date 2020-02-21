@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
-import com.blzeecraft.virtualmenu.core.conf.LineConfigParser;
-import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
@@ -52,7 +52,7 @@ public class ActionUtils {
 	public static IAction parse(LogNode node, List<String> lines) {
 		List<IAction> actions = new ArrayList<>(lines.size());
 		for (int i = 0; i < lines.size(); i++) {
-			val subNode = node.sub("L" + i);
+			val subNode = node.sub("L" + (i + 1));
 			val action = parse(subNode, lines.get(i));
 			if (action != EMPTY_ACTION) {
 				actions.add(action);

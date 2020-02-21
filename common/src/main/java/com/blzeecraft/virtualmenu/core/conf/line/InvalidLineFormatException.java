@@ -1,10 +1,12 @@
-package com.blzeecraft.virtualmenu.core.conf.exception;
+package com.blzeecraft.virtualmenu.core.conf.line;
+
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 
 /**
- * 尝试解析一个无效的字符串抛出的异常
+ * 表示尝试解析一个命令(LineCommand)个数不正确时出现的异常.
  * @author colors_wind
  */
-public class InvalidLineFormatException extends RuntimeException {
+public class InvalidLineFormatException extends InvalidConfigException {
 
 	/**
 	 * 

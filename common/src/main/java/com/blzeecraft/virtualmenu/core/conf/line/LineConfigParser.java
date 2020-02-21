@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf;
+package com.blzeecraft.virtualmenu.core.conf.line;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,9 +15,7 @@ import com.blzeecraft.virtualmenu.core.action.extension.ActionTitle;
 import com.blzeecraft.virtualmenu.core.condition.extension.ConditionEconomy;
 import com.blzeecraft.virtualmenu.core.condition.extension.ConditionLevel;
 import com.blzeecraft.virtualmenu.core.condition.extension.ConditionPermission;
-import com.blzeecraft.virtualmenu.core.conf.exception.InvalidConfigException;
-import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
-import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineCommandException;
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.AccessLevel;

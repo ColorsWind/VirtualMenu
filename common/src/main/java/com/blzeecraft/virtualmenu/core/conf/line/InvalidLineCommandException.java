@@ -1,6 +1,6 @@
 package com.blzeecraft.virtualmenu.core.conf.line;
 
-import com.blzeecraft.virtualmenu.core.conf.exception.InvalidConfigException;
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 
 public class InvalidLineCommandException extends InvalidConfigException {
 

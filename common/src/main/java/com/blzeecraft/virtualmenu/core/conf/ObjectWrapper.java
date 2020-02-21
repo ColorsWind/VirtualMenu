@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf.standardize;
+package com.blzeecraft.virtualmenu.core.conf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +16,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.blzeecraft.virtualmenu.core.conf.exception.MissingRequiredObjectException;
-import com.blzeecraft.virtualmenu.core.conf.exception.ObjectConvertException;
+import com.blzeecraft.virtualmenu.core.conf.line.MissingRequiredObjectException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.val;

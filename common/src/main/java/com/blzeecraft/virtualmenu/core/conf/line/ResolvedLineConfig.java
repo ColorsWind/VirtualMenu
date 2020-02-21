@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf;
+package com.blzeecraft.virtualmenu.core.conf.line;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -11,9 +11,8 @@ import java.util.OptionalLong;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import com.blzeecraft.virtualmenu.core.conf.exception.MissingRequiredObjectException;
-import com.blzeecraft.virtualmenu.core.conf.exception.ObjectConvertException;
-import com.blzeecraft.virtualmenu.core.conf.standardize.ObjectWrapper;
+import com.blzeecraft.virtualmenu.core.conf.ObjectConvertException;
+import com.blzeecraft.virtualmenu.core.conf.ObjectWrapper;
 
 import lombok.NonNull;
 import lombok.ToString;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.conf.LineConfigParser;
-import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 

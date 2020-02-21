@@ -1,11 +1,13 @@
-package com.blzeecraft.virtualmenu.core.conf.exception;
+package com.blzeecraft.virtualmenu.core.conf.line;
+
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 
 /**
- * 尝试读取解析的配置中一个无效的元素(如不存在,类型不正确)时抛出的移除 
+ * 表示尝试解析配置时检查发现元素类型不正确时异常.
  * @author colors_wind
  *
  */
-public class InvalidObjectException extends RuntimeException {
+public class InvalidObjectException extends InvalidConfigException {
 
 
 
