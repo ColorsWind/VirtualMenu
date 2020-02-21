@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.core.conf.standardize;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import lombok.ToString;
@@ -23,18 +24,20 @@ public class StandardConf extends SubConf {
 		public List<String> bound;
 	}
 	
+	@ObjectType(EventConf.class)
 	public Map<String, EventConf> events;
 	@ToString public static class EventConf extends SubConf {
 		public List<String> condtion;
 		public List<String> action;
 	}
 	
+	@ObjectType(IconConf.class)
 	public Map<String, IconConf> icons;
 	@ToString public static class IconConf extends SubConf {
-		public String name;
+		public Optional<String> name;
 		public String id;
-		public int amount;
-		public String nbt;
+		public OptionalInt amount;
+		public Optional<String> nbt;
 		public List<String> lore;
 		public List<String> action;
 		public List<String> view_condition;

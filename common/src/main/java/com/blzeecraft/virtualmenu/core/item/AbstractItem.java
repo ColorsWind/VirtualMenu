@@ -23,33 +23,24 @@ public abstract class AbstractItem<T> implements IWrappedObject<T> {
 	protected final List<String> lore;
 	protected final String nbt;
 	
-	protected final String[] copyOfLore;
+	//protected final String[] copyOfLore;
 	
 	protected AbstractItem(T handle, String id, int amount, String name, List<String> lore, String nbt) {
 		this.handle = handle;
 		this.id = id;
 		this.amount = amount;
 		this.name = name;
-		this.lore = Collections.unmodifiableList(lore);
+		this.lore = lore == null ? Collections.emptyList() : Collections.unmodifiableList(lore);
 		this.nbt = nbt;
-		this.copyOfLore = lore.toArray(new String[lore.size()]);
+		//this.copyOfLore = lore.toArray(new String[lore.size()]);
 	}
 	
 	protected AbstractItem(T handle, String id, int amount, String name, List<String> lore) {
-		this.handle = handle;
-		this.id = id;
-		this.amount = amount;
-		this.name = name;
-		this.lore = Collections.unmodifiableList(lore);
-		this.nbt = "";
-		this.copyOfLore = lore.toArray(new String[0]);
+		this(handle, id, amount, name, lore, null);
 	}
 	
 	public abstract AbstractItemBuilder<T> builder();
 	
-	public String[] getCopyOfLore() {
-		return copyOfLore.clone();
-	}
 
 	public abstract boolean isEmpty();
 	

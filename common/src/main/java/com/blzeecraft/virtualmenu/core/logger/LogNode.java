@@ -14,7 +14,7 @@ import lombok.ToString;
 public final class LogNode {
 	public static final String SPLIT = ">";
 	public static final String LIST_SUFFIX = "!";
-	public static final LogNode ROOT = new LogNode("root");
+	public static final LogNode ROOT = new LogNode("");
 
 	
 	// 上级LogNode

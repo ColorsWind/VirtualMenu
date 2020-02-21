@@ -119,9 +119,9 @@ public class ConfToMenuFactory {
 	public static AbstractItem<?> readItem(LogNode node, IconConf conf) {
 		AbstractItemBuilder<?> iBuilder = VirtualMenu.createItemBuilder();
 		iBuilder.id(conf.id);
-		iBuilder.amount(conf.amount);
-		iBuilder.nbt(conf.nbt);
-		iBuilder.name(conf.name);
+		iBuilder.amount(conf.amount.orElse(1));
+		iBuilder.nbt(conf.nbt.orElse(null));
+		iBuilder.name(conf.name.orElse(null));
 		iBuilder.lore(conf.lore);
 		AbstractItem<?> item = iBuilder.build(node);
 		return item;

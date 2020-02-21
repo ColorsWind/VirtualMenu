@@ -30,7 +30,7 @@ public class VirtualMenu {
 
 	public static void setup(IPacketAdapter packetAdapter) {
 		VirtualMenu.packetAdapter = packetAdapter;
-		PluginLogger.info(LogNode.ROOT, "使用 PacketAdapter: " + platformAdapter.getVersion());
+		PluginLogger.info(LogNode.ROOT, "使用 PacketAdapter: " + packetAdapter.getVersion());
 	}
 	
 	public static void setup(IPlatformAdapter platformAdapter) {

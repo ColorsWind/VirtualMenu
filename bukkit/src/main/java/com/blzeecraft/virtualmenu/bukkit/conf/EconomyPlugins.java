@@ -45,7 +45,7 @@ public enum EconomyPlugins {
 	public void readIsEnable(ConfigurationSection sect) {
 		if (sect.getBoolean(name)) {
 			IEconomyHook hook = supplier.get();
-			if (hook.isPluginInstall()) {
+			if (hook.isPluginInstall() && hook.register()) {
 				instance = hook;
 			}
 		}
@@ -65,7 +65,7 @@ public enum EconomyPlugins {
 	public static void rebuildMapping() {
 		defaultEconomy = Arrays.stream(values()).filter(type -> type.currency == null).findFirst()
 				.map(EconomyPlugins::getInstance);
-		mapCurrency = Arrays.stream(values()).flatMap(type -> {
+		mapCurrency = Arrays.stream(values()).filter(EconomyPlugins::isEnable).filter(type -> type.currency != null).flatMap(type -> {
 			return type.currency.stream().map(currencyName -> {
 				Map<String, IEconomyHook> map = new HashMap<>(1);
 				map.put(currencyName, type.instance);

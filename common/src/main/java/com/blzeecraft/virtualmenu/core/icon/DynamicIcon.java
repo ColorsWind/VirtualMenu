@@ -47,7 +47,7 @@ public class DynamicIcon extends SimpleIcon {
 			IAction command, BiFunction<String, IUser<?>, String> replacer) {
 		this(node, priority, cache, clickCondition, viewCondition, command, user -> replacer.apply(cache.getName(), user),
 				user -> {
-					String[]  lores = cache.getCopyOfLore();
+					String[]  lores = cache.getLore().toArray(new String[0]);
 					for (int i = 0; i < lores.length; i++) {
 						lores[i] = replacer.apply(lores[i], user);
 					}

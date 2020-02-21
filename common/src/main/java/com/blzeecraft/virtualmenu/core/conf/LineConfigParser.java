@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 
 import com.blzeecraft.virtualmenu.core.conf.exception.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineCommandException;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
 import lombok.AccessLevel;
@@ -116,10 +117,10 @@ public class LineConfigParser {
 		if (index < 0) {
 			throw new InvalidLineFormatException(LineConfigParser.ERROR_FORMAT_LEFT_BRACES);
 		}
-		String prefix = s.substring(0, index - 1);
+		String prefix = s.substring(0, index);
 		val supplier = REGISTERED.get(prefix.toLowerCase());
 		if (supplier == null) {
-			throw new NullPointerException("前缀为: " + prefix + " 的配置解析器未注册,请检查");
+			throw new InvalidLineCommandException("前缀为: " + prefix + " 的命令不存在, 请检查.");
 		}
 		ResolvedLineConfig lc;
 		try {
