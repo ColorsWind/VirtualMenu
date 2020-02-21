@@ -82,12 +82,14 @@ public class CommandMeta {
 		String usage = method.getAnnotation(Usage.class).value();
 		Optional<String> requirePermission = Optional.ofNullable(method.getAnnotation(RequirePermission.class))
 				.map(RequirePermission::value);
-		// args
+		// method parameters
+		// arg parser = {parser0, parser1, ..., parser(n-2)}
+		// command args = callstack, arg0, arg1, ..., arg(n-1)
 		Class<?>[] parameterTypes = method.getParameterTypes();
 		@SuppressWarnings("unchecked")
-		Function<String, Object>[] argsParsers = new Function[parameterTypes.length];
-		for (int i = 0; i < parameterTypes.length; i++) {
-			Function<String, Object> parser = AVAILABLE_PARSERS.get(parameterTypes[i]);
+		Function<String, Object>[] argsParsers = new Function[parameterTypes.length -1];
+		for (int i = 0; i < argsParsers.length; i++) {
+			Function<String, Object> parser = AVAILABLE_PARSERS.get(parameterTypes[i + 1]);
 			if (parser == null) {
 				throw new IllegalArgumentException(
 						"方法: " + method.toString() + " 不是一个合法的 CommandHandler. 调试信息: 不被支持的参数类型: " + parameterTypes[i]

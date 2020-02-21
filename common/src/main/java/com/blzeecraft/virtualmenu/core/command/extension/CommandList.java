@@ -12,7 +12,7 @@ public class CommandList extends SubCommandBase {
 		super(new String[] { "list" });
 	}
 
-	@Usage("§aopen §c-§a 列出可用的菜单")
+	@Usage("§alist §c-§a 列出可用的菜单")
 	public boolean listMenu(Callstack stack) {
 		IUser<?> sender = stack.getSender();
 		sender.sendMessageWithPrefix("§a可用的菜单列表： ");

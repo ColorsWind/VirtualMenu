@@ -15,11 +15,11 @@ public class CommandReload extends SubCommandBase {
 	}
 	
 	@RequirePermission("virtualmenu.reload")
-	@Usage
+	@Usage("§areload §c-§a 重载配置文件和菜单")
 	public void readPlugin(Callstack stack) {
 		IUser<?> user = stack.getSender();
 		PacketManager.closeAllMenu();
 		MenuManager.reloadMenu();
-		user.sendMessageWithPrefix("§a成功重载配置文件.");
+		user.sendMessageWithPrefix("§a成功重载配置文件和菜单.");
 	}
 }
