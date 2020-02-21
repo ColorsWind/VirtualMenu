@@ -147,11 +147,9 @@ public class CommandMeta {
 				return false;
 			}
 		}
-		Object[] methodParameter = new Object[this.methodParameterType.length];
-		methodParameter[0] = new Callstack(sender, commandArgument);
-		System.arraycopy(conventObject, 1, methodParameter, 1, methodParameter.length - 1);
+		conventObject[0] = new Callstack(sender, commandArgument);
 		try {
-			method.invoke(instance, methodParameter);
+			method.invoke(instance, conventObject);
 		} catch (Exception e) {
 			PluginLogger.warning(CommandHandler.LOG_NODE, "调用 " + method.toString() + "时出错. 调试信息: " + this.toString());
 			e.printStackTrace();
