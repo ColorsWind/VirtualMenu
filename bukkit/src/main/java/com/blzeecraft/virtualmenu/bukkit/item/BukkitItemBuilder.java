@@ -45,7 +45,7 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 			ItemStack item = ItemUtils.setDisplayname(FALLBACK.clone(), "未设置物品ID");
 			return new WrapItemBukkit(item, "");
 		}
-		StringTokenizer tokenizer = new StringTokenizer(this.id);
+		StringTokenizer tokenizer = new StringTokenizer(this.id, ":");
 		String mainId = tokenizer.nextToken();
 		byte dataId = tokenizer.hasMoreTokens() ? parseByte(tokenizer.nextToken()).orElseGet(() -> {
 			PluginLogger.warning(node, "数据附加值 " + this.id.substring(mainId.length()) + " 无效,忽略.");
@@ -104,7 +104,7 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 			if (Settings.useXMaterial) {
 				Optional<XMaterial> optXMaterial = XMaterial.matchXMaterial(mainId, data);
 				Optional<ItemStack> optItem = optXMaterial.map(m -> {
-					PluginLogger.warning(node, "ID无法精确匹配的物品, 使用XMaterial进行搜索, 结果可能不准确.");
+					PluginLogger.warning(node, "无法精确ID =" +  mainId + "的物品, XMaterial使用搜索结果: " + m.parseMaterial().name() +", 可能不准确.");
 					return Optional.of(optXMaterial.get().parseItem());
 				}).orElseGet((() -> {
 					PluginLogger.warning(node, "XMaterial无法找到 ID = " + mainId + ":" + data + " 的物品.");
