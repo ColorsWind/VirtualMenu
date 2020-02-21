@@ -24,39 +24,31 @@ global:
 events:
   # 【可选】左击菜单的边界外
   # 支持condition和action标签，下同
-  left: 
+  LEFT_BORDER_CLICK: 
     condition: []
     action:
     - tell{s=点击左击边界外\,关闭菜单}
-    - closemenu
+    - close
 
 
   # 【可选】右击菜单的边界外
-  right: 
+  RIGHT_BORDER_CLICK: 
     action:
-    - tell{s=点击左击边界外\,关闭菜单}
-    - closemenu
-
-
-  # 【可选】鼠标中键点击边界外
-  # 由于minecraft的bug，只能检测处于创造模式的玩家
-  # https://bugs.mojang.com/browse/MC-46584
-  middle: 
-    action:
-    - tell{s=鼠标中键点击边界外}
+    - tell{s=点击右击边界外\,关闭菜单}
+    - close
 
 
   # 【可选】玩家打开菜单
   # 支持condition和action标签，下同
   # 注:下面给予经验的使玩家可以看到slot3的物品
-  open: 
+  OPEN_MENU: 
     action:
     - 'console{command=minecraft:xp add <player> 200}'
     - tell{s=打开菜单(此项可在events.open配置)}
 
 
   # 【可选】玩家关闭菜单时
-  close: 
+  CLOSE_MENU: 
     action:
     - console{command=say 玩家<player>关闭了菜单(此项可在events.close配置)}
 
@@ -138,3 +130,4 @@ icons:
     - '4.输入/vm reload 重载插件'
     variable:
     - PlaceholderAPI
+    slot: 4
