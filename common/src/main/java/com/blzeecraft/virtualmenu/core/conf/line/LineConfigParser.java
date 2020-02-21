@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 
 import com.blzeecraft.virtualmenu.core.action.extension.ActionActionbar;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionBungeeCord;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionCloseMenu;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionCommand;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionConsoleCommand;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionOpCommand;
@@ -49,6 +50,7 @@ public class LineConfigParser {
 		registerLineCommand("open", ActionOpenMenu::new);
 		registerLineCommand("tell", ActionTell::new);
 		registerLineCommand("title", ActionTitle::new);
+		registerLineCommand("close", ActionCloseMenu::new);
 		registerLineCommand("money", ConditionEconomy::new);
 		registerLineCommand("permission", ConditionPermission::new);
 		registerLineCommand("level", ConditionLevel::new);
@@ -61,6 +63,9 @@ public class LineConfigParser {
 	 * @throws InvalidLineFormatException 如果无法解析该字符串
 	 */
 	public static ResolvedLineConfig parseEnclose(@NonNull String s) throws InvalidLineFormatException {
+		if (!s.startsWith("{") && !s.endsWith("}")) {
+			return ResolvedLineConfig.EMPTY;
+		}
 		if (!s.startsWith("{")) {
 			throw new InvalidLineFormatException(ERROR_FORMAT_LEFT_BRACES);
 		}
@@ -69,6 +74,7 @@ public class LineConfigParser {
 		}
 		return parseLine(s.substring(1, s.length() - 1));
 	}
+
 
 	/**
 	 * 用于解析单行字符串如s=Testing,b=boolean

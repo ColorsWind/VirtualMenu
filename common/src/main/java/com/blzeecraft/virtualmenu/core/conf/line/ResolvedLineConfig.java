@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.core.conf.line;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,5 +95,8 @@ public class ResolvedLineConfig {
 			return EnumSet.copyOf(set);
 		});
 	}
+
+
+	public static ResolvedLineConfig EMPTY = new ResolvedLineConfig(Collections.emptyMap());
 
 }
