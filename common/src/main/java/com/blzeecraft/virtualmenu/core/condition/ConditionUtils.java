@@ -34,7 +34,7 @@ public class ConditionUtils {
 		try {
 			return LineConfigParser.parseFull(node, line, Condition.class);
 		} catch (InvalidConfigException e) {
-			PluginLogger.severe(node, line);
+			PluginLogger.warning(node, line);
 		}
 		PluginLogger.severe(node, "解析条件时发送严重错误, 已跳过该行.");
 		return EMPTY_CONDITION;

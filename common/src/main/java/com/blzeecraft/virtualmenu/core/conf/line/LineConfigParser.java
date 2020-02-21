@@ -63,7 +63,7 @@ public class LineConfigParser {
 	 * @throws InvalidLineFormatException 如果无法解析该字符串
 	 */
 	public static ResolvedLineConfig parseEnclose(@NonNull String s) throws InvalidLineFormatException {
-		if (!s.startsWith("{") && !s.endsWith("}")) {
+		if (s.isEmpty()) {
 			return ResolvedLineConfig.EMPTY;
 		}
 		if (!s.startsWith("{")) {
@@ -143,7 +143,11 @@ public class LineConfigParser {
 			throws InvalidConfigException {
 		int index = s.indexOf("{");
 		if (index < 0) {
-			throw new InvalidLineFormatException(LineConfigParser.ERROR_FORMAT_LEFT_BRACES);
+			if (s.endsWith("}")) {
+				throw new InvalidLineFormatException(LineConfigParser.ERROR_FORMAT_LEFT_BRACES);
+			}
+			// s是简略写法
+			index = s.length();
 		}
 		String prefix = s.substring(0, index);
 		val supplier = REGISTERED.get(prefix.toLowerCase());

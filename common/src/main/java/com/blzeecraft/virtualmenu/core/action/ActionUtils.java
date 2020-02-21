@@ -36,7 +36,7 @@ public class ActionUtils {
 		try {
 			return LineConfigParser.parseFull(node, line, Action.class);
 		} catch (InvalidConfigException e) {
-			PluginLogger.severe(node, line);
+			PluginLogger.warning(node, line);
 		}
 		PluginLogger.severe(node, "解析动作时发送严重错误, 已跳过该行.");
 		return EMPTY_ACTION;
