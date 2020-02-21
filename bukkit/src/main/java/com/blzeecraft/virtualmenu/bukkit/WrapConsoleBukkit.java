@@ -44,7 +44,7 @@ public class WrapConsoleBukkit implements IUser<ConsoleCommandSender> {
 
 	@Override
 	public void sendMessage(String msg) {
-		this.sendMessage(msg);
+		console.sendMessage(msg);
 		
 	}
 
