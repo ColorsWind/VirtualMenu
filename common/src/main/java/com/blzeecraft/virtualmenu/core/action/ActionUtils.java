@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
-import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.conf.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
@@ -35,7 +35,7 @@ public class ActionUtils {
 	public static IAction parse(LogNode node, String line) {
 		try {
 			return LineConfigParser.parseFull(node, line, Action.class);
-		} catch (InvalidLineFormatException e) {
+		} catch (InvalidConfigException e) {
 			PluginLogger.severe(node, line);
 		}
 		PluginLogger.severe(node, "解析动作时发送严重错误, 已跳过该行.");

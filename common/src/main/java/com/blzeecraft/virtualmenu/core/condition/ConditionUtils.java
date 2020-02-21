@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineFormatException;
+import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.conf.line.LineConfigParser;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
@@ -33,7 +33,7 @@ public class ConditionUtils {
 	public static ICondition parse(LogNode node, String line) {
 		try {
 			return LineConfigParser.parseFull(node, line, Condition.class);
-		} catch (InvalidLineFormatException e) {
+		} catch (InvalidConfigException e) {
 			PluginLogger.severe(node, line);
 		}
 		PluginLogger.severe(node, "解析条件时发送严重错误, 已跳过该行.");
