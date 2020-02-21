@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.conf.LineConfigObject;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -23,20 +24,19 @@ import com.blzeecraft.virtualmenu.core.menu.ClickType;
  * @author colors_wind
  * @date 2020-02-10
  */
-public abstract class Condition implements ICondition, LoggerObject {
+public abstract class Condition extends LineConfigObject implements ICondition, LoggerObject {
 
-	protected final LogNode node;
 	protected final String message;
 	protected final Set<ClickType> types;
 
 	public Condition(LogNode node, ResolvedLineConfig rlc) {
-		this.node = node;
+		super(node);
 		this.message = rlc.getAsOptString("msg").orElse("");
 		this.types = rlc.getAsOptEnumSet("click", ClickType.class).orElse(EnumSet.allOf(ClickType.class));
 	}
 
 	public Condition(LogNode node) {
-		this.node = node;
+		super(node);
 		this.message = "";
 		this.types = EnumSet.allOf(ClickType.class);
 	}

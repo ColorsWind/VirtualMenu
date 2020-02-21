@@ -2,7 +2,6 @@ package com.blzeecraft.virtualmenu.core.conf;
 
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
-import com.google.gson.JsonObject;
 
 /**
  * 代表一个由解析的配置映射得到的对象
@@ -14,7 +13,7 @@ public abstract class LineConfigObject implements LoggerObject {
 	protected final LogNode node;
 
 	
-	public LineConfigObject(LogNode node, JsonObject json) {
+	public LineConfigObject(LogNode node, ResolvedLineConfig rlc) {
 		this(node);
 	}
 	

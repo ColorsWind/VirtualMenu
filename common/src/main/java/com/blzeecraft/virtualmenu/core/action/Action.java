@@ -6,6 +6,7 @@ import java.util.Set;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.conf.LineConfigObject;
 import com.blzeecraft.virtualmenu.core.conf.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -21,14 +22,13 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
  * @author colors_wind
  * @date 2020-02-10
  */
-public abstract class Action implements IAction, LoggerObject {
+public abstract class Action extends LineConfigObject implements IAction, LoggerObject {
 
-	protected final LogNode node;
 	protected final Set<ClickType> types;
 
 	
 	public Action(LogNode node, ResolvedLineConfig rlc) {
-		this.node = node;
+		super(node);
 		this.types = rlc.getAsOptEnumSet("click", ClickType.class).orElse(EnumSet.allOf(ClickType.class));
 	}
 	
@@ -45,7 +45,7 @@ public abstract class Action implements IAction, LoggerObject {
 	}
 
 	public Action(LogNode node) {
-		this.node = node;
+		super(node);
 		this.types = EnumSet.allOf(ClickType.class);
 	}
 	

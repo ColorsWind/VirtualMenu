@@ -4,6 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+import com.blzeecraft.virtualmenu.core.action.extension.ActionActionbar;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionBungeeCord;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionCommand;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionConsoleCommand;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionOpCommand;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionOpenMenu;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionTell;
+import com.blzeecraft.virtualmenu.core.action.extension.ActionTitle;
+import com.blzeecraft.virtualmenu.core.condition.extension.ConditionEconomy;
+import com.blzeecraft.virtualmenu.core.condition.extension.ConditionLevel;
+import com.blzeecraft.virtualmenu.core.condition.extension.ConditionPermission;
 import com.blzeecraft.virtualmenu.core.conf.exception.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.conf.exception.InvalidLineFormatException;
 import com.blzeecraft.virtualmenu.core.conf.line.InvalidLineCommandException;
@@ -27,7 +38,23 @@ public class LineConfigParser {
 	public static final String ERROR_FORMAT_LEFT_BRACES = "格式错误(缺少\'{\'), " + CORRECT_FORMAT_EXAMPLE;
 	public static final String ERROR_FORMAT_RIGHT_BRACES = "格式错误(缺少\'}\'), " + CORRECT_FORMAT_EXAMPLE;
 	public static final String ERROR_FORMAT_EQUAL = "格式错误(缺少\'=\'), " + CORRECT_FORMAT_EXAMPLE;
+	// 储存将解析的配置映射到对象(条件,动作etc)的方法
+	private static final Map<String, BiFunction<LogNode, ResolvedLineConfig, LineConfigObject>> REGISTERED = new HashMap<>();
 
+	static {
+		// 加载预设
+		registerLineCommand("actionbar", ActionActionbar::new);
+		registerLineCommand("server", ActionBungeeCord::new);
+		registerLineCommand("command", ActionCommand::new);
+		registerLineCommand("console", ActionConsoleCommand::new);
+		registerLineCommand("op", ActionOpCommand::new);
+		registerLineCommand("open", ActionOpenMenu::new);
+		registerLineCommand("tell", ActionTell::new);
+		registerLineCommand("title", ActionTitle::new);
+		registerLineCommand("money", ConditionEconomy::new);
+		registerLineCommand("permission", ConditionPermission::new);
+		registerLineCommand("level", ConditionLevel::new);
+	}
 	/**
 	 * 用于解析被大括号括起来的字符串如{s=Testing,b=boolean}
 	 * 
@@ -87,15 +114,12 @@ public class LineConfigParser {
 		return new ResolvedLineConfig(values);
 	}
 
-	// 储存将解析的配置映射到对象(条件,动作etc)的方法
-	private static final Map<String, BiFunction<LogNode, ResolvedLineConfig, LineConfigObject>> REGISTERED = new HashMap<>();
-
-	public static boolean registerAction(@NonNull String name,
+	public static boolean registerLineCommand(@NonNull String name,
 			BiFunction<LogNode, ResolvedLineConfig, LineConfigObject> supplier) {
 		return REGISTERED.putIfAbsent(name.toLowerCase(), supplier) == null;
 	}
 
-	public static boolean unregisterAction(@NonNull String name) {
+	public static boolean unregisterLineCommand(@NonNull String name) {
 		return REGISTERED.remove(name.toLowerCase()) != null;
 	}
 
