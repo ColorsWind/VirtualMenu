@@ -82,22 +82,23 @@ public class CommandMeta {
 		String usage = method.getAnnotation(Usage.class).value();
 		Optional<String> requirePermission = Optional.ofNullable(method.getAnnotation(RequirePermission.class))
 				.map(RequirePermission::value);
-		// method parameters
-		// arg parser = {parser0, parser1, ..., parser(n-2)}
-		// command args = callstack, arg0, arg1, ..., arg(n-1)
-		Class<?>[] parameterTypes = method.getParameterTypes();
+
+		// e.g command argument: open      example     colors_wind
+		//      argument parser: null    packetmenu  player
+		//     method parameter: callstack m=example   u=colors_wind
+		Class<?>[] methodParameter = method.getParameterTypes();
 		@SuppressWarnings("unchecked")
-		Function<String, Object>[] argsParsers = new Function[parameterTypes.length -1];
-		for (int i = 0; i < argsParsers.length; i++) {
-			Function<String, Object> parser = AVAILABLE_PARSERS.get(parameterTypes[i + 1]);
+		Function<String, Object>[] argumentParser = new Function[methodParameter.length];
+		for (int i = 1; i < argumentParser.length; i++) {
+			Function<String, Object> parser = AVAILABLE_PARSERS.get(methodParameter[i]);
 			if (parser == null) {
 				throw new IllegalArgumentException(
-						"方法: " + method.toString() + " 不是一个合法的 CommandHandler. 调试信息: 不被支持的参数类型: " + parameterTypes[i]
+						"方法: " + method.toString() + " 不是一个合法的 CommandHandler. 调试信息: 不被支持的参数类型: " + methodParameter[i]
 								+ ". 仅支持: " + AVAILABLE_PARSERS.keySet());
 			}
-			argsParsers[i] = parser;
+			argumentParser[i] = parser;
 		}
-		return new CommandMeta(instance, method, playerOnly, usage, requirePermission, parameterTypes, argsParsers);
+		return new CommandMeta(instance, method, playerOnly, usage, requirePermission, methodParameter, argumentParser);
 	}
 
 	private final Object instance;
@@ -106,21 +107,25 @@ public class CommandMeta {
 	private final boolean playerOnly;
 	private final String usage;
 	private final Optional<String> requirePermission;
-	private final Class<?>[] requireArgs;
+	private final Class<?>[] methodParameterType;
 
-	private final Function<String, Object>[] argsParsers;
+	private final Function<String, Object>[] argumentParser;
 
 	public int getRequireArgsCount() {
-		return requireArgs.length;
+		return methodParameterType.length - 1;
 	}
 
 	public boolean visable() {
 		return !usage.isEmpty();
 	}
 
-	public boolean invoke(IUser<?> sender, String[] args) {
-		// args: arg1, arg2 ...
-		// parameters: callstack, arg1, arg2, ...
+	/**
+	 * 执行命令.
+	 * @param sender
+	 * @param commandArgument
+	 * @return
+	 */
+	public boolean invoke(IUser<?> sender, String[] commandArgument) {
 		if (sender.isConsole() && this.playerOnly) {
 			sender.sendMessageWithPrefix("§c该命令只能由玩家执行.");
 			return true;
@@ -129,18 +134,24 @@ public class CommandMeta {
 			sender.sendMessageWithPrefix("§c你没有权限执行该命令.");
 			return true;
 		}
-		Object[] parameters = new Object[args.length + 1];
-		for (int i = 0; i < args.length; i++) {
+		// e.g command argument: open        example     colors_wind
+		//      argument parser: null        packetmenu  player
+		//       convent object: null        m=example   u=colors_wind
+		//     method parameter: callstack   m=example   u=colors_wind
+		Object[] conventObject = new Object[commandArgument.length];
+		for (int i = 1; i < commandArgument.length; i++) {
 			try {
-				parameters[i + 1] = this.argsParsers[i].apply(args[i]);
+				conventObject[i] = this.argumentParser[i].apply(commandArgument[i]);
 			} catch (IllegalCommandArgumentException e) {
-				sender.sendMessageWithPrefix(e.format(i, args[i]));
+				sender.sendMessageWithPrefix(e.format(i, commandArgument[i]));
 				return false;
 			}
 		}
-		Callstack callstack = new Callstack(sender, args);
+		Object[] methodParameter = new Object[this.methodParameterType.length];
+		methodParameter[0] = new Callstack(sender, commandArgument);
+		System.arraycopy(conventObject, 1, methodParameter, 1, methodParameter.length - 1);
 		try {
-			method.invoke(callstack, parameters);
+			method.invoke(instance, methodParameter);
 		} catch (Exception e) {
 			PluginLogger.warning(CommandHandler.LOG_NODE, "调用 " + method.toString() + "时出错. 调试信息: " + this.toString());
 			e.printStackTrace();
