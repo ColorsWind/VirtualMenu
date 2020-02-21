@@ -44,7 +44,10 @@ public enum EconomyPlugins {
 
 	public void readIsEnable(ConfigurationSection sect) {
 		if (sect.getBoolean(name)) {
-			instance = supplier.get();
+			IEconomyHook hook = supplier.get();
+			if (hook.isPluginInstall()) {
+				instance = hook;
+			}
 		}
 	}
 
