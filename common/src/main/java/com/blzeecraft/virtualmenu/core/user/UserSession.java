@@ -62,7 +62,7 @@ public class UserSession {
 	 * @return 缓存的 Item.
 	 */
 	public AbstractItem<?> getCacheItem(Icon icon) {
-		return viewItem.getOrDefault(icon, EMPTY_ITEM);
+		return icon == null ? EMPTY_ITEM : viewItem.getOrDefault(icon, EMPTY_ITEM);
 	}
 
 	/**
@@ -110,7 +110,9 @@ public class UserSession {
 		for (int i = 0; i < length; i++) {
 			Icon icon = icons[i];
 			AbstractItem<?> item;
-			if (icon instanceof MultiIcon) {
+			if (icon == null) {
+				item = VirtualMenu.emptyItem();
+			} else if (icon instanceof MultiIcon) {
 				Icon realIcon = ((MultiIcon) icon).viewIcon(this);
 				item = realIcon.refreshItem(this);
 				viewIcon.put((MultiIcon) icon, realIcon);

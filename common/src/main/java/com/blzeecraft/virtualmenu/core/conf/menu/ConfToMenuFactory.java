@@ -46,6 +46,7 @@ public class ConfToMenuFactory {
 		// title
 		String title = conf.global.title;
 		title = ChatColor.translateAlternateColorCodes('&', title);
+		builder.title(title);
 		// type
 		IMenuType type = VirtualMenu.getMenuType(conf.global.type).orElseGet(() -> {
 			PluginLogger.warning(gNode, "找不到菜单类型: " + conf.global.type);
