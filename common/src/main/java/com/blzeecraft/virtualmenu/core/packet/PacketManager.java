@@ -33,9 +33,9 @@ public class PacketManager {
 		AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
 		packetWindowClose.setWindowId(0);
 		try {
-			PluginLogger.warning(LOG_NODE, "发送关闭背包 Packet 时发送异常.");
 			adapter.sendServerPacket(user, packetWindowClose);
 		} catch (InvocationTargetException e) {
+			PluginLogger.warning(LOG_NODE, "发送关闭背包 Packet 时发生异常.");
 			e.printStackTrace();
 		}
 	}
@@ -49,9 +49,9 @@ public class PacketManager {
 		AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
 		packetWindowClose.setWindowId(session.getMenu().getWindowId());
 		try {
-			PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发送异常.");
 			adapter.sendServerPacket(session.getUser(), packetWindowClose);
 		} catch (InvocationTargetException e) {
+			PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发生异常.");
 			e.printStackTrace();
 		}
 	}
@@ -72,16 +72,17 @@ public class PacketManager {
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
 		AbstractPacketOutWindowOpen<?> packetWindowOpen = adapter.createPacketWindowOpen();
 		packetWindowOpen.setWindowId(menu.getWindowId());
+		packetWindowOpen.setMenuType(menu.getType());
 		packetWindowOpen.setTitle(menu.getTitle());
 		AbstractPacketOutWindowItems<?> packetWindowItems = adapter.createPacketWindowItems();
 		packetWindowItems.setWindowId(menu.getWindowId());
 		packetWindowItems.setItems(menu.viewItems(session));
 		// send packet
 		try {
-			PluginLogger.warning(LOG_NODE, "发送打开菜单 Packet 时发送异常.");
 			adapter.sendServerPacket(user, packetWindowOpen);
 			adapter.sendServerPacket(user, packetWindowItems);
 		} catch (InvocationTargetException e) {
+			PluginLogger.warning(LOG_NODE, "发送打开菜单 Packet 时发生异常.");
 			e.printStackTrace();
 			return;
 		}

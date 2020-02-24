@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.core.item;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
 
@@ -26,7 +27,7 @@ public abstract class AbstractItem<T> implements IWrappedObject<T> {
 	//protected final String[] copyOfLore;
 	
 	protected AbstractItem(T handle, String id, int amount, String name, List<String> lore, String nbt) {
-		this.handle = handle;
+		this.handle = Objects.requireNonNull(handle);
 		this.id = id;
 		this.amount = amount;
 		this.name = name;

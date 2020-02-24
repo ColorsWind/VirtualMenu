@@ -53,7 +53,7 @@ public enum MenuType implements IMenuType {
 	private final int index;
 	private final int legacyIndex;
 	private final String minecraft;
-	private final int slot;
+	private final int size;
 
 	/**
 	 * 菜单包含了非物品按钮,如附魔台
@@ -80,10 +80,10 @@ public enum MenuType implements IMenuType {
 	 * 菜单是纯物品,如箱子,潜影盒
 	 * @param index
 	 * @param minecraft
-	 * @param slot
+	 * @param size
 	 */
-	private MenuType(int index, String minecraft, int slot) {
-		this(index, -1, minecraft, slot);
+	private MenuType(int index, String minecraft, int size) {
+		this(index, -1, minecraft, size);
 	}
 	
 	/**
@@ -91,13 +91,13 @@ public enum MenuType implements IMenuType {
 	 * @param index
 	 * @param legacyIndex
 	 * @param minecraft
-	 * @param slot
+	 * @param size
 	 */
-	private MenuType(int index, int legacyIndex, String minecraft, int slot) {
+	private MenuType(int index, int legacyIndex, String minecraft, int size) {
 		this.index = index;
 		this.legacyIndex = legacyIndex;
 		this.minecraft = minecraft;
-		this.slot = slot;
+		this.size = size;
 	}
 
 	public static MenuType fromSlot(int slot) {
@@ -170,15 +170,15 @@ public enum MenuType implements IMenuType {
 	 * @see #getSlot()
 	 */
 	public int getSize() throws IllegalArgumentException {
-		if (slot == -1) {
+		if (size == -1) {
 			return getBukkitType().getDefaultSize();
 		}
-		return slot;
+		return size;
 	}
 
 	
 	public boolean isItemMenu() {
-		return slot != -1;
+		return size != -1;
 	}
 
 	@Override

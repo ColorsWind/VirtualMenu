@@ -77,6 +77,10 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 
 	@Override
 	public void sendServerPacket(IUser<?> user, AbstractWindowPacket<?> packet) throws InvocationTargetException {
+//		
+//		 System.out.println(packet.toString()); if (packet instanceof
+//		 AbstractPacketOutWindowOpen) { return; }
+//		 
 		protocolManager.sendServerPacket((Player) user.getHandle(),
 				(PacketContainer) packet.getHandle());
 	}
@@ -89,6 +93,7 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	public void registerEvent() {
 		protocolManager.addPacketListener(clickHandler);
 		protocolManager.addPacketListener(closeHandler);
+		protocolManager.addPacketListener(new PacketDebugHandler(plugin));
 		Bukkit.getPluginManager().registerEvents(closeHandler, plugin);
 	}
 
