@@ -18,11 +18,15 @@ public class PacketDebugHandler  extends PacketAdapter {
 	}
 	
 	@Override
-	public void onPacketReceiving(PacketEvent e) {
+	public void onPacketReceiving(PacketEvent e) {}
+
+	@Override
+	public void onPacketSending(PacketEvent e) {
 		System.out.println(e.getPlayer());
-		//System.out.println(e.getPacket().getHandle().getClass().getDeclaredFields());
 		System.out.println(e.getPacket().getModifier().toString());
 	}
+	
+	
 	
 
 }
