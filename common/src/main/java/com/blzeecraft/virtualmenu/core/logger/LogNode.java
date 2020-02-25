@@ -28,7 +28,7 @@ public final class LogNode {
 	@NonNull
 	private LogNode(String root) {
 		this.name =  root;
-		this.parent = this;
+		this.parent = null;
 		this.cache = root;
 	}
 
