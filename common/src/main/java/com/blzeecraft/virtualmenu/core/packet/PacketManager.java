@@ -203,8 +203,10 @@ public class PacketManager {
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
 		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.OPEN_MENU);
-		menu.handle(quitEvent);
-		session.getUser().setCurrentSession(null);
+		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+			menu.handle(quitEvent);
+			session.getUser().setCurrentSession(null);
+		});
 	}
 	
 	/**
@@ -218,14 +220,20 @@ public class PacketManager {
 		IPacketMenu menu = session.getMenu();
 		switch(event.event.getClickType()) {
 		case WINDOW_BORDER_LEFT:
-			menu.handle(new MenuActionEvent(session, EventType.LEFT_BORDER_CLICK));
+			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+				menu.handle(new MenuActionEvent(session, EventType.LEFT_BORDER_CLICK));
+			});
 			break;
 		case WINDOW_BORDER_RIGHT:
-			menu.handle(new MenuActionEvent(session, EventType.RIGHT_BORDER_CLICK));
+			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+				menu.handle(new MenuActionEvent(session, EventType.RIGHT_BORDER_CLICK));
+			});
 			break;
 		default:
 			IconActionEvent clickEvent = event.getEvent();
-			menu.handle(clickEvent);
+			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
+				menu.handle(clickEvent);
+			});
 			break;
 		}
 
