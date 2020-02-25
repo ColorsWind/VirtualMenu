@@ -202,7 +202,7 @@ public class PacketManager {
 	public static void handleEvent(PacketMenuCloseEvent event) {
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
-		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.OPEN_MENU);
+		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.CLOSE_MENU);
 		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
 			menu.handle(quitEvent);
 			session.getUser().setCurrentSession(null);
