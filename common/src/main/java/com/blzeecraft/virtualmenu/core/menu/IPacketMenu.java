@@ -55,7 +55,7 @@ public interface IPacketMenu {
 
 	/**
 	 * 处理 {@link IconActionEvent} 事件. 这个方法会由 {@link PacketManager} 调用.
-	 * 有关封包拦截,处理,发送都已由 {@link PacketManager} 完成.
+	 * 这里处理有关 Icon 的事件.
 	 * 
 	 * @param event 事件
 	 */
@@ -63,7 +63,7 @@ public interface IPacketMenu {
 
 	/**
 	 * 处理 {@link MenuActionEvent} 事件. 这个方法会由 {@link PacketManager} 调用.
-	 * 有关封包拦截,处理,发送都已由 {@link PacketManager} 完成.
+	 * 这里处理有关 PacketMenu 的事件.
 	 * 
 	 * @param event 事件
 	 */
