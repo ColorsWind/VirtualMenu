@@ -8,9 +8,9 @@ import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInWindowClick;
 import com.blzeecraft.virtualmenu.core.packet.ClickMode;
 import com.comphenix.protocol.events.PacketContainer;
 
-public class PacketPlayInWindowClick extends AbstractPacketInWindowClick<PacketContainer> {
+public class PacketPlayInWindowClick1_7 extends AbstractPacketInWindowClick<PacketContainer> {
 
-	public PacketPlayInWindowClick(PacketContainer handle) {
+	public PacketPlayInWindowClick1_7(PacketContainer handle) {
 		super(handle);
 	}
 

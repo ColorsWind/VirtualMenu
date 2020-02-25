@@ -61,9 +61,9 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 
 		// fill
 		Arrays.stream(EventType.values()).forEach(key -> this.menuAction.putIfAbsent(key, ActionUtils.EMPTY_ACTION));
-		IntStream.range(0, icons.length).forEach(i -> {
-			if (icons[i] == null) {
-				icons[i] = UserSession.EMPTY_ICON;
+		IntStream.range(0, this.icons.length).forEach(i -> {
+			if (this.icons[i] == null) {
+				this.icons[i] = UserSession.EMPTY_ICON;
 			}
 		});
 	}

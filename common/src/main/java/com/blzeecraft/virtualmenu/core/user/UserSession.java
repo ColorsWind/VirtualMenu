@@ -109,7 +109,7 @@ public class UserSession {
 		AbstractItem<?>[] items = new AbstractItem<?>[length];
 		for (int i = 0; i < length; i++) {
 			Icon icon = icons[i];
-			AbstractItem<?> item;
+			AbstractItem<?> item;	
 			if (icon == null) {
 				item = VirtualMenu.emptyItem();
 			} else if (icon instanceof MultiIcon) {

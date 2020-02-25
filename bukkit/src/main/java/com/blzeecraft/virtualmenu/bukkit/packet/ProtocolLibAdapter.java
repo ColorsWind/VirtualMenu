@@ -1,6 +1,7 @@
 package com.blzeecraft.virtualmenu.bukkit.packet;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import com.blzeecraft.virtualmenu.bukkit.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.bukkit.item.XMaterial;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInCloseWindow;
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInWindowClick;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowItems;
@@ -25,6 +28,8 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	public static final Supplier<AbstractPacketOutWindowOpen<?>> SUPPLIER_WINDOW_OPEN;
 	public static final Supplier<AbstractPacketOutSetSlot<?>> SUPPLIER_SET_SLOT;
 	public static final Supplier<AbstractPacketOutWindowItems<?>> SUPPLIER_WINDOW_ITEMS;
+	public static final Function<PacketContainer, AbstractPacketInWindowClick<?>> FUNCTION_WINDOW_CLICK;
+	public static final Function<PacketContainer, AbstractPacketInCloseWindow<?>> FUNCTION_CLOSE_WINDOW;
 	static {
 		SUPPLIER_CLOSE_WINDOW = PacketPlayOutCloseWindow::new;
 		SUPPLIER_SET_SLOT = PacketPlayOutSetSlot::new;
@@ -40,6 +45,12 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 		} else {
 			SUPPLIER_WINDOW_ITEMS = PacketPlayOutWindowItems1_7::new;
 		}
+		if (VERSION >= 8) {
+			FUNCTION_WINDOW_CLICK = PacketPlayInWindowClick1_8::new;
+		} else {
+			FUNCTION_WINDOW_CLICK = PacketPlayInWindowClick1_7::new;
+		}
+		FUNCTION_CLOSE_WINDOW = PacketPlayInCloseWindow::new;
 	}
 
 	private final VirtualMenuPlugin plugin;
@@ -73,6 +84,14 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	@Override
 	public AbstractPacketOutWindowItems<?> createPacketWindowItems() {
 		return SUPPLIER_WINDOW_ITEMS.get();
+	}
+	
+	public AbstractPacketInWindowClick<?> mapToWindowClick(PacketContainer packet) {
+		return FUNCTION_WINDOW_CLICK.apply(packet);
+	}
+	
+	public AbstractPacketInCloseWindow<?> mapToCloseWindow(PacketContainer packet) {
+		return FUNCTION_CLOSE_WINDOW.apply(packet);
 	}
 
 	@Override
