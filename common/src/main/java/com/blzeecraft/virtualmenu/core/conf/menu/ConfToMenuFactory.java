@@ -94,6 +94,7 @@ public class ConfToMenuFactory {
 				icons[slot] = MultiIcon.of(icons[slot], icon);
 			}
 		}
+		builder.icon(icons);
 		PacketMenu menu = builder.build();
 		return menu;
 
