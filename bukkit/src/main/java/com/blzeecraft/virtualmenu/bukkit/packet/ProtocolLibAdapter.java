@@ -45,14 +45,14 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	private final VirtualMenuPlugin plugin;
 	private final ProtocolManager protocolManager;
 	private final PacketCloseWindowHandler closeHandler;
-	private final PacketCloseWindowHandler clickHandler;
+	private final PacketWindowClickHandler clickHandler;
 
 
 	public ProtocolLibAdapter(VirtualMenuPlugin plugin) {
 		this.plugin = plugin;
 		this.protocolManager = ProtocolLibrary.getProtocolManager();
 		this.closeHandler = new PacketCloseWindowHandler(plugin);
-		this.clickHandler = new PacketCloseWindowHandler(plugin);
+		this.clickHandler = new PacketWindowClickHandler(plugin);
 	}
 
 	@Override
