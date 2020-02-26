@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.user;
 
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -10,6 +12,8 @@ import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 
 import lombok.EqualsAndHashCode;
@@ -26,8 +30,13 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class UserSession {
-	public static final EmptyIcon EMPTY_ICON = new EmptyIcon();
+	public static final LogNode LOG_NODE = LogNode.of("#UserSession");
+	//public static final EmptyIcon EMPTY_ICON = new EmptyIcon();
 	public static final AbstractItem<?> EMPTY_ITEM = VirtualMenu.emptyItem();
+	public static final Object EMPTY_RAW_ITEM = EMPTY_ITEM.getHandle();
+	private static Object ensureNotNull(Object item) {
+		return item == null ? EMPTY_RAW_ITEM : item;
+	}
 
 	@Getter
 	@EqualsAndHashCode.Include
@@ -37,9 +46,11 @@ public class UserSession {
 	@EqualsAndHashCode.Include
 	protected final IPacketMenu menu;
 
-	protected final ConcurrentMap<Icon, AbstractItem<?>> viewItem;
-	protected final ConcurrentMap<MultiIcon, Icon> viewIcon;
-	protected final AtomicReferenceArray<AbstractItem<?>> fastAccess;
+	
+	// 保存玩家 PacketMenu 的 RawItem
+	protected final AtomicReferenceArray<Object> packetMenuRawItem;
+	// 保存玩家 Inventory 的 RawItem
+	protected final AtomicReferenceArray<Object> inventoryRawItem;
 
 	/**
 	 * 创建一个新的 UserSession 对象, 创建对象后还需要进行初始化 {@link #init(Icon[])}.
@@ -50,40 +61,149 @@ public class UserSession {
 	public UserSession(IUser<?> user, IPacketMenu menu) {
 		this.user = user;
 		this.menu = menu;
-		this.viewItem = new ConcurrentHashMap<>();
-		this.viewIcon = new ConcurrentHashMap<>();
-		this.fastAccess = new AtomicReferenceArray<AbstractItem<?>>(menu.getSize());
+		this.packetMenuRawItem = new AtomicReferenceArray<>(menu.getSize());
+		this.inventoryRawItem = new AtomicReferenceArray<>(36);
 	}
 
-	/**
-	 * 获取对应 Icon 缓存的 Item. 保证返回可用的结果.
-	 * 
-	 * @param icon
-	 * @return 缓存的 Item.
-	 */
-	public AbstractItem<?> getCacheItem(Icon icon) {
-		return icon == null ? EMPTY_ITEM : viewItem.getOrDefault(icon, EMPTY_ITEM);
-	}
 
+	
 	/**
-	 * 获取对应 MultiIcon 缓存的 Icon. 保证返回可用的结果.
-	 * 
-	 * @param icon
-	 * @return 缓存的 Icon.
-	 */
-	public Icon getCacheIcon(MultiIcon icon) {
-		return viewIcon.getOrDefault(icon, EMPTY_ICON);
-	}
-
-	/**
-	 * 获取对应 MultiIcon 缓存的 Icon. 保证返回可用的结果.
+	 * 获取 Inventory 缓存的 RawItem.
 	 * 
 	 * @param slot
-	 * @return 缓存的 Item.
+	 * @return 缓存的 RawItem. 如果获取失败, 返回 {@link #EMPTY_RAW_ITEM}.
 	 */
-	public AbstractItem<?> getCacheItem(int slot) {
-		return fastAccess.get(slot);
+	public Object getCacheInventoryRawItem(int slot) {
+		this.checkBoundsInventory(slot);
+		return inventoryRawItem.get(slot);
 	}
+	
+	
+	/**
+	 * 获取 Inventory 缓存的所有 RawItem.
+	 * @param <T>
+	 * @param array
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T[] getCacheInventoryRawItems(T[] array) {
+		this.checkSizeInventory(array);
+		for(int i=0;i<this.inventoryRawItem.length();i++) {
+			array[i] = (T) this.inventoryRawItem.get(i);
+		}
+		return array;
+	}
+	
+	/**
+	 * 更新 Inventory 缓存的 RawItem.
+	 * @param slot
+	 * @param item
+	 */
+	public void updateCacheInventoryRawItem(int slot, Object item) {
+		this.checkBoundsInventory(slot);
+		this.inventoryRawItem.set(slot, ensureNotNull(item));
+	}
+	
+	/**
+	 * 更新 Inventory 缓存的所有 RawItem.
+	 * @param <T>
+	 * @param array
+	 */
+	public void updateCacheInventoryRawItems(Object[] array) {
+		this.checkSizeInventory(array);
+		for(int i=0;i<this.inventoryRawItem.length();i++) {
+			this.inventoryRawItem.set(i, ensureNotNull(array[i]));
+		}
+	}
+	
+	private void checkBoundsInventory(int slot) {
+		if (slot < 0 || slot >= inventoryRawItem.length()) {
+			PluginLogger.warning(LOG_NODE, "尝试获取 Inventory 缓存时发生错误: slot=" + slot + ", inventorySize" + inventoryRawItem.length());
+			throw new IndexOutOfBoundsException();
+		}
+	}
+	
+	private void checkSizeInventory(Object[] array) {
+		if (array.length != this.inventoryRawItem.length()) {
+			PluginLogger.warning(LOG_NODE, "访问 Inventory 缓存时发生错误: inventorySize=" + this.inventoryRawItem.length() + ", parameterize=" + array.length);
+			throw new IndexOutOfBoundsException();
+		}
+	}
+
+
+
+
+	
+	/**
+	 * 获取 PacketMenu 缓存的 RawItem
+	 * @param slot
+	 * @return 缓存的 RawItem.
+	 */
+	public Object getCachePacketMenuRawItem(int slot) {
+		this.checkBoundsPacketMenu(slot);
+		return packetMenuRawItem.get(slot);
+	}
+	
+	/**
+	 * 获取 PacketMenu 缓存的所有 RawItem.
+	 * @param <T>
+	 * @param array
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T[] getCachePacketMenuRawItems(T[] array) {
+		this.checkSizePacketMenu(array);
+		for(int i=0;i<this.packetMenuRawItem.length();i++) {
+			array[i] = (T) this.packetMenuRawItem.get(i);
+		}
+		return array;
+	}
+	
+	/**
+	 * 更新 Inventory 缓存的 RawItem.
+	 * @param slot
+	 * @param item
+	 */
+	public void updateCachePacketMenuRawItem(int slot, Object item) {
+		this.checkBoundsPacketMenu(slot);
+		this.packetMenuRawItem.set(slot, ensureNotNull(item));
+	}
+	
+
+	/**
+	 * 更新 Inventory 缓存的所有 RawItem.
+	 * @param array
+	 */
+	public void updateCachePacketMenuRawItems(Object[] array) {
+		this.checkSizePacketMenu(array);
+		for(int i=0;i<this.packetMenuRawItem.length();i++) {
+			this.packetMenuRawItem.set(i, ensureNotNull(array[i]));
+		}
+	}
+	
+	
+	private void checkBoundsPacketMenu(int slot) {
+		if (slot < 0 || slot >= packetMenuRawItem.length()) {
+			PluginLogger.warning(LOG_NODE, "访问 PacketMenu 缓存时发生错误: slot=" + slot + ", packetMenuSize=" + packetMenuRawItem.length());
+			throw new IndexOutOfBoundsException();
+		}
+	}
+	
+	private void checkSizePacketMenu(Object[] array) {
+		if (array.length != this.packetMenuRawItem.length()) {
+			PluginLogger.warning(LOG_NODE, "访问 PacketMenu 缓存时发生错误: packetMenuSize=" + this.packetMenuRawItem.length() + ", parameterize=" + array.length);
+			throw new IndexOutOfBoundsException();
+		}
+	}
+	
+
+	
+
+	
+	
+	
+	
+
 
 	/**
 	 * 刷新指定 slot 的 Icon. 保证返回可用的结果.
