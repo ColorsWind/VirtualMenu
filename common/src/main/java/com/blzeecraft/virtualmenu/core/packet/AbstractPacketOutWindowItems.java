@@ -17,7 +17,11 @@ public abstract class AbstractPacketOutWindowItems<T> extends AbstractWindowPack
 	}
 
 	public abstract void setItems(AbstractItem<?>[] items);
+	
+	public abstract void setRawItems(Object[] items);
 
 	public abstract AbstractItem<?>[] getItems();
+	
+	public abstract Object[] getRawItems();
 
 }

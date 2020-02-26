@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import com.blzeecraft.virtualmenu.bukkit.BukkitPlatform;
 import com.blzeecraft.virtualmenu.bukkit.WrapItemBukkit;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowItems;
@@ -26,6 +27,7 @@ public class PacketPlayOutWindowItems1_11 extends AbstractPacketOutWindowItems<P
 		List<ItemStack> itemList = Arrays.stream(items).map(item -> item == null ? EMPTY_ITEM : (ItemStack)item.getHandle()).collect(Collectors.toList());
 		packet.getItemListModifier().write(0, itemList);
 	}
+	
 
 	@Override
 	public AbstractItem<?>[] getItems() {
@@ -42,6 +44,17 @@ public class PacketPlayOutWindowItems1_11 extends AbstractPacketOutWindowItems<P
 	@Override
 	public int getWindowId() {
 		return packet.getIntegers().read(0);
+	}
+
+	@Override
+	public void setRawItems(Object[] items) {
+		packet.getItemListModifier().write(0, Arrays.asList(BukkitPlatform.castItemArray(items)));
+	}
+
+	@Override
+	public ItemStack[] getRawItems() {
+		List<ItemStack> items = packet.getItemListModifier().read(0);
+		return items.toArray(new ItemStack[items.size()]);
 	}
 
 }

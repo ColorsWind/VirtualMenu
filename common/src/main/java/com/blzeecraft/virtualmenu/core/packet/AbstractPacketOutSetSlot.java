@@ -25,5 +25,9 @@ public abstract class AbstractPacketOutSetSlot<T> extends AbstractWindowPacket<T
 	public abstract void setItem(AbstractItem<?> item);
 
 	public abstract AbstractItem<?> getItem();
+	
+	public abstract void setRawItem(Object item);
+	
+	public abstract Object getRawItem();
 
 }

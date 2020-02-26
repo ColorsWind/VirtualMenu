@@ -27,7 +27,7 @@ public class PacketPlayOutSetSlot extends AbstractPacketOutSetSlot<PacketContain
 
 	@Override
 	public void setItem(AbstractItem<?> item) {
-		packet.getItemModifier().write(0, (ItemStack) item.getHandle());
+		this.setRawItem(item.getHandle());
 	}
 
 	@Override
@@ -44,6 +44,16 @@ public class PacketPlayOutSetSlot extends AbstractPacketOutSetSlot<PacketContain
 	@Override
 	public int getWindowId() {
 		return packet.getIntegers().read(0);
+	}
+
+	@Override
+	public void setRawItem(Object item) {
+		packet.getItemModifier().write(0, (ItemStack) item);
+	}
+
+	@Override
+	public ItemStack getRawItem() {
+		return packet.getItemModifier().read(0);
 	}
 
 }
