@@ -75,9 +75,8 @@ public interface IPacketMenu {
 	 * 这里只需要对 {@link UserSession} 进行初始化.
 	 * 
 	 * @param session 用户会话
-	 * @return 菜单内的 Icon.
 	 */
-	AbstractItem<?>[] addViewer(UserSession session);
+	void addViewer(UserSession session);
 
 	/**
 	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link PacketManager} 调用. 注意
@@ -147,5 +146,6 @@ public interface IPacketMenu {
 	default boolean totalUpdate() {
 		return getType().isItemMenu();
 	}
+	
 
 }

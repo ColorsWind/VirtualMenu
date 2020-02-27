@@ -90,9 +90,5 @@ public class SimpleIcon implements Icon {
 	}
 
 
-	@Override
-	public AbstractItem<?> refreshItem(UserSession session) {
-		return view(session);
-	}
 
 }

@@ -16,6 +16,7 @@ import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
@@ -32,7 +33,6 @@ import lombok.val;
  */
 @ToString
 public abstract class AbstractPacketMenu implements IPacketMenu {
-
 	@Getter
 	protected final int refresh;
 	@Getter
@@ -63,7 +63,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		Arrays.stream(EventType.values()).forEach(key -> this.menuAction.putIfAbsent(key, ActionUtils.EMPTY_ACTION));
 		IntStream.range(0, this.icons.length).forEach(i -> {
 			if (this.icons[i] == null) {
-				this.icons[i] = UserSession.EMPTY_ICON;
+				this.icons[i] = EmptyIcon.INSTANCE;
 			}
 		});
 	}
@@ -90,9 +90,8 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	}
 
 	@Override
-	public AbstractItem<?>[] addViewer(UserSession session) {
+	public void addViewer(UserSession session) {
 		sessions.add(session);
-		return session.init(icons);
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	@Override
 	public AbstractItem<?> viewItem(UserSession session, int slot) {
 		if (slot < icons.length) {
-			return session.getCacheItem(icons[slot]);
+			return icons[slot].view(session);
 		}
 		return VirtualMenu.emptyItem();
 

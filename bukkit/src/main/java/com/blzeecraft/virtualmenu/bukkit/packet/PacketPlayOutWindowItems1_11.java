@@ -19,7 +19,11 @@ public class PacketPlayOutWindowItems1_11 extends AbstractPacketOutWindowItems<P
 	protected final PacketContainer packet = super.packet; // 避免强制准换
 	
 	public PacketPlayOutWindowItems1_11() {
-		super(new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS));
+		this(new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS));
+	}
+
+	public PacketPlayOutWindowItems1_11(PacketContainer packet) {
+		super(packet);
 	}
 
 	@Override

@@ -15,18 +15,19 @@ import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
+import lombok.val;
+
 /**
  * 处理有关 Packet 和 UserSession 的逻辑.
+ * 说明这里一些有可能修改玩家当前状态的操作(检查条件, 执行动作等)都会在主线程进行.
+ * 所有不涉及修改玩家当前状态的操作(用于重设玩家背包显示上的物品, 发送Packet等)都会在当前线程进行.
+ * 值得注意的是, 这种策略理论上并是安全, 例如读取玩家背包上的
  * 
  * @author colors_wind
  * @date 2020-02-10
  */
 public class PacketManager {
 	public static final LogNode LOG_NODE = LogNode.of("#PacketManager");
-
-	public static void openMenu(IUser<?> user, IPacketMenu menu) {
-		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> openMenuUncheck(user, menu));
-	}
 
 	public static void closeInventory(IUser<?> user) {
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
@@ -39,59 +40,45 @@ public class PacketManager {
 			e.printStackTrace();
 		}
 	}
-
-	public static void closePacketMenu(UserSession session) {
-		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
-		// handle close event first
-		PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
-		handleEvent(event);
-		// create and send packet
-		AbstractPacketOutCloseWindow<?> packetWindowClose = adapter.createPacketCloseWindow();
-		packetWindowClose.setWindowId(session.getMenu().getWindowId());
-		try {
-			adapter.sendServerPacket(session.getUser(), packetWindowClose);
-		} catch (InvocationTargetException e) {
-			PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发生异常.");
-			e.printStackTrace();
-		}
-	}
 	
-	
-
-	public static void closePacketMenu(IUser<?> user) {
-		user.getCurrentSession().ifPresent(PacketManager::closePacketMenu);
-	}
-
-	public static void openMenuUncheck(IUser<?> user, IPacketMenu menu) {
+	public static void openMenu(IUser<?> user, IPacketMenu menu) {
+		val adapter = VirtualMenu.getPacketAdapter();
 		closePacketMenu(user); // ensure packet-menu are closed.
 		closeInventory(user); // ensure inventory are closed.
-		UserSession session = new UserSession(user, menu);
-		menu.addViewer(session);
+		UserSession session = new UserSession(user, menu).init();
 		user.setCurrentSession(session);
-		// create packet
-		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
-		AbstractPacketOutWindowOpen<?> packetWindowOpen = adapter.createPacketWindowOpen();
-		packetWindowOpen.setWindowId(menu.getWindowId());
-		packetWindowOpen.setMenuType(menu.getType());
-		packetWindowOpen.setTitle(menu.getTitle());
-		AbstractPacketOutWindowItems<?> packetWindowItems = adapter.createPacketWindowItems();
-		packetWindowItems.setWindowId(menu.getWindowId());
-		packetWindowItems.setItems(menu.viewItems(session));
-		// send packet
+		menu.addViewer(session);
+		val packetWindowOpen = session.createPacketWindowOpen();
+		val packetWindowItems = session.createPacketWindowItemsForInventory();
 		try {
 			adapter.sendServerPacket(user, packetWindowOpen);
 			adapter.sendServerPacket(user, packetWindowItems);
 		} catch (InvocationTargetException e) {
 			PluginLogger.warning(LOG_NODE, "发送打开菜单 Packet 时发生异常.");
 			e.printStackTrace();
-			return;
 		}
-		// handle event
 		MenuActionEvent event = new MenuActionEvent(session, EventType.OPEN_MENU);
 		menu.handle(event);
 	}
 
-
+	public static void closePacketMenu(UserSession session) {
+		val adapter = VirtualMenu.getPacketAdapter();
+		// create and send packet
+		AbstractPacketOutCloseWindow<?> packetWindowClose = session.createPacketWindowCloseForMenu();
+		try {
+			adapter.sendServerPacket(session.getUser(), packetWindowClose);
+		} catch (InvocationTargetException e) {
+			PluginLogger.warning(LOG_NODE, "发送关闭菜单 Packet 时发生异常.");
+			e.printStackTrace();
+		}
+		// handle close event first
+		PacketMenuCloseEvent event = new PacketMenuCloseEvent(session, false);
+		handleEvent(event);
+	}
+	
+	public static void closePacketMenu(IUser<?> user) {
+		user.getCurrentSession().ifPresent(PacketManager::closePacketMenu);
+	}
 	
 	public static Optional<PacketMenuCloseEvent> map(UserSession session, AbstractPacketInCloseWindow<?> packet) {
 		if (session.getMenu().getWindowId() == packet.getWindowId()) {
@@ -100,7 +87,6 @@ public class PacketManager {
 		return Optional.empty();
 		
 	}
-	
 	public static Optional<PacketMenuClickEvent> map(UserSession session, AbstractPacketInWindowClick<?> packet) { 
 		IPacketMenu menu = session.getMenu();
 		if (menu.getWindowId() == packet.getWindowId()) {
@@ -109,7 +95,7 @@ public class PacketManager {
 			int rawSlot = packet.getRawSlot();
 			int slot = rawSlot < size ? rawSlot : rawSlot - size;
 			AbstractItem<?> clickedItem = packet.getClickedItem();
-			PacketMenuClickEvent event = new PacketMenuClickEvent(session, new IconActionEvent(session, type, rawSlot, slot, clickedItem, false));
+			PacketMenuClickEvent event = new PacketMenuClickEvent(session, new IconActionEvent(session, type, rawSlot, slot, clickedItem));
 			return Optional.of(event);
 		}
 		return Optional.empty();
@@ -119,29 +105,32 @@ public class PacketManager {
 		IPacketAdapter adapter = VirtualMenu.getPacketAdapter();
 		UserSession session = event.getSession();
 		IUser<?> user = session.getUser();
-		IconActionEvent iconEvent = event.getEvent();
-		IPacketMenu menu = iconEvent.getMenu();
-		switch(event.getEvent().getClickType()) {
+		IconActionEvent iconEvent = event.getIconEvent();
+		int rawSlot = iconEvent.getRawSlot();
+		switch(iconEvent.getClickType()) {
 		case CONTROL_DROP:
 		case DROP:
 			// update click slot
-			int drop_windowId = iconEvent.getMenu().getWindowId();
-			int drop_rawSlot = iconEvent.getRawSlot();
-			int drop_slot = iconEvent.getSlot();
-			AbstractItem<?> drop_clickedItem = iconEvent.getCurrent();
-			AbstractPacketOutSetSlot<?> drop_resetClick= createResetClickPacket(drop_windowId, drop_rawSlot, drop_slot, drop_clickedItem);
-			adapter.sendServerPacketWrap(user, drop_resetClick);
+			AbstractPacketOutSetSlot<?> drop_resetClick = session.createPacketOutSetSlotForMenu(rawSlot);
+			try {
+				adapter.sendServerPacket(user, drop_resetClick);
+			} catch (InvocationTargetException e1) {
+				PluginLogger.warning(LOG_NODE, "发送 Click Update Packet 发生错误.");
+				e1.printStackTrace();
+			}
 			break;
 		case RIGHT:
 		case LEFT:
 			// update click slot and hold;
-			int click_windowId = iconEvent.getMenu().getWindowId();
-			int click_rawSlot = iconEvent.getRawSlot();
-			int click_slot = iconEvent.getSlot();
-			AbstractItem<?> click_clickedItem = iconEvent.getCurrent();
 			AbstractPacketOutSetSlot<?> click_resetHold = createResetHoldPacket();
-			AbstractPacketOutSetSlot<?> click_resetClick = createResetClickPacket(click_windowId, click_rawSlot, click_slot, click_clickedItem);
-			adapter.sendServerPacketWrap(user, click_resetHold, click_resetClick);
+			AbstractPacketOutSetSlot<?> click_resetClick = session.createPacketOutSet(rawSlot);
+			try {
+				adapter.sendServerPacket(user, click_resetHold);
+				adapter.sendServerPacket(user, click_resetClick);
+			} catch (InvocationTargetException e2) {
+				PluginLogger.warning(LOG_NODE, "发送 Click & Slot Update Packet 发生错误.");
+				e2.printStackTrace();
+			}
 			break;
 		case MIDDLE:
 		case DOUBLE_CLICK:
@@ -152,15 +141,18 @@ public class PacketManager {
 		case UNKNOWN:
 		default:
 			// full update
-			int full_windowId = menu.getWindowId();
 			AbstractPacketOutSetSlot<?> full_resetHold = createResetHoldPacket();
-			AbstractPacketOutWindowItems<?> full_resetMenu = adapter.createPacketWindowItems();
-			full_resetMenu.setWindowId(full_windowId);
-			full_resetMenu.setItems(menu.viewItems(event.getSession()));
-			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
-				adapter.sendServerPacketWrap(user, full_resetMenu, full_resetHold);
-				user.updateInventory();
-			});
+			AbstractPacketOutWindowItems<?> full_resetInv = session.createPacketWindowItemsForInventory();
+			AbstractPacketOutWindowItems<?> full_resetMenu = session.createPacketWindowItemsForMenu();
+			try {
+				adapter.sendServerPacket(user, full_resetHold);
+				adapter.sendServerPacket(user, full_resetInv);
+				adapter.sendServerPacket(user, full_resetMenu);
+			} catch (InvocationTargetException e3) {
+				PluginLogger.warning(LOG_NODE, "发送 Full Update Packet 发生错误.");
+				e3.printStackTrace();
+			}
+
 			break;
 		case WINDOW_BORDER_LEFT:
 		case WINDOW_BORDER_RIGHT:
@@ -177,20 +169,6 @@ public class PacketManager {
 		return resetHold;
 	}
 	
-	private static AbstractPacketOutSetSlot<?> createResetClickPacket(int windowId, int rawSlot, int size, AbstractItem<?> clickedItem) {
-		AbstractPacketOutSetSlot<?> resetClick = VirtualMenu.getPacketAdapter().createPacketSetSlot();
-		if (size > rawSlot) {
-			resetClick.setWindowId(windowId);
-			resetClick.setWindowId(rawSlot);
-			resetClick.setItem(clickedItem);
-		} else {
-			int slot = rawSlot - size;
-			resetClick.setWindowId(-1);
-			resetClick.setWindowId(slot);
-			resetClick.setItem(clickedItem);
-		}
-		return resetClick;
-	}
 	
 	
 
@@ -198,13 +176,14 @@ public class PacketManager {
 	 * 处理玩家关闭菜单事件. 无论玩家是否主动关闭菜单, 都要调用这个方法进行处理.
 	 * 
 	 * @param event
-	 */
+	 */	
 	public static void handleEvent(PacketMenuCloseEvent event) {
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
-		MenuActionEvent quitEvent = new MenuActionEvent(session, EventType.CLOSE_MENU);
+		MenuActionEvent closeEvent = new MenuActionEvent(session, EventType.CLOSE_MENU);
 		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
-			menu.handle(quitEvent);
+			menu.handle(closeEvent);
+			//ensure sequential execution
 			session.getUser().setCurrentSession(null);
 		});
 	}
@@ -218,7 +197,7 @@ public class PacketManager {
 		sendResetPacket(event);
 		UserSession session = event.getSession();
 		IPacketMenu menu = session.getMenu();
-		switch(event.event.getClickType()) {
+		switch(event.iconEvent.getClickType()) {
 		case WINDOW_BORDER_LEFT:
 			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
 				menu.handle(new MenuActionEvent(session, EventType.LEFT_BORDER_CLICK));
@@ -230,13 +209,21 @@ public class PacketManager {
 			});
 			break;
 		default:
-			IconActionEvent clickEvent = event.getEvent();
+			IconActionEvent clickEvent = event.getIconEvent();
 			VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
 				menu.handle(clickEvent);
 			});
 			break;
 		}
 
+	}
+	
+	public void handleServerPacket(UserSession session, AbstractPacketOutWindowItems<?> packet) {
+		session.handlePacket(packet);
+	}
+	
+	public void handleServerPacket(UserSession session, AbstractPacketOutSetSlot<?> packet) {
+		session.handlePacket(packet);
 	}
 
 	public static void closeAllMenu() {

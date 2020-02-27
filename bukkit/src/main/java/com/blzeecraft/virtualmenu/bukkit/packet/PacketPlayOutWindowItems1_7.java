@@ -18,9 +18,13 @@ public class PacketPlayOutWindowItems1_7 extends AbstractPacketOutWindowItems<Pa
 	protected final PacketContainer packet = super.packet; // 避免强制准换
 	
 	public PacketPlayOutWindowItems1_7() {
-		super(new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS));
+		this(new PacketContainer(PacketType.Play.Server.WINDOW_ITEMS));
 	}
 
+	public PacketPlayOutWindowItems1_7(PacketContainer packet) {
+		super(packet);
+	}
+	
 	@Override
 	public void setItems(AbstractItem<?>[] items) {
 		int size = items.length;

@@ -248,5 +248,12 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 * 刷新玩家的背包. 
 	 */
 	void updateInventory();
+	
+	/**
+	 * 获取玩家背包(4*9)的 RawItem. 
+	 * 需要保证数组的大小最少为 36.
+	 * @return
+	 */
+	Object[] getInventoryRawItems();
 
 }

@@ -22,20 +22,14 @@ public class IconActionEvent extends MenuEvent {
 	protected final int slot;
 	protected final AbstractItem<?> current;
 	
-	/**
-	 * 仅当玩家点击玩家背包的菜单这个选项才有效
-	 * 如果该选项为true，将会阻止玩家移动背包的物品
-	 */
-	private boolean cancel = true;
 
 	public IconActionEvent(UserSession session, ClickType type, int rawSlot, int slot,
-			AbstractItem<?> current, boolean cancel) {
+			AbstractItem<?> current) {
 		super(session);
 		this.type = type;
 		this.rawSlot = rawSlot;
 		this.slot = slot;
 		this.current = current;
-		this.cancel = cancel;
 	}
 
 	@Override

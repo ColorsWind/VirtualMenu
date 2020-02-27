@@ -14,11 +14,11 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 	private final BukkitPlatform platform;
 	private final ProtocolLibAdapter packetAdapter;
 
-	public PacketWindowClickHandler(VirtualMenuPlugin plugin) {
+	public PacketWindowClickHandler(VirtualMenuPlugin plugin, ProtocolLibAdapter packetAdapter) {
 		super(plugin, ListenerPriority.MONITOR, 
 				PacketType.Play.Client.WINDOW_CLICK);
 		this.platform = plugin.getPlatformAdapter();
-		this.packetAdapter = plugin.getPacketAdapter();
+		this.packetAdapter = packetAdapter;
 	}
 	
 	@Override
@@ -27,6 +27,8 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 			AbstractPacketInWindowClick<?> packet = packetAdapter.mapToWindowClick(e.getPacket());
 			PacketManager.map(session, packet).ifPresent(event -> {
 				PacketManager.handleEvent(event);
+				
+				
 				e.setReadOnly(false);
 				e.setCancelled(true);
 			});

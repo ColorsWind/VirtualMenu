@@ -30,6 +30,8 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	public static final Supplier<AbstractPacketOutWindowItems<?>> SUPPLIER_WINDOW_ITEMS;
 	public static final Function<PacketContainer, AbstractPacketInWindowClick<?>> FUNCTION_WINDOW_CLICK;
 	public static final Function<PacketContainer, AbstractPacketInCloseWindow<?>> FUNCTION_CLOSE_WINDOW;
+	public static final Function<PacketContainer, AbstractPacketOutSetSlot<?>> FUNCTION_SET_SLOT;
+	public static final Function<PacketContainer, AbstractPacketOutWindowItems<?>> FUNCTION_WINDOW_ITEMS;
 	static {
 		SUPPLIER_CLOSE_WINDOW = PacketPlayOutCloseWindow::new;
 		SUPPLIER_SET_SLOT = PacketPlayOutSetSlot::new;
@@ -42,8 +44,10 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 		}
 		if (VERSION >= 11) {
 			SUPPLIER_WINDOW_ITEMS = PacketPlayOutWindowItems1_11::new;
+			FUNCTION_WINDOW_ITEMS = PacketPlayOutWindowItems1_11::new;
 		} else {
 			SUPPLIER_WINDOW_ITEMS = PacketPlayOutWindowItems1_7::new;
+			FUNCTION_WINDOW_ITEMS = PacketPlayOutWindowItems1_7::new;
 		}
 		if (VERSION >= 8) {
 			FUNCTION_WINDOW_CLICK = PacketPlayInWindowClick1_8::new;
@@ -51,19 +55,26 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 			FUNCTION_WINDOW_CLICK = PacketPlayInWindowClick1_7::new;
 		}
 		FUNCTION_CLOSE_WINDOW = PacketPlayInCloseWindow::new;
+		FUNCTION_SET_SLOT = PacketPlayOutSetSlot::new;
+		
 	}
 
 	private final VirtualMenuPlugin plugin;
 	private final ProtocolManager protocolManager;
 	private final PacketCloseWindowHandler closeHandler;
 	private final PacketWindowClickHandler clickHandler;
+	private final PacketSetSlotHandler slotHandler;
+	private final PacketWindowItemsHandler itemsHandler;
 
 
 	public ProtocolLibAdapter(VirtualMenuPlugin plugin) {
 		this.plugin = plugin;
 		this.protocolManager = ProtocolLibrary.getProtocolManager();
-		this.closeHandler = new PacketCloseWindowHandler(plugin);
-		this.clickHandler = new PacketWindowClickHandler(plugin);
+		//plugin packetAdapter 尚未初始化, 必须传递
+		this.closeHandler = new PacketCloseWindowHandler(plugin, this);
+		this.clickHandler = new PacketWindowClickHandler(plugin, this);
+		this.slotHandler = new PacketSetSlotHandler(plugin, this);
+		this.itemsHandler = new PacketWindowItemsHandler(plugin, this);
 	}
 
 	@Override
@@ -93,6 +104,15 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	public AbstractPacketInCloseWindow<?> mapToCloseWindow(PacketContainer packet) {
 		return FUNCTION_CLOSE_WINDOW.apply(packet);
 	}
+	
+	public AbstractPacketOutSetSlot<?> mapToSetSlot(PacketContainer packet) {
+		return FUNCTION_SET_SLOT.apply(packet);
+	}
+	
+	public AbstractPacketOutWindowItems<?> mapToWindowItems(PacketContainer packet) {
+		return FUNCTION_WINDOW_ITEMS.apply(packet);
+	}
+
 
 	@Override
 	public void sendServerPacket(IUser<?> user, AbstractWindowPacket<?> packet) throws InvocationTargetException {	 
@@ -108,8 +128,12 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	public void registerEvent() {
 		protocolManager.addPacketListener(clickHandler);
 		protocolManager.addPacketListener(closeHandler);
-		protocolManager.addPacketListener(new PacketDebugHandler(plugin));
+		protocolManager.addPacketListener(slotHandler);
+		protocolManager.addPacketListener(itemsHandler);
 		Bukkit.getPluginManager().registerEvents(closeHandler, plugin);
+		// for debug
+		protocolManager.addPacketListener(new PacketDebugHandler(plugin));
+
 	}
 
 }

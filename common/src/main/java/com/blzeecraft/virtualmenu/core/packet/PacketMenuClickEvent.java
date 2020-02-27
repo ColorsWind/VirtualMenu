@@ -16,11 +16,11 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class PacketMenuClickEvent extends PacketMenuEvent {
 
-	protected final IconActionEvent event;
+	protected final IconActionEvent iconEvent;
 	
 	public PacketMenuClickEvent(UserSession session, IconActionEvent event) {
 		super(session);
-		this.event = event;
+		this.iconEvent = event;
 	}
 
 	

@@ -12,7 +12,11 @@ public class PacketPlayOutSetSlot extends AbstractPacketOutSetSlot<PacketContain
 	protected final PacketContainer packet = super.packet; // 避免强制准换
 	
 	public PacketPlayOutSetSlot() {
-		super(new PacketContainer(PacketType.Play.Server.SET_SLOT));
+		this(new PacketContainer(PacketType.Play.Server.SET_SLOT));
+	}
+	
+	public PacketPlayOutSetSlot(PacketContainer packet) {
+		super(packet);
 	}
 
 	@Override

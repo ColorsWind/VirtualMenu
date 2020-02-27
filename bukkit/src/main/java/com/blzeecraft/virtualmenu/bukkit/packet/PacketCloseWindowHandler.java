@@ -19,10 +19,10 @@ public class PacketCloseWindowHandler extends PacketAdapter implements Listener 
 	private final BukkitPlatform platform;
 	private final ProtocolLibAdapter packetAdapter;
 
-	public PacketCloseWindowHandler(VirtualMenuPlugin plugin) {
+	public PacketCloseWindowHandler(VirtualMenuPlugin plugin, ProtocolLibAdapter packetAdapter) {
 		super(plugin, ListenerPriority.MONITOR, PacketType.Play.Client.CLOSE_WINDOW);
 		this.platform = plugin.getPlatformAdapter();
-		this.packetAdapter = plugin.getPacketAdapter();
+		this.packetAdapter = packetAdapter;
 	}
 
 	@Override

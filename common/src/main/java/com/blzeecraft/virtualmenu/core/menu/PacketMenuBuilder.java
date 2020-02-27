@@ -8,9 +8,9 @@ import java.util.stream.IntStream;
 
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.NonNull;
 
@@ -87,7 +87,7 @@ public class PacketMenuBuilder {
 		}
 		IntStream.range(0, this.type.getSize()).forEach(i -> {
 			if (this.icons[i] == null) {
-				icons[i] = UserSession.EMPTY_ICON;
+				icons[i] = EmptyIcon.INSTANCE;
 			}
 		});
 		Arrays.stream(EventType.values()).forEach(eventType -> menuAction.putIfAbsent(eventType, ActionUtils.EMPTY_ACTION));
