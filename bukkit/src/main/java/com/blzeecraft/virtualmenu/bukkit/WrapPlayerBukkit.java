@@ -166,4 +166,9 @@ public class WrapPlayerBukkit implements IUser<Player> {
 		player.updateInventory();
 	}
 
+	@Override
+	public Object[] getInventoryRawItems() {
+		return player.getInventory().getContents();
+	}
+
 }

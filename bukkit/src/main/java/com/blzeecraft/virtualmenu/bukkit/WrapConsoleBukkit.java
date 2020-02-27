@@ -131,4 +131,9 @@ public class WrapConsoleBukkit implements IUser<ConsoleCommandSender> {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public Object[] getInventoryRawItems() {
+		throw new UnsupportedOperationException();
+	}
+
 }

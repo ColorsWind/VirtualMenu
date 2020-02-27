@@ -52,7 +52,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 
 	public void handleReload() {
 		// fix reload issue
-		platformAdapter.getPlayerOnline().stream().map(player -> new WrapPlayerBukkit(this, player))
+		BukkitPlatform.getPlayerOnline().stream().map(player -> new WrapPlayerBukkit(this, player))
 				.forEach(user -> platformAdapter.playerMap.put(user.getHandle(), user));
 		;
 
@@ -66,11 +66,11 @@ public class VirtualMenuPlugin extends JavaPlugin {
 	public void registerAdapter() {
 		// register adapter
 		platformAdapter = new BukkitPlatform(this);
-		platformAdapter.registerEvent();
 		VirtualMenu.setup(platformAdapter);
 		packetAdapter = new ProtocolLibAdapter(this);
-		packetAdapter.registerEvent();
 		VirtualMenu.setup(packetAdapter);
+		platformAdapter.registerEvent();
+		packetAdapter.registerEvent();
 	}
 
 	@SneakyThrows

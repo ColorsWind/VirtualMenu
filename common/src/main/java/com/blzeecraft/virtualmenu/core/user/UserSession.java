@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutSetSlot;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowItems;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutWindowOpen;
@@ -69,9 +70,20 @@ public class UserSession {
 		this.user = user;
 		this.menu = menu;
 		this.packetMenuRawItem = new AtomicReferenceArray<>(menu.getSize());
-		this.inventoryRawItem = new AtomicReferenceArray<>(36);
+		this.inventoryRawItem = new AtomicReferenceArray<>(user.getInventoryRawItems());
 		this.viewIcon = new ConcurrentHashMap<>();
 		this.packetAdapter = VirtualMenu.getPacketAdapter();
+	}
+	
+	public UserSession init() {
+		for(int i=0;i<this.inventoryRawItem.length();i++) {
+			this.inventoryRawItem.getAndUpdate(i, UserSession::ensureNotNull);
+		}
+		AbstractItem<?>[] packetMenuItems = menu.viewItems(this);
+		for(int i=0;i<this.packetMenuRawItem.length();i++) {
+			this.packetMenuRawItem.set(i, packetMenuItems[i].getHandle());
+		}
+		return this;
 	}
 
 
@@ -241,6 +253,13 @@ public class UserSession {
 		return packetWindowSetSlot;
 	}
 	
+	public AbstractPacketOutSetSlot<?> createPacketOutSet(int rawSlot) {
+		if (rawSlot < menu.getSize()) {
+			return createPacketOutSetSlotForMenu(rawSlot);
+		}
+		return this.createPacketOutSetSlotForInventory(rawSlot - menu.getSize());
+	}
+	
 	public void handlePacket(AbstractPacketOutSetSlot<?> packet) {
 		if (packet.getWindowId() == 0) {
 			this.updateCacheInventoryRawItem(packet.getSlot(), packet.getRawItem());
@@ -251,6 +270,12 @@ public class UserSession {
 		if (packet.getWindowId() == 0) {
 			this.updateCacheInventoryRawItems(packet.getRawItems());
 		}
+	}
+
+	public AbstractPacketOutCloseWindow<?> createPacketWindowCloseForMenu() {
+		val packetWindowClose = packetAdapter.createPacketCloseWindow();
+		packetWindowClose.setWindowId(menu.getWindowId());
+		return packetWindowClose;
 	}
 
 }
