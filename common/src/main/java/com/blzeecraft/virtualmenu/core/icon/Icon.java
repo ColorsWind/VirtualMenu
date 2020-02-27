@@ -21,21 +21,11 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 public interface Icon extends Comparable<Icon>, Consumer<IconActionEvent> {
 
 	/**
-	 * 获取玩家显示的物品(缓存).
-	 * @param session 用户会话
+	 * 获取玩家显示的物品.
+	 * @param session
 	 * @return 如果不显示任何物品, 返回 {@link VirtualMenu#emptyItem()} 否则返回应显示的物品
 	 */
-	default AbstractItem<?> view(UserSession session) {
-		return session.getCacheItem(this);
-	}
-	
-	/**
-	 * 重新生成 Item. 通常用于刷新变量. 注意这个方法不会刷新 {@link UseSession} 中的缓存.
-	 * @param session UserSession
-	 * @return 如果不显示任何物品, 返回 {@link VirtualMenu#emptyItem()} 否则返回应显示的物品.
-	 * @see {@link #update(UserSession)
-	 */
-	AbstractItem<?> refreshItem(UserSession session);
+	AbstractItem<?> view(UserSession session);
 	
 	
 	/**

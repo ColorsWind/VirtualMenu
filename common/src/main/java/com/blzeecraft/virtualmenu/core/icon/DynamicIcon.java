@@ -60,7 +60,6 @@ public class DynamicIcon extends SimpleIcon {
 		this(node, 0, cache, clickCondition, viewCondition, command, replacer);
 	}
 
-	@Override
 	public AbstractItem<?> refreshItem(UserSession session) {
 		if (canView(session)) {
 			return refreshUncheck(session);

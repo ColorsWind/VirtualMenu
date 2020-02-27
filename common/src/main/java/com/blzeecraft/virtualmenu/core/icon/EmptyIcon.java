@@ -8,11 +8,12 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 /**
- * 表示一个空的 Icon, 仅用于填充 {@link UserSession#viewIcon}.
+ * 表示一个空的 Icon.
  * @author colors_wind
  * @date 2020-02-13
  */
-public class EmptyIcon implements Icon {
+public final class EmptyIcon implements Icon {
+	public static final Icon INSTANCE = new EmptyIcon();
 
 	@Override
 	public AbstractItem<?> view(UserSession session) {
@@ -37,10 +38,6 @@ public class EmptyIcon implements Icon {
 	@Override
 	public void accept(IconActionEvent e) {}
 
-	@Override
-	public AbstractItem<?> refreshItem(UserSession session) {
-		return VirtualMenu.emptyItem();
-	}
 	
 	@Override
 	public int hashCode() {

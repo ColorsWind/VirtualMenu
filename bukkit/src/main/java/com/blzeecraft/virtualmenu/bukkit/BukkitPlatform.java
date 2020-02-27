@@ -16,9 +16,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.blzeecraft.virtualmenu.bukkit.item.BukkitItemBuilder;
 import com.blzeecraft.virtualmenu.core.IPlatformAdapter;
+import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 import com.blzeecraft.virtualmenu.core.user.IUser;
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BukkitPlatform implements IPlatformAdapter, Listener {
+	public static final LogNode LOG_NODE = LogNode.of("#Bukkitplatform");
 	
 	private final VirtualMenuPlugin plugin;
 	protected final ConcurrentMap<Player, WrapPlayerBukkit> playerMap;
@@ -115,7 +119,7 @@ public class BukkitPlatform implements IPlatformAdapter, Listener {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Collection<? extends Player> getPlayerOnline() {
+	public static Collection<? extends Player> getPlayerOnline() {
 		try {
 			Method method = Bukkit.class.getMethod("getOnlinePlayers");
 			if (method.getReturnType().isArray()) {
@@ -124,9 +128,21 @@ public class BukkitPlatform implements IPlatformAdapter, Listener {
 				return ((Collection<? extends Player>) method.invoke(null));
 			}
 		} catch (Exception e) {
+			PluginLogger.warning(LOG_NODE, "通过反射获取在线玩家出现异常.");
 			e.printStackTrace();
 		}
 		return Collections.emptySet();
+	}
+	
+	public static ItemStack[] castItemArray(Object[] items) {
+		if (items instanceof ItemStack[]) {
+			return (ItemStack[]) items;
+		}
+		ItemStack[] itemArray = new ItemStack[items.length];
+		System.arraycopy(items, 0, itemArray, 0, items.length);
+		return itemArray;
+		
+		
 	}
 
 }

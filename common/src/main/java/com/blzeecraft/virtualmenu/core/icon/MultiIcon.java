@@ -1,10 +1,11 @@
 package com.blzeecraft.virtualmenu.core.icon;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
@@ -23,28 +24,25 @@ import lombok.val;
 @ToString
 public class MultiIcon implements Icon {
 	@Getter
-	protected final List<Icon> icons;
+	protected final List<Icon> storeIconList;
 
 	public MultiIcon(List<Icon> icons) {
-		this(icons.toArray(new Icon[0]));
+		// copy
+		this(icons.toArray(new Icon[icons.size()]));
 	}
 
 	public MultiIcon(Icon... icons) {
 		val sort = Arrays.asList(icons);
 		Collections.sort(sort);
 		Collections.reverse(sort);
-		this.icons = sort;
+		this.storeIconList = sort;
 	}
 
 	@Override
 	public AbstractItem<?> view(UserSession session) {
-		return session.getCacheItem(session.getCacheIcon(this));
+		return viewIcon(session).view(session);
 	}
 	
-	@Override
-	public AbstractItem<?> refreshItem(UserSession session) {
-		return session.getCacheIcon(this).refreshItem(session);
-	}
 
 	@Override
 	public boolean canView(UserSession session) {
@@ -61,32 +59,27 @@ public class MultiIcon implements Icon {
 		viewIcon(e.getSession()).accept(e);
 	}
 
-	/**
-	 * 获取缓存的该用户显示的真实 Icon.
-	 * @param session 用户会话
-	 * @return Icon
-	 */
 	public Icon viewIcon(UserSession session) {
-		return session.getCacheIcon(this);
+		return storeIconList.stream().filter(icon -> icon.canView(session)).findFirst().orElse(EmptyIcon.INSTANCE);
 	}
 
 	@Override
 	public int getPriority() {
 		return 0;
 	}
+	
 
-
-	public static MultiIcon of(Icon origin, Icon toCombined) {
-		if (origin instanceof MultiIcon) {
-			// flat
-			List<Icon> originIcons = ((MultiIcon) origin).getIcons();
-			List<Icon> newIcons = new ArrayList<>(originIcons.size() + 1);
-			newIcons.addAll(originIcons);
-			newIcons.add(toCombined);
-			return new MultiIcon(newIcons);
-		} else {
-			return new MultiIcon(new Icon[] { origin, toCombined });
-		}
+	public static MultiIcon of(Icon... icons) {
+		List<Icon> flatMapIcons = Arrays.stream(icons).flatMap(icon -> {
+			if (icon instanceof MultiIcon) {
+				return ((MultiIcon) icon).storeIconList.stream();
+			} else {
+				return Stream.of(icon);
+			}
+		}).collect(Collectors.toList());
+		return new MultiIcon(flatMapIcons);
 	}
+	
+
 
 }
