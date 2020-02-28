@@ -27,8 +27,6 @@ public class PacketWindowClickHandler  extends PacketAdapter {
 			AbstractPacketInWindowClick<?> packet = packetAdapter.mapToWindowClick(e.getPacket());
 			PacketManager.map(session, packet).ifPresent(event -> {
 				PacketManager.handleEvent(event);
-				
-				
 				e.setReadOnly(false);
 				e.setCancelled(true);
 			});

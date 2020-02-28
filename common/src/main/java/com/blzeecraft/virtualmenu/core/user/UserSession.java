@@ -248,8 +248,8 @@ public class UserSession {
 	public AbstractPacketOutSetSlot<?> createPacketOutSetSlotForInventory(int slot) {
 		val packetWindowSetSlot = packetAdapter.createPacketSetSlot();
 		packetWindowSetSlot.setWindowId(0);
-		packetWindowSetSlot.setSlot(slot);
-		packetWindowSetSlot.setRawItem(getCacheInventoryRawItem(slot));
+		packetWindowSetSlot.setSlot(slot + 9);
+		packetWindowSetSlot.setRawItem(getCacheInventoryRawItem(slot + 9));
 		return packetWindowSetSlot;
 	}
 	
