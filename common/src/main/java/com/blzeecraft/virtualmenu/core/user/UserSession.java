@@ -171,7 +171,7 @@ public class UserSession {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T[] getCachePacketMenuRawItems() {
-		Object[] itemArray = (Object[]) Array.newInstance(RAW_ITEM_TYPE, inventoryRawItem.length());
+		Object[] itemArray = (Object[]) Array.newInstance(RAW_ITEM_TYPE, this.packetMenuRawItem.length());
 		for(int i=0;i<this.packetMenuRawItem.length();i++) {
 			itemArray[i] = this.packetMenuRawItem.get(i);
 		}
