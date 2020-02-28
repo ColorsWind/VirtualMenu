@@ -183,9 +183,9 @@ public class WrapPlayerBukkit implements IUser<Player> {
 		}
 		
 		System.arraycopy(contents, 0, rawItemOfInventory, 36, 9); // first line
-		System.arraycopy(contents, 9, rawItemOfInventory, 27, 9); // second line
+		System.arraycopy(contents, 9, rawItemOfInventory, 9, 9); // second line
 		System.arraycopy(contents, 18, rawItemOfInventory, 18, 9); // third line
-		System.arraycopy(contents, 27, rawItemOfInventory, 9, 9); // fourth line
+		System.arraycopy(contents, 27, rawItemOfInventory, 27, 9); // fourth line
 		// armor
 		rawItemOfInventory[5] = contents[39];
 		rawItemOfInventory[6] = contents[38];
