@@ -5,8 +5,11 @@ import java.util.OptionalDouble;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.blzeecraft.virtualmenu.bukkit.economy.IEconomyHook;
+import com.blzeecraft.virtualmenu.bukkit.item.XMaterial;
 import com.blzeecraft.virtualmenu.bukkit.title.TitleAPI;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
@@ -167,8 +170,28 @@ public class WrapPlayerBukkit implements IUser<Player> {
 	}
 
 	@Override
-	public Object[] getInventoryRawItems() {
-		return player.getInventory().getContents();
+	public ItemStack[] getInventoryRawItems() {
+		PlayerInventory inv = player.getInventory();
+		ItemStack[] contents = inv.getContents();
+		ItemStack[] rawItemOfInventory;
+		if(XMaterial.getVersion() >= 9) {
+			// 1.9+ offHand
+			rawItemOfInventory = new ItemStack[46];
+			rawItemOfInventory[45] = contents[40]; //offHand
+		} else {
+			rawItemOfInventory = new ItemStack[45];
+		}
+		
+		System.arraycopy(contents, 0, rawItemOfInventory, 36, 9); // first line
+		System.arraycopy(contents, 9, rawItemOfInventory, 27, 9); // second line
+		System.arraycopy(contents, 18, rawItemOfInventory, 18, 9); // third line
+		System.arraycopy(contents, 27, rawItemOfInventory, 9, 9); // fourth line
+		// armor
+		rawItemOfInventory[5] = contents[39];
+		rawItemOfInventory[6] = contents[38];
+		rawItemOfInventory[7] = contents[37];
+		rawItemOfInventory[8] = contents[36];	
+		return rawItemOfInventory;
 	}
 
 }
