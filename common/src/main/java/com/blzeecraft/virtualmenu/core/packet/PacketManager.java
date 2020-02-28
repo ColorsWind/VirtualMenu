@@ -49,7 +49,7 @@ public class PacketManager {
 		user.setCurrentSession(session);
 		menu.addViewer(session);
 		val packetWindowOpen = session.createPacketWindowOpen();
-		val packetWindowItems = session.createPacketWindowItemsForInventory();
+		val packetWindowItems = session.createPacketWindowItemsForMenu();
 		try {
 			adapter.sendServerPacket(user, packetWindowOpen);
 			adapter.sendServerPacket(user, packetWindowItems);
