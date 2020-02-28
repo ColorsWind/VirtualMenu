@@ -14,7 +14,7 @@ public class PacketDebugHandler  extends PacketAdapter {
 
 	public PacketDebugHandler(VirtualMenuPlugin plugin) {
 		super(plugin, ListenerPriority.MONITOR, 
-				PacketType.Play.Server.OPEN_WINDOW, PacketType.Play.Server.WINDOW_ITEMS,  PacketType.Play.Client.CLOSE_WINDOW);
+				PacketType.Play.Server.OPEN_WINDOW, PacketType.Play.Server.WINDOW_ITEMS,  PacketType.Play.Client.CLOSE_WINDOW,  PacketType.Play.Server.SET_SLOT);
 		this.platform = plugin.getPlatformAdapter();
 	}
 	
