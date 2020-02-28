@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.core.logger;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -75,6 +76,28 @@ public class PluginLogger {
 	
 	public static void log(LogNode node, Level level, String msg) {
 		logger.log(level, join(node, msg));
+	}
+	
+
+	public static void debugPacket(Object packet) {
+		Class<?> clazz = packet.getClass();
+		System.out.print(clazz.getSimpleName());
+		Arrays.stream(clazz.getDeclaredFields()).forEach(field -> {
+			field.setAccessible(true);
+			System.out.println(field.getType().getName());
+			try {
+				System.out.print(field.getGenericType());
+			} catch (Exception e) {
+			}
+			System.out.print(" = ");
+			try {
+				Object obj = field.get(packet);
+				System.out.print(LogFormatter.toString(obj));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println();
+		});
 	}
 
 }

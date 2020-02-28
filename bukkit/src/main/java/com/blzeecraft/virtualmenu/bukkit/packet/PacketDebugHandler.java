@@ -2,6 +2,7 @@ package com.blzeecraft.virtualmenu.bukkit.packet;
 
 import com.blzeecraft.virtualmenu.bukkit.BukkitPlatform;
 import com.blzeecraft.virtualmenu.bukkit.VirtualMenuPlugin;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
@@ -19,13 +20,19 @@ public class PacketDebugHandler  extends PacketAdapter {
 	
 	@Override
 	public void onPacketReceiving(PacketEvent e) {
-		System.out.println(e.toString());
+		System.out.println("收到 Packet:" + e.getPacketType() + " target: " + e.getPlayer().getName());
+		PluginLogger.debugPacket(e.getPacket().getHandle());
 	}
 
 	@Override
 	public void onPacketSending(PacketEvent e) {
-		System.out.println(e.toString());
+		System.out.println("发送 Packet:" + e.getPacketType() + " from: " + e.getPlayer().getName());
+		PluginLogger.debugPacket(e.getPacket().getHandle());
 	}
+	
+
+	
+	
 	
 	
 	
