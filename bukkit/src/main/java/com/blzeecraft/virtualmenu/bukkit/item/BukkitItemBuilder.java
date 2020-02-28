@@ -71,6 +71,7 @@ public class BukkitItemBuilder extends AbstractItemBuilder<ItemStack> {
 			if (meta != null) {
 				itemName.ifPresent(name -> meta.setDisplayName(name));
 				itemLore.ifPresent(lore -> meta.setLore(lore));
+				item.setItemMeta(meta);
 			}
 			return item;
 		}).orElse(FALLBACK);
