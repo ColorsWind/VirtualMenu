@@ -20,13 +20,13 @@ public class PacketDebugHandler  extends PacketAdapter {
 	
 	@Override
 	public void onPacketReceiving(PacketEvent e) {
-		System.out.println("收到 Packet:" + e.getPacketType() + " target: " + e.getPlayer().getName());
+		System.out.println("Receiving packet:" + e.getPacketType() + " from: " + e.getPlayer().getName());
 		PluginLogger.debugPacket(e.getPacket().getHandle());
 	}
 
 	@Override
 	public void onPacketSending(PacketEvent e) {
-		System.out.println("发送 Packet:" + e.getPacketType() + " from: " + e.getPlayer().getName());
+		System.out.println("Send packet:" + e.getPacketType() + " target: " + e.getPlayer().getName());
 		PluginLogger.debugPacket(e.getPacket().getHandle());
 	}
 	

@@ -80,23 +80,23 @@ public class PluginLogger {
 	
 
 	public static void debugPacket(Object packet) {
+		
 		Class<?> clazz = packet.getClass();
 		System.out.print(clazz.getSimpleName());
 		Arrays.stream(clazz.getDeclaredFields()).forEach(field -> {
 			field.setAccessible(true);
-			System.out.println(field.getType().getName());
-			try {
-				System.out.print(field.getGenericType());
-			} catch (Exception e) {
-			}
-			System.out.print(" = ");
+			StringBuilder sb = new StringBuilder();
+			sb.append(field.getType().getName());
+			sb.append(" ");
+			sb.append(field.getName());
+			sb.append(" = ");
 			try {
 				Object obj = field.get(packet);
-				System.out.print(LogFormatter.toString(obj));
+				sb.append(LogFormatter.toString(obj));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println();
+			System.out.println(sb.toString());
 		});
 	}
 
