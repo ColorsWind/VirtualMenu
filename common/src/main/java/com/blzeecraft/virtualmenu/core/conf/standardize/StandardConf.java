@@ -20,7 +20,7 @@ public class StandardConf extends SubConf {
 	@ToString public static class GlobalConf extends SubConf {
 		public String title;
 		public String type;
-		public int refresh;
+		public Optional<String> refresh;
 		public List<String> bound;
 	}
 	

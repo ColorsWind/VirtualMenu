@@ -8,4 +8,6 @@ public interface IScheduler {
 
 	AbstractTask<?> runTaskAsync(Runnable task);
 
+	AbstractTask<?> runTaskTimer(Runnable task, long delay, long period);
+
 }

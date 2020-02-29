@@ -19,6 +19,7 @@ import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
 import com.blzeecraft.virtualmenu.core.variable.EmptyVariableAdapter;
 import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
+import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -46,6 +47,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 			MenuManager.reloadMenu();
 			PluginLogger.info(LogNode.ROOT, "成功加载: " + MenuManager.getMenus().size() + " 个菜单");
 		});
+		VariableUpdater.startUpdate();
 	}
 	
 	@Override

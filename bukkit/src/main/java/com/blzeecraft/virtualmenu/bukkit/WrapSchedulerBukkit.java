@@ -20,6 +20,11 @@ public class WrapSchedulerBukkit implements IScheduler {
 	public AbstractTask<?> runTaskLater(Runnable task, long delay) {
 		return new WrapTaskBukkit(scheduler.runTaskLater(plugin, task, delay));
 	}
+	
+	@Override
+	public AbstractTask<?> runTaskTimer(Runnable task, long delay, long period) {
+		return new WrapTaskBukkit(scheduler.runTaskTimer(plugin, task, delay, period));
+	}
 
 	@Override
 	public AbstractTask<?> runTaskGuaranteePrimaryThread(Runnable task) {
@@ -79,5 +84,7 @@ public class WrapSchedulerBukkit implements IScheduler {
 		}
 
 	}
+
+
 
 }

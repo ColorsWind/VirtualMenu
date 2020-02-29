@@ -104,16 +104,28 @@ public interface IPacketMenu {
 	Collection<UserSession> getSessions();
 
 	/**
-	 * 获取指定slot客户端显示的物品(缓存).
+	 * 获取指定slot客户端显示的 Item.
 	 * 
-	 * @param session 用户会话
-	 * @param slot    这个物品的slot
+	 * @param session 
+	 * @param slot    
 	 * @return 显示的物品
 	 */
 	AbstractItem<?> viewItem(UserSession session, int slot);
+	
+	
+	/**
+	 * 获取指定slot客户端显示的 RawItem.
+	 * 
+	 * @param session
+	 * @param slot
+	 * @return
+	 */
+	default Object viewRawItem(UserSession session, int slot) {
+		return viewItem(session, slot).getHandle();
+	}
 
 	/**
-	 * 获取整个菜单客户端显示的物品. 最好覆盖默认方法以提高效率.
+	 * 获取整个菜单客户端显示的 Item.
 	 * 
 	 * @param session
 	 * @return
@@ -126,26 +138,29 @@ public interface IPacketMenu {
 		}
 		return items;
 	}
+	
+	/**
+	 * 获取整个菜单客户端显示的 RawItem.
+	 * 
+	 * @param session
+	 * @return
+	 */
+	default Object[] viewRawItems(UserSession session) {
+		int size = getSize();
+		Object[] items = new Object[size];
+		for (int i = 0; i < size; i++) {
+			items[i] = viewRawItem(session, i);
+		}
+		return items;
+	}
 
 	/**
 	 * 获取菜单的更新延时(间隔), 这个只对变量更新有效.
 	 * 
 	 * @return 更新延时(间隔)
 	 */
-	default EnumUpdateDelay getUpdateDelay() {
-		return EnumUpdateDelay.NEVER;
-	}
+	EnumUpdateDelay getUpdateDelay();
 
-	/**
-	 * 玩家点击菜单插件恢复客户端显示时是否应该更新(即恢复客户端显示)所有的项目. 这应该是一个常量.
-	 * 如果菜单有特殊的功能,如合成台,熔炉等,为保证客户端正确显示, 必须返回 {@code true}. 其他情况可返回 {@code false},
-	 * 这样插件只会更新直接相关联 Icon 和玩家背包中相应的项目.
-	 * 
-	 * @return {@code true} 如果需要更新所有项目, 否则返回 {@code false}
-	 */
-	default boolean totalUpdate() {
-		return getType().isItemMenu();
-	}
 	
 
 }

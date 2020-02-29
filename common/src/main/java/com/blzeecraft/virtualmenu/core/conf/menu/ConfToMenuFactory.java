@@ -9,6 +9,7 @@ import java.util.OptionalInt;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.IAction;
+import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.condition.ConditionUtils;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
@@ -53,8 +54,11 @@ public class ConfToMenuFactory {
 		});
 		builder.type(type);
 		// refresh
-		int refresh = conf.global.refresh;
-		builder.refresh(refresh);
+		String refresh = conf.global.refresh.orElse(EnumUpdateDelay.NEVER.name());
+		builder.refresh(EnumUpdateDelay.get(refresh).orElseGet(() -> {
+			PluginLogger.warning(node, "找不到刷新间隔类型: " + refresh + " 可用的类型: " + EnumUpdateDelay.typesToString());
+			return EnumUpdateDelay.NORMAL;
+		}));
 		// bound not yet
 
 		/* ########## events ########## */

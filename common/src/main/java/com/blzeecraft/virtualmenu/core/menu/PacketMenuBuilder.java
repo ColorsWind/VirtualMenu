@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -21,7 +22,7 @@ public class PacketMenuBuilder {
 	protected IMenuType type;
 	protected Icon[] icons;
 	protected Map<EventType, Consumer<MenuEvent>> menuAction;
-	protected int refresh;
+	protected EnumUpdateDelay updateDelay;
 	protected String title;
 
 	public PacketMenuBuilder(LogNode node) {
@@ -42,12 +43,8 @@ public class PacketMenuBuilder {
 		return this;
 	}
 
-	public PacketMenuBuilder refresh(int refresh) {
-		if (refresh <= 0) {
-			this.refresh = -1;
-		} else {
-			this.refresh = refresh;
-		}
+	public PacketMenuBuilder refresh(EnumUpdateDelay delay) {
+		this.updateDelay = delay;
 		return this;
 	}
 
@@ -91,7 +88,7 @@ public class PacketMenuBuilder {
 			}
 		});
 		Arrays.stream(EventType.values()).forEach(eventType -> menuAction.putIfAbsent(eventType, ActionUtils.EMPTY_ACTION));
-		return new PacketMenu(node, refresh, title, type, icons, menuAction);
+		return new PacketMenu(node, updateDelay, title, type, icons, menuAction);
 	}
 
 }

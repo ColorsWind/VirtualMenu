@@ -9,11 +9,11 @@ global:
   # GENERIC_9X5,GENERIC_9X6,GENERIC_3X3,HOPPER(5*1)
   # 特殊类型不推荐使用(但也许可以正常工作)
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/inventory/InventoryType.html
-  type: HOPPER
+  type: GENERIC_9X1
   
   # 【可选】刷新变量间隔，单位是tick
   # 此选项与动态菜单无关
-  refresh: 10
+  refresh: NORMAL
 
   # 【可选】菜单绑定设置
   bound:
@@ -43,7 +43,7 @@ events:
   # 注:下面给予经验的使玩家可以看到slot3的物品
   OPEN_MENU: 
     action:
-    - 'console{command=minecraft:xp add <player> 200}'
+    - 'console{command=minecraft:xp 20L <player>}'
     - tell{s=打开菜单(此项可在events.open配置)}
 
 

@@ -16,10 +16,12 @@ import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
+import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -34,24 +36,24 @@ import lombok.val;
 @ToString
 public abstract class AbstractPacketMenu implements IPacketMenu {
 	@Getter
-	protected final int refresh;
-	@Getter
 	protected final String title;
 	@Getter
 	protected final IMenuType type;
-
+	@Getter
+	protected final EnumUpdateDelay updateDelay;
+	
 	protected final Icon[] icons; // not null
 	protected final Map<EventType, Consumer<MenuEvent>> menuAction; // not null
 
 	protected final Set<UserSession> sessions;
 
-	public AbstractPacketMenu(int refresh, String title, IMenuType type) {
-		this(refresh, title, type, new Icon[type.getSize()], new EnumMap<>(EventType.class));
+	public AbstractPacketMenu(EnumUpdateDelay updateDelay, String title, IMenuType type) {
+		this(updateDelay, title, type, new Icon[type.getSize()], new EnumMap<>(EventType.class));
 	}
 
-	public AbstractPacketMenu(int refresh, String title, IMenuType type, Icon[] icons,
+	public AbstractPacketMenu(EnumUpdateDelay updateDelay, String title, IMenuType type, Icon[] icons,
 			Map<EventType, ? extends Consumer<MenuEvent>> events) {
-		this.refresh = refresh;
+		this.updateDelay = updateDelay;
 		this.title = title;
 		this.type = type;
 		this.icons = new Icon[type.getSize()];
@@ -92,11 +94,13 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 	@Override
 	public void addViewer(UserSession session) {
 		sessions.add(session);
+		VariableUpdater.addUpdateTask(session);
 	}
 
 	@Override
 	public void removeViewer(UserSession session) {
 		sessions.remove(session);
+		VariableUpdater.removeUpdateTask(session);
 	}
 
 	@Override
@@ -117,5 +121,7 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		}
 		return Optional.empty();
 	}
+
+	
 
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -12,9 +13,9 @@ public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 	protected final LogNode node;
 	
 
-	public PacketMenu(LogNode node, int refresh, String title, IMenuType type, Icon[] icons,
+	public PacketMenu(LogNode node, EnumUpdateDelay delay, String title, IMenuType type, Icon[] icons,
 			Map<EventType, Consumer<MenuEvent>> menuAction) {
-		super(refresh, title, type, icons, menuAction);
+		super(delay, title, type, icons, menuAction);
 		this.node = node;
 	}
 
@@ -27,6 +28,8 @@ public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 	public LogNode getLogNode() {
 		return node;
 	}
+	
+	
 
 
 
