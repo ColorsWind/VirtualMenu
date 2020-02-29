@@ -183,6 +183,7 @@ public class PacketManager {
 		MenuActionEvent closeEvent = new MenuActionEvent(session, EventType.CLOSE_MENU);
 		VirtualMenu.getScheduler().runTaskGuaranteePrimaryThread(() -> {
 			menu.handle(closeEvent);
+			menu.removeViewer(session);
 			//ensure sequential execution
 			session.getUser().setCurrentSession(null);
 		});

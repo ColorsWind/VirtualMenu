@@ -66,7 +66,7 @@ public class VariableUpdater implements Runnable {
 			PluginLogger.warning(LOG_NODE, "刷新菜单任务已经开始. 无法重复开始.");
 			throw new IllegalArgumentException();
 		}
-		Arrays.stream(EnumUpdateDelay.values()).forEach(delay -> {
+		Arrays.stream(EnumUpdateDelay.values()).filter(updateDelay -> updateDelay.getDelay() > 0).forEach(delay -> {
 			val updater = new VariableUpdater(delay).start();
 			UPDATER_MAP.put(delay, updater);
 		});

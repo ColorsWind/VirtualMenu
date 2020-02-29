@@ -40,6 +40,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 		generate();
 		PluginLogger.setup();
 		Settings.read(this);
+		registerVariable();
 		registerCommand();
 		handleReload();
 		// should load after the server started
@@ -47,9 +48,19 @@ public class VirtualMenuPlugin extends JavaPlugin {
 			MenuManager.reloadMenu();
 			PluginLogger.info(LogNode.ROOT, "成功加载: " + MenuManager.getMenus().size() + " 个菜单");
 		});
-		VariableUpdater.startUpdate();
+		
 	}
 	
+	private void registerVariable() {
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			variableAdapter = new PlaceholderAPIAdapter();
+			PluginLogger.info(LogNode.ROOT, "加载对 PlaceholderAPI 的支持.");
+		} else {
+			variableAdapter = new EmptyVariableAdapter();
+		}
+		VariableUpdater.startUpdate();
+	}
+
 	@Override
 	public void onDisable() {
 		PacketManager.closeAllMenu();
@@ -76,12 +87,6 @@ public class VirtualMenuPlugin extends JavaPlugin {
 		VirtualMenu.setup(packetAdapter);
 		platformAdapter.registerEvent();
 		packetAdapter.registerEvent();
-		
-		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			variableAdapter = new PlaceholderAPIAdapter();
-		} else {
-			variableAdapter = new EmptyVariableAdapter();
-		}
 	}
 
 	@SneakyThrows

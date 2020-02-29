@@ -52,6 +52,7 @@ public class DynamicIcon extends SimpleIcon {
 		this(node, 0, cache, clickCondition, viewCondition, command, name, lore);
 	}
 
+	
 
 	public AbstractItem<?> refreshItem(UserSession session) {
 		if (canView(session)) {
@@ -70,5 +71,15 @@ public class DynamicIcon extends SimpleIcon {
 		return item;
 	}
 
+	@Override
+	public AbstractItem<?> view(UserSession session) {
+		val user = session.getUser();
+		val newName = name.apply(user);
+		val newLore = lore.apply(user);
+		return this.cache.updateMeta(newName, newLore);
+	}
+
+	
+	
 
 }

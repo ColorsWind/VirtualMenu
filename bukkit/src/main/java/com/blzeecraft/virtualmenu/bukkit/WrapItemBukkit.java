@@ -2,10 +2,12 @@ package com.blzeecraft.virtualmenu.bukkit;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.blzeecraft.virtualmenu.bukkit.item.BukkitItemBuilder;
 import com.blzeecraft.virtualmenu.bukkit.item.ItemUtils;
@@ -44,6 +46,18 @@ public class WrapItemBukkit extends AbstractItem<ItemStack> {
 	@Override
 	public ItemStack getHandle() {
 		return item.clone();
+	}
+
+	@Override
+	public WrapItemBukkit updateMeta(String newName, List<String> newLore) {
+		ItemStack newItem = this.item.clone();
+		ItemMeta meta = newItem.getItemMeta();
+		if (meta != null) {
+			meta.setDisplayName(newName);
+			meta.setLore(newLore);
+			newItem.setItemMeta(meta);
+		}
+		return new WrapItemBukkit(newItem);
 	}
 
 }

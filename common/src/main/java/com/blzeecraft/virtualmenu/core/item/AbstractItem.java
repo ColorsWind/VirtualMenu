@@ -45,6 +45,7 @@ public abstract class AbstractItem<T> implements IWrappedObject<T> {
 
 	public abstract boolean isEmpty();
 	
-
+	public abstract AbstractItem<T> updateMeta(String newName, List<String> newLore);
+	
 	
 }
