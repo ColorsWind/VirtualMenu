@@ -21,11 +21,17 @@ public class PlaceholderAPIAdapter implements IVariableAdapter {
 
 	@Override
 	public boolean containsVariable(String line) {
+		if (line == null) {
+			return false;
+		}
 		return PlaceholderAPI.containsPlaceholders(line);
 	}
 
 	@Override
 	public boolean containsVariable(List<String> lines) {
+		if (lines == null) {
+			return false;
+		}
 		return lines.stream().anyMatch(PlaceholderAPI::containsPlaceholders);
 	}
 

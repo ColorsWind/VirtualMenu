@@ -14,10 +14,9 @@ import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
+import com.blzeecraft.virtualmenu.core.icon.IconBuilder;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
-import com.blzeecraft.virtualmenu.core.icon.SimpleIcon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
@@ -110,22 +109,28 @@ public class ConfToMenuFactory {
 	}
 
 	public static Icon readIcon(LogNode node, IconConf conf) {
+		val builder = new IconBuilder();
 		int priority = conf.priority.orElse(0); //default 0
+		builder.priority(priority);
 		AbstractItem<?> cache = readItem(node, conf);
+		builder.item(cache);
 		ICondition clickCondition = ConditionUtils.parse(node.sub("click-condition"), conf.click_condition);
+		builder.clickCondition(clickCondition);
 		ICondition viewCondition = ConditionUtils.parse(node.sub("view-condition"), conf.view_condition);
+		builder.viewCondition(viewCondition);
 		IAction action = ActionUtils.parse(node.sub("action"), conf.action);
-		return new SimpleIcon(node, priority, cache, clickCondition, viewCondition, action);
+		builder.command(action);
+		return builder.build(node);
 	}
 	
 	public static AbstractItem<?> readItem(LogNode node, IconConf conf) {
-		AbstractItemBuilder<?> iBuilder = VirtualMenu.createItemBuilder();
-		iBuilder.id(conf.id);
-		iBuilder.amount(conf.amount.orElse(1));
-		iBuilder.nbt(conf.nbt.orElse(null));
-		iBuilder.name(conf.name.orElse(null));
-		iBuilder.lore(conf.lore);
-		AbstractItem<?> item = iBuilder.build(node);
+		val builder = VirtualMenu.createItemBuilder();
+		builder.id(conf.id);
+		builder.amount(conf.amount.orElse(1));
+		builder.nbt(conf.nbt.orElse(null));
+		builder.name(conf.name.orElse(null));
+		builder.lore(conf.lore);
+		AbstractItem<?> item = builder.build(node);
 		return item;
 	}
 
