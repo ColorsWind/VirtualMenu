@@ -17,6 +17,8 @@ import com.blzeecraft.virtualmenu.core.conf.menu.MenuManager;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.variable.EmptyVariableAdapter;
+import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -28,6 +30,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 	private static VirtualMenuPlugin instance;
 	private ProtocolLibAdapter packetAdapter;
 	private BukkitPlatform platformAdapter;
+	private IVariableAdapter variableAdapter;
 
 	@Override
 	public void onEnable() {
@@ -71,6 +74,12 @@ public class VirtualMenuPlugin extends JavaPlugin {
 		VirtualMenu.setup(packetAdapter);
 		platformAdapter.registerEvent();
 		packetAdapter.registerEvent();
+		
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			variableAdapter = new PlaceholderAPIAdapter();
+		} else {
+			variableAdapter = new EmptyVariableAdapter();
+		}
 	}
 
 	@SneakyThrows
@@ -110,5 +119,6 @@ public class VirtualMenuPlugin extends JavaPlugin {
 		}
 		return opt;
 	}
+
 
 }

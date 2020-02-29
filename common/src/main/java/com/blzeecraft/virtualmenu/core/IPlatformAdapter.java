@@ -10,6 +10,7 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItemBuilder;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
 
 /**
  * 服务端平台适配器
@@ -96,6 +97,12 @@ public interface IPlatformAdapter {
 	default Logger getLogger() {
 		return Logger.getLogger("VirtualMenu");
 	}
+
+	/**
+	 * 获取变量适配器.
+	 * @return
+	 */
+	IVariableAdapter getVariableAdapter();
 
 	
 	

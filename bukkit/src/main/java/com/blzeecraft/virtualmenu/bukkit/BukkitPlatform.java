@@ -25,6 +25,7 @@ import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -143,6 +144,11 @@ public class BukkitPlatform implements IPlatformAdapter, Listener {
 		return itemArray;
 		
 		
+	}
+
+	@Override
+	public IVariableAdapter getVariableAdapter() {
+		return plugin.getVariableAdapter();
 	}
 
 }

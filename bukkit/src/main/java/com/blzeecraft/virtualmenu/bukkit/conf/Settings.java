@@ -13,12 +13,14 @@ public class Settings {
 	
 	public static boolean useXMaterial = true;
 	public static boolean supportNBT = true;
+	public static boolean hookPlaceholderAPI = true;
 	
 	public static void read(VirtualMenuPlugin plugin) {
 		File file = new File(plugin.getDataFolder(), "config.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 		useXMaterial = config.getBoolean("UseXMaterial", true);
 		supportNBT = config.getBoolean("SupportNBT", true);
+		hookPlaceholderAPI = config.getBoolean("HookPlaceholderAPI", true);
 		ConfigurationSection hookSect = config.getConfigurationSection("EconomyHook");
 		ConfigurationSection currencySect = config.getConfigurationSection("MultiCurrency");
 		Arrays.stream(EconomyPlugins.values()).forEach(type -> {

@@ -13,6 +13,7 @@ import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.packet.IPacketAdapter;
 import com.blzeecraft.virtualmenu.core.schedule.IScheduler;
 import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
 
 /**
  * 代表 VirtualMenu 核心, 用来转发对适配器单例的调用.
@@ -120,6 +121,14 @@ public class VirtualMenu {
 	 */
 	public static IScheduler getScheduler() {
 		return platformAdapter.getScheduler();
+	}
+
+	/**
+	 * @return
+	 * @see IPlatformAdapter#getVariableAdapter()
+	 */
+	public static IVariableAdapter getVariableAdapter() {
+		return platformAdapter.getVariableAdapter();
 	}
 	
 	/**

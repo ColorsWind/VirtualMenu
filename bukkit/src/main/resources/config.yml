@@ -19,4 +19,6 @@ MultiCurrency:
 SupportNBT: true
 # 是否使用XMaterial提供物品类型高级匹配功能, 如果是MOD服建议关闭.
 UseXMaterial: true
+# 是否使用 PlaceholderAPI 支持菜单变量, 插件本身不提供任何变量, 如果需要变量请安装papi.
+HookPlaceholderAPI: true
 
