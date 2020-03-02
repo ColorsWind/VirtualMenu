@@ -61,20 +61,14 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 
 	private final VirtualMenuPlugin plugin;
 	private final ProtocolManager protocolManager;
-	private final PacketCloseWindowHandler closeHandler;
-	private final PacketWindowClickHandler clickHandler;
-	private final PacketSetSlotHandler slotHandler;
-	private final PacketWindowItemsHandler itemsHandler;
+	private final PacketListener packetListener;
 
 
 	public ProtocolLibAdapter(VirtualMenuPlugin plugin) {
 		this.plugin = plugin;
 		this.protocolManager = ProtocolLibrary.getProtocolManager();
 		//plugin packetAdapter 尚未初始化, 必须传递
-		this.closeHandler = new PacketCloseWindowHandler(plugin, this);
-		this.clickHandler = new PacketWindowClickHandler(plugin, this);
-		this.slotHandler = new PacketSetSlotHandler(plugin, this);
-		this.itemsHandler = new PacketWindowItemsHandler(plugin, this);
+		this.packetListener = new PacketListener(plugin, this);
 	}
 
 	@Override
@@ -126,11 +120,8 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 	}
 
 	public void registerEvent() {
-		protocolManager.addPacketListener(clickHandler);
-		protocolManager.addPacketListener(closeHandler);
-		protocolManager.addPacketListener(slotHandler);
-		protocolManager.addPacketListener(itemsHandler);
-		Bukkit.getPluginManager().registerEvents(closeHandler, plugin);
+		protocolManager.addPacketListener(packetListener);
+		Bukkit.getPluginManager().registerEvents(packetListener, plugin);
 		// for debug
 		protocolManager.addPacketListener(new PacketDebugHandler(plugin));
 

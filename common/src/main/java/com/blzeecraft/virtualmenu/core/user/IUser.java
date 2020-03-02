@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.UUID;
 
-import com.blzeecraft.virtualmenu.core.packet.PacketManager;
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.menu.IPacketMenu;
@@ -194,10 +193,10 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 * 使玩家打开 PacketMenu.
 	 * 
 	 * @param menu
-	 * @see {@link PacketManager#openMenu(IUser, IPacketMenu)}
+	 * @see {@link UserManager#openMenu(IUser, IPacketMenu)}
 	 */
 	default void openPacketMenu(IPacketMenu menu) {
-		PacketManager.openMenu(this, menu);
+		UserManager.openMenu(this, menu);
 	}
 
 	/**
@@ -213,14 +212,14 @@ public interface IUser<T> extends IWrappedObject<T> {
 	 * 关闭玩家当前打开的 PacketMenu.
 	 */
 	default void closePacketMenu() {
-		PacketManager.closePacketMenu(this);
+		UserManager.closePacketMenu(this);
 	}
 
 	/**
 	 * 关闭玩家打开的 Inventory
 	 */
 	default void closeInventory() {
-		PacketManager.closeInventory(this);
+		UserManager.closeInventory(this);
 	}
 
 	/**

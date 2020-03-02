@@ -16,7 +16,7 @@ import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.menu.MenuManager;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
-import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.user.UserManager;
 import com.blzeecraft.virtualmenu.core.variable.EmptyVariableAdapter;
 import com.blzeecraft.virtualmenu.core.variable.IVariableAdapter;
 import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
@@ -63,7 +63,7 @@ public class VirtualMenuPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		PacketManager.closeAllMenu();
+		UserManager.closeAllMenu();
 	}
 
 	public void handleReload() {

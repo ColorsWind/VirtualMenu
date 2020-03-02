@@ -3,7 +3,7 @@ package com.blzeecraft.virtualmenu.core.icon;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import com.blzeecraft.virtualmenu.core.packet.PacketManager;
+import com.blzeecraft.virtualmenu.core.user.UserManager;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
@@ -14,7 +14,7 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 /**
  * 代表菜单中的一个图标, 单个图标可以为不同的玩家显示不同的物品.
  * Icon 不应该修改 {@link UserSession} 中的字段.
- * 所有对 UserSession 的中修改应该由 {@link PacketManager} 进行.
+ * 所有对 UserSession 的中修改应该由 {@link UserManager} 进行.
  * @author colors_wind
  *
  */

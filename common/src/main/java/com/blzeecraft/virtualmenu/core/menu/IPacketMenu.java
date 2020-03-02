@@ -7,8 +7,8 @@ import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
-import com.blzeecraft.virtualmenu.core.packet.PacketManager;
 import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserManager;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
 import lombok.val;
@@ -54,7 +54,7 @@ public interface IPacketMenu {
 	}
 
 	/**
-	 * 处理 {@link IconActionEvent} 事件. 这个方法会由 {@link PacketManager} 调用.
+	 * 处理 {@link IconActionEvent} 事件. 这个方法会由 {@link UserManager} 调用.
 	 * 这里处理有关 Icon 的事件.
 	 * 
 	 * @param event 事件
@@ -62,7 +62,7 @@ public interface IPacketMenu {
 	void handle(IconActionEvent event);
 
 	/**
-	 * 处理 {@link MenuActionEvent} 事件. 这个方法会由 {@link PacketManager} 调用.
+	 * 处理 {@link MenuActionEvent} 事件. 这个方法会由 {@link UserManager} 调用.
 	 * 这里处理有关 PacketMenu 的事件.
 	 * 
 	 * @param event 事件
@@ -70,8 +70,8 @@ public interface IPacketMenu {
 	void handle(MenuActionEvent event);
 
 	/**
-	 * 处理用户打开菜单, 这个方法会在创建打开菜单 Packet 前由 {@link PacketManager} 调用. 这里应该向 注意
-	 * {@link IPacketMenu#handle(MenuActionEvent)} 将稍后由 {@link PacketManager} 调用.
+	 * 处理用户打开菜单, 这个方法会在创建打开菜单 Packet 前由 {@link UserManager} 调用. 这里应该向 注意
+	 * {@link IPacketMenu#handle(MenuActionEvent)} 将稍后由 {@link UserManager} 调用.
 	 * 这里只需要对 {@link UserSession} 进行初始化.
 	 * 
 	 * @param session 用户会话
@@ -79,8 +79,8 @@ public interface IPacketMenu {
 	void addViewer(UserSession session);
 
 	/**
-	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link PacketManager} 调用. 注意
-	 * {@link IPacketMenu#handle(MenuActionEvent)} 在稍早些已由 {@link PacketManager} 调用.
+	 * 处理用户关闭菜单, 这个方法会在创建关闭菜单封包前由 {@link UserManager} 调用. 注意
+	 * {@link IPacketMenu#handle(MenuActionEvent)} 在稍早些已由 {@link UserManager} 调用.
 	 * 这里不需要再处理这个.
 	 * 
 	 * @param session 用户会话

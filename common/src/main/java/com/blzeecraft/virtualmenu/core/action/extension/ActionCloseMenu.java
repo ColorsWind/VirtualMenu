@@ -4,8 +4,8 @@ package com.blzeecraft.virtualmenu.core.action.extension;
 import com.blzeecraft.virtualmenu.core.action.Action;
 import com.blzeecraft.virtualmenu.core.conf.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.packet.PacketManager;
 import com.blzeecraft.virtualmenu.core.user.IUser;
+import com.blzeecraft.virtualmenu.core.user.UserManager;
 
 import lombok.ToString;
 
@@ -18,7 +18,7 @@ public class ActionCloseMenu extends Action {
 
 	@Override
 	public void execute(IUser<?> user) {
-		PacketManager.closeAllMenu();
+		UserManager.closeAllMenu();
 	}
 
 
