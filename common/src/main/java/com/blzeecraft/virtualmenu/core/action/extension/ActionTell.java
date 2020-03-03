@@ -22,5 +22,11 @@ public class ActionTell extends Action {
 		user.sendMessage(message.replace("<player>", user.getName()));
 	}
 
+	@Override
+	public String getKey() {
+		return "tell";
+	}
+
+	
 
 }

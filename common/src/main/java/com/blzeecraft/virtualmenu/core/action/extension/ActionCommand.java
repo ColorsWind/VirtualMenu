@@ -22,6 +22,11 @@ public class ActionCommand extends Action {
 		user.performCommand(command.replace("<player>", user.getName()));
 	}
 
+	@Override
+	public String getKey() {
+		return "command";
+	}
+
 
 
 }

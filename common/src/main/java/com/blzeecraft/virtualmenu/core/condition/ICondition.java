@@ -41,4 +41,8 @@ public interface ICondition extends Function<MenuEvent, Optional<String>>, Predi
 	@Override
 	Optional<String> apply(MenuEvent event);
 	
+	default String getKey() {
+		return null;
+	}
+	
 }

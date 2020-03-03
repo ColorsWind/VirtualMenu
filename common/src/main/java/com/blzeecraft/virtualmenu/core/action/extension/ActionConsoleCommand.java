@@ -20,8 +20,14 @@ public class ActionConsoleCommand extends Action {
 	@Override
 	public void execute(IUser<?> user) {
 		VirtualMenu.getConsole().performCommand(command.replace("<player>", user.getName()));
-		
 	}
+
+	@Override
+	public String getKey() {
+		return "console";
+	}
+	
+	
 
 
 }

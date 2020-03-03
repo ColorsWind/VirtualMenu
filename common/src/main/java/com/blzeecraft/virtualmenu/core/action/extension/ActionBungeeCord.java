@@ -37,4 +37,9 @@ public class ActionBungeeCord extends Action {
 		});
 	}
 
+	@Override
+	public String getKey() {
+		return "server";
+	}
+
 }

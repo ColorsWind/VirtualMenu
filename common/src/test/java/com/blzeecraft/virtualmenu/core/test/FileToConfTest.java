@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.blzeecraft.virtualmenu.core.conf.file.FileAndMapFactory;
 import com.blzeecraft.virtualmenu.core.conf.file.YamlFile;
-import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
+import com.blzeecraft.virtualmenu.core.conf.standardize.MapAndConfFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
@@ -23,7 +23,7 @@ public class FileToConfTest {
 		Map<String, Object> map = FileAndMapFactory.read(fNode, file);
 		System.out.println(map);
 		LogNode cNode = LogNode.of(file.getName().substring(0, file.getName().lastIndexOf(".")));
-		StandardConf conf = MapToConfFactory.read(cNode, map);
+		StandardConf conf = MapAndConfFactory.read(cNode, map);
 		System.out.println(conf);
 	}
 

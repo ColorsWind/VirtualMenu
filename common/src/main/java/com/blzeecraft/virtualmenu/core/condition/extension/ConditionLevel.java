@@ -38,4 +38,11 @@ public class ConditionLevel extends Condition {
 		}
 		return Optional.empty();
 	}
+
+	@Override
+	public String getKey() {
+		return "level";
+	}
+	
+	
 }

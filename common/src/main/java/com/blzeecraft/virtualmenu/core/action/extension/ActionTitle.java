@@ -29,6 +29,11 @@ public class ActionTitle extends Action {
 		user.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
 	}
 
+	@Override
+	public String getKey() {
+		return "title";
+	}
+
 	
 	
 

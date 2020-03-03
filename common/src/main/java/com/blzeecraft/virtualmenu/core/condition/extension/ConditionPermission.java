@@ -30,4 +30,10 @@ public class ConditionPermission extends Condition {
 		return e.getUser().hasPermission(permission) ? Optional.empty() : Optional.of(message);
 	}
 
+	@Override
+	public String getKey() {
+		return "permission";
+	}
+
+	
 }

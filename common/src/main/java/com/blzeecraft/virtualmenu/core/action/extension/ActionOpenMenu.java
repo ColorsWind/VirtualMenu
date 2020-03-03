@@ -24,8 +24,14 @@ public class ActionOpenMenu extends Action {
 		} else {
 			user.sendMessage("找不到菜单: " + menu);
 		}
-		
 	}
+
+	@Override
+	public String getKey() {
+		return "open";
+	}
+	
+	
 
 
 

@@ -20,6 +20,11 @@ public class ActionCloseMenu extends Action {
 	public void execute(IUser<?> user) {
 		UserManager.closeAllMenu();
 	}
+	
+	@Override
+	public String getKey() {
+		return "close";
+	}
 
 
 

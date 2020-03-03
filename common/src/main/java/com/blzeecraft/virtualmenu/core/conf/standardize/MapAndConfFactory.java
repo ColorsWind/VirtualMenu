@@ -36,7 +36,7 @@ import lombok.val;
  * @author colors_wind
  *
  */
-public class MapToConfFactory {
+public class MapAndConfFactory {
 	// 可直接储存在文件中的类型.
 	public static final Set<Class<?>> DIRECT_TYPE;
 	static {

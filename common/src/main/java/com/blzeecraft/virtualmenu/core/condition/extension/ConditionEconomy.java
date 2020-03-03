@@ -41,4 +41,13 @@ public class ConditionEconomy extends Condition {
 		return Optional.of(message);
 	}
 
+	@Override
+	public String getKey() {
+		return "money";
+	}
+	
+	
+	
+	
+
 }

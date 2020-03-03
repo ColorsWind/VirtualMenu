@@ -14,12 +14,17 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.file.FileAndMapFactory;
-import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
+import com.blzeecraft.virtualmenu.core.conf.standardize.MapAndConfFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 
+/**
+ * 有关菜单配置读取/保存的逻辑.
+ * @author colors_wind
+ *
+ */
 public class MenuManager {
 
 	public static final ConcurrentMap<String, PacketMenu> MENU = new ConcurrentHashMap<>();
@@ -57,14 +62,14 @@ public class MenuManager {
 	public static PacketMenu parse(File file) throws IOException {
 		LogNode node = LogNode.of(file.getName());
 		Map<String, Object> map = FileAndMapFactory.read(node, file);
-		StandardConf conf = MapToConfFactory.read(node, map);
+		StandardConf conf = MapAndConfFactory.read(node, map);
 		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
 		return menu;
 	}
 
 	public static PacketMenu parse(LogNode node, String type, Reader reader) throws IOException {
 		Map<String, Object> map = FileAndMapFactory.read(node, type, reader);
-		StandardConf conf = MapToConfFactory.read(node, map);
+		StandardConf conf = MapAndConfFactory.read(node, map);
 		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
 		return menu;
 		

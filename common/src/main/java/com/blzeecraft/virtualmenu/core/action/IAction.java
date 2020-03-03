@@ -10,5 +10,8 @@ import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
  * @date 2020-02-11
  */
 public interface IAction extends Consumer<MenuEvent> {
-
+	
+	default String getKey() {
+		return null;
+	}
 }

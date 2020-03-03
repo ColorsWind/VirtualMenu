@@ -22,4 +22,9 @@ public class ActionActionbar extends Action {
 
 	}
 
+	@Override
+	public String getKey() {
+		return "actionbar";
+	}
+
 }
