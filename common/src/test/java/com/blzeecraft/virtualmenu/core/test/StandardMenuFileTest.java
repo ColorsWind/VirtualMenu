@@ -24,7 +24,7 @@ public class StandardMenuFileTest {
 		Reader reader = new InputStreamReader(ins, "utf-8");
 		@SuppressWarnings("unchecked")
 		Map<String,Object> map = (Map<String, Object>) yaml.load(reader);
-		StandardConf menu = MapToConfFactory.convert(LogNode.ROOT, map);
+		StandardConf menu = MapToConfFactory.read(LogNode.ROOT, map);
 		System.out.println(menu.toString());
 	}
 

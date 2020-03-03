@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import com.blzeecraft.virtualmenu.core.conf.file.FileToMapFactory;
-import com.blzeecraft.virtualmenu.core.conf.file.YamlReader;
+import com.blzeecraft.virtualmenu.core.conf.file.FileAndMapFactory;
+import com.blzeecraft.virtualmenu.core.conf.file.YamlFile;
 import com.blzeecraft.virtualmenu.core.conf.menu.ConfToMenuFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
@@ -19,15 +19,15 @@ public class IconConfTest {
 	@Test
 	public void test() throws IOException {
 		File file = new File(".\\src\\main\\resources\\example.yml");
-		FileToMapFactory.register(new YamlReader());
+		FileAndMapFactory.register(new YamlFile());
 		
 		LogNode fNode = LogNode.of(file.getName());
-		Map<String, Object> map = FileToMapFactory.convert(fNode, file);
+		Map<String, Object> map = FileAndMapFactory.read(fNode, file);
 		System.out.println("Map=" + map + "\n\n");
 		
 		String name = file.getName().substring(0, file.getName().lastIndexOf("."));
 		LogNode cNode = LogNode.of(name);
-		StandardConf conf = MapToConfFactory.convert(cNode, map);
+		StandardConf conf = MapToConfFactory.read(cNode, map);
 		System.out.println("Conf=" + conf + "\n\n");
 		
 		//事实上没办法通过测试,因为缺少平台适配器

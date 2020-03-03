@@ -2,13 +2,14 @@ package com.blzeecraft.virtualmenu.core.conf.file;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
-public class YamlReader implements IFileReader {
+public class YamlFile implements IFileFormat {
 
 	@Override
 	public String[] supportTypes() {
@@ -16,10 +17,16 @@ public class YamlReader implements IFileReader {
 	}
 
 	@Override
-	public Map<String, Object> convert(LogNode node, Reader reader) throws IOException {
+	public Map<String, Object> read(LogNode node, Reader reader) throws IOException {
 		Yaml yaml = new Yaml();
 		Map<String,Object> map = yaml.load(reader);
 		return map;
+	}
+
+	@Override
+	public void write(LogNode node, Writer writer, Map<String, Object> map) throws IOException {
+		Yaml yaml = new Yaml();
+		yaml.dump(map, writer);
 	}
 
 }

@@ -1,9 +1,11 @@
 package com.blzeecraft.virtualmenu.core.conf.standardize;
 
-import com.blzeecraft.virtualmenu.core.logger.LogNode;
-
-@SuppressWarnings("serial")
 public class PluginExecption extends RuntimeException {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8516136571412240395L;
 
 	public PluginExecption(String msg, Throwable throwable) {
 		super(msg, throwable);
@@ -17,15 +19,5 @@ public class PluginExecption extends RuntimeException {
 		super(msg);
 	}
 	
-	public PluginExecption(LogNode node, String msg) {
-		super(node.getPrefix() + " " +msg);
-	}
-	public PluginExecption(LogNode node) {
-		super(node.getPrefix() + " ");
-	}
-	
-	public PluginExecption(LogNode node, Throwable throwable, String msg) {
-		super(node.getPrefix()  + " " + msg , throwable);
-	}
 
 }

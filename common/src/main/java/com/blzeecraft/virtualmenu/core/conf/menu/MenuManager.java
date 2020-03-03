@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.conf.file.FileToMapFactory;
+import com.blzeecraft.virtualmenu.core.conf.file.FileAndMapFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
@@ -35,10 +35,10 @@ public class MenuManager {
 	
 	public static void reloadMenu() {
 		MENU.clear();
-		Arrays.stream(getMenuFolder().listFiles()).filter(FileToMapFactory::vaildFileType).forEach(file -> {
+		Arrays.stream(getMenuFolder().listFiles()).filter(FileAndMapFactory::vaildFileType).forEach(file -> {
 			try {
 				PacketMenu menu = parse(file);
-				String name = FileToMapFactory.getFileNameNoEx(file);
+				String name = FileAndMapFactory.getFileNameNoEx(file);
 				if (MENU.putIfAbsent(name, menu) != null) {
 					PluginLogger.warning(LogNode.of(file.getName()), "已经存在名称为 " + name + " 的菜单, 忽略.");
 				}
@@ -56,15 +56,15 @@ public class MenuManager {
 	
 	public static PacketMenu parse(File file) throws IOException {
 		LogNode node = LogNode.of(file.getName());
-		Map<String, Object> map = FileToMapFactory.convert(node, file);
-		StandardConf conf = MapToConfFactory.convert(node, map);
+		Map<String, Object> map = FileAndMapFactory.read(node, file);
+		StandardConf conf = MapToConfFactory.read(node, map);
 		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
 		return menu;
 	}
 
 	public static PacketMenu parse(LogNode node, String type, Reader reader) throws IOException {
-		Map<String, Object> map = FileToMapFactory.convert(node, type, reader);
-		StandardConf conf = MapToConfFactory.convert(node, map);
+		Map<String, Object> map = FileAndMapFactory.read(node, type, reader);
+		StandardConf conf = MapToConfFactory.read(node, map);
 		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
 		return menu;
 		
