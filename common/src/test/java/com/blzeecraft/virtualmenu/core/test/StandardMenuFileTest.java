@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import com.blzeecraft.virtualmenu.core.conf.standardize.MapToConfFactory;
+import com.blzeecraft.virtualmenu.core.conf.standardize.MapAndConfFactory;
 import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
@@ -24,7 +24,7 @@ public class StandardMenuFileTest {
 		Reader reader = new InputStreamReader(ins, "utf-8");
 		@SuppressWarnings("unchecked")
 		Map<String,Object> map = (Map<String, Object>) yaml.load(reader);
-		StandardConf menu = MapToConfFactory.read(LogNode.ROOT, map);
+		StandardConf menu = MapAndConfFactory.read(LogNode.ROOT, map);
 		System.out.println(menu.toString());
 	}
 

@@ -11,21 +11,20 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.conf.ObjectConvertException;
 import com.blzeecraft.virtualmenu.core.conf.ObjectWrapper;
 
 import lombok.NonNull;
-import lombok.ToString;
 import lombok.val;
 
 /**
- * 代表一个已解析的单行配置
+ * 代表一个已解析的单行配置 ,
  * 
  * @author colors_wind
  *
  */
-@ToString
 public class ResolvedLineConfig {
 
 	// 我们约定所有key为小写
@@ -36,11 +35,10 @@ public class ResolvedLineConfig {
 		values.forEach((k, v) -> this.values.put(k.toLowerCase(), v));
 	}
 
-
 	public boolean isSet(@NonNull String key) {
 		return values.containsKey(key);
 	}
-	
+
 	public Optional<String> getAsOptString(@NonNull String key) {
 		return Optional.ofNullable(values.get(key));
 	}
@@ -52,7 +50,7 @@ public class ResolvedLineConfig {
 		}
 		return value;
 	}
-	
+
 	public OptionalInt getAsOptInt(@NonNull String key) {
 		return new ObjectWrapper(getAsString(key)).asOptInteger();
 	}
@@ -60,7 +58,7 @@ public class ResolvedLineConfig {
 	public int getAsInt(@NonNull String key) throws ObjectConvertException {
 		return new ObjectWrapper(getAsString(key)).asInteger();
 	}
-	
+
 	public OptionalLong getAsOptLong(@NonNull String key) {
 		return new ObjectWrapper(getAsString(key)).asOptLong();
 	}
@@ -68,7 +66,7 @@ public class ResolvedLineConfig {
 	public long getAsLong(@NonNull String key) throws ObjectConvertException {
 		return new ObjectWrapper(getAsString(key)).asLong();
 	}
-	
+
 	public OptionalDouble getAsOptDouble(@NonNull String key) {
 		return new ObjectWrapper(getAsString(key)).asOptDouble();
 	}
@@ -96,7 +94,35 @@ public class ResolvedLineConfig {
 		});
 	}
 
+	@Override
+	public String toString() {
+		val sb = new StringBuilder();
+		sb.append("{");
+		String line = values.entrySet().stream()
+				.map(entry -> new StringBuilder(entry.getKey()).append("=").append(escape(entry.getValue())).toString()).collect(Collectors.joining(","));
+		sb.append(line);
+		sb.append("}");
+		return sb.toString();
+	}
 
 	public static ResolvedLineConfig EMPTY = new ResolvedLineConfig(Collections.emptyMap());
 
+	public static String escape(String s) {
+		return s.chars().mapToObj(c -> {
+			switch (c) {
+			case '\\':
+				return "\\\\";
+			case ',':
+				return "\\,";
+			case '=':
+				return "\\=";
+			case '{':
+				return "\\{";
+			case '}':
+				return "\\}";
+			default:
+				return String.valueOf((char) c);
+			}
+		}).collect(Collectors.joining());
+	}
 }
