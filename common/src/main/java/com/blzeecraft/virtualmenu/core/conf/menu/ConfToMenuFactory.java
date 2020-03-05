@@ -67,7 +67,7 @@ public class ConfToMenuFactory {
 			try {
 				EventType eventType = EventType.valueOf(k);
 				IAction actions = ActionUtils.parse(eNode.sub("actions"), v.action);
-				ICondition conditions = ConditionUtils.parse(eNode.sub("conditions"), v.condtion);
+				ICondition conditions = ConditionUtils.parse(eNode.sub("conditions"), v.condition);
 				IAction handler = ActionUtils.wrap(actions, conditions);
 				builder.addEventHandler(eventType, handler);
 			} catch (IllegalArgumentException e) {

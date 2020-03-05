@@ -27,7 +27,7 @@ public class StandardConf extends SubConf {
 	@ObjectType(EventConf.class)
 	public Map<String, EventConf> events;
 	@ToString public static class EventConf extends SubConf {
-		public List<String> condtion;
+		public List<String> condition;
 		public List<String> action;
 	}
 	

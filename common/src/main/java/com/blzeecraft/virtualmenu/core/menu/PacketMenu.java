@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
@@ -30,11 +29,6 @@ public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 		return node;
 	}
 	
-	public StandardConf save() {
-		StandardConf conf = new StandardConf();
-		
-		return conf;
-	}
 	
 	
 

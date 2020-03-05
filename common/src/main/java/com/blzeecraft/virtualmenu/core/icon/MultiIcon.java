@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
+import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 
@@ -22,7 +24,7 @@ import lombok.val;
  *
  */
 @ToString
-public class MultiIcon implements Icon {
+public class MultiIcon implements Icon, ConfSerializable<IconConf> {
 	@Getter
 	protected final List<Icon> storeIconList;
 
@@ -42,7 +44,6 @@ public class MultiIcon implements Icon {
 	public AbstractItem<?> view(UserSession session) {
 		return viewIcon(session).view(session);
 	}
-	
 
 	@Override
 	public boolean canView(UserSession session) {
@@ -67,7 +68,6 @@ public class MultiIcon implements Icon {
 	public int getPriority() {
 		return 0;
 	}
-	
 
 	public static MultiIcon of(Icon... icons) {
 		List<Icon> flatMapIcons = Arrays.stream(icons).flatMap(icon -> {
@@ -79,7 +79,16 @@ public class MultiIcon implements Icon {
 		}).collect(Collectors.toList());
 		return new MultiIcon(flatMapIcons);
 	}
-	
 
+	@Override
+	public IconConf serialize() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public IconConf[] seriablizeAll() {
+		return storeIconList.stream().filter(ConfSerializable.class::isInstance).map(ConfSerializable.class::cast)
+				.map(ConfSerializable::serialize).map(IconConf.class::cast).toArray(IconConf[]::new);
+	}
 
 }

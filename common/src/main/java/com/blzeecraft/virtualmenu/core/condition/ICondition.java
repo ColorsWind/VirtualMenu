@@ -42,5 +42,4 @@ public interface ICondition
 	Optional<String> apply(MenuEvent event);
 	
 
-
 }

@@ -5,11 +5,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
@@ -17,8 +20,13 @@ import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
+import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.EventConf;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
+import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
@@ -34,14 +42,14 @@ import lombok.val;
  *
  */
 @ToString
-public abstract class AbstractPacketMenu implements IPacketMenu {
+public abstract class AbstractPacketMenu implements IPacketMenu, ConfSerializable<StandardConf> {
 	@Getter
 	protected final String title;
 	@Getter
 	protected final IMenuType type;
 	@Getter
 	protected final EnumUpdateDelay updateDelay;
-	
+
 	protected final Icon[] icons; // not null
 	protected final Map<EventType, Consumer<MenuEvent>> menuAction; // not null
 
@@ -122,6 +130,33 @@ public abstract class AbstractPacketMenu implements IPacketMenu {
 		return Optional.empty();
 	}
 
-	
+	@Override
+	public StandardConf serialize() {
+		StandardConf conf = new StandardConf();
+		conf.global.title = title;
+		conf.global.type = type.getType();
+		conf.global.refresh = Optional.of(updateDelay.name());
+		conf.icons = new LinkedHashMap<>();
+		IntStream.range(0, icons.length).forEach(i -> {
+			Optional.of(icons).map(Stream::of).orElse(Stream.empty()).flatMap(icon -> {
+				if (icon instanceof MultiIcon) {
+					return ((MultiIcon) icon).getStoreIconList().stream();
+				}
+				return Stream.of(icon);
+			}).filter(ConfSerializable.class::isInstance).forEach(icon -> {
+				conf.icons.put(new StringBuilder("slot-").append(i).append("-").append(icon.getPriority()).toString(),
+						(IconConf) ((ConfSerializable<?>) icon).serialize());
+			});
+			;
+		});
+		conf.events = menuAction.entrySet().stream().filter(entry -> entry.getValue() instanceof ConfSerializable)
+				.collect(Collectors.toMap(entry -> entry.getKey().name(), entry -> (EventConf)((ConfSerializable<?>) entry).serialize()));
+		return conf;
+	}
+
+	@Override
+	public StandardConf[] seriablizeAll() {
+		return new StandardConf[] { serialize() };
+	}
 
 }

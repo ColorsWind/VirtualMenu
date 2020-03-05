@@ -1,6 +1,8 @@
 package com.blzeecraft.virtualmenu.core.icon;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -10,6 +12,9 @@ import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
+import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
+import com.blzeecraft.virtualmenu.core.conf.StringSerializable;
+import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
@@ -25,7 +30,7 @@ import lombok.val;
  */
 @ToString
 @AllArgsConstructor
-public class SimpleIcon implements Icon {
+public class SimpleIcon implements Icon, ConfSerializable<IconConf> {
 	
 	protected final LogNode node;
 	protected final int priority;
@@ -88,6 +93,33 @@ public class SimpleIcon implements Icon {
 	public int getPriority() {
 		return this.priority;
 	}
+
+
+	@Override
+	public IconConf serialize() {
+		IconConf conf = new IconConf();
+		conf.priority = OptionalInt.of(priority);
+		cache.applyConf(conf);;
+		if (clickCondition instanceof StringSerializable) {
+			conf.click_condition = Arrays.asList(((StringSerializable) clickCondition).seriablizeAll());
+		}
+		if (viewCondition instanceof StringSerializable) {
+			conf.view_condition = Arrays.asList(((StringSerializable) viewCondition).seriablizeAll());
+		}
+		if (command instanceof StringSerializable) {
+			conf.action = Arrays.asList(((StringSerializable) command).seriablizeAll());
+		}
+		return conf;
+	}
+
+
+	@Override
+	public IconConf[] seriablizeAll() {
+		return new IconConf[] {serialize()};
+	}
+
+
+
 
 
 
