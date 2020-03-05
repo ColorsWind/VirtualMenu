@@ -1,7 +1,8 @@
 package com.blzeecraft.virtualmenu.core.action;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
@@ -14,16 +15,17 @@ import lombok.val;
 
 /**
  * 动作的工具类
+ * 
  * @author colors_wind
  * @date 2020-02-10
  */
 public class ActionUtils {
-	
+
 	/**
 	 * 空的动作, 对任何 {@link IconActionEvent} 都不会执行任何操作
 	 */
-	public static IAction EMPTY_ACTION = e -> {};
-	
+	public static IAction EMPTY_ACTION = e -> {
+	};
 
 	/**
 	 * 解析动作, 该方法一定会返回一个可用的结果
@@ -50,21 +52,19 @@ public class ActionUtils {
 	 * @return 解析结果
 	 */
 	public static IAction parse(LogNode node, List<String> lines) {
-		List<IAction> actions = new ArrayList<>(lines.size());
-		for (int i = 0; i < lines.size(); i++) {
+		List<Action> actions = IntStream.range(0, lines.size()).mapToObj(i -> {
 			val subNode = node.sub("L" + (i + 1));
 			val action = parse(subNode, lines.get(i));
-			if (action != EMPTY_ACTION) {
-				actions.add(action);
-			} 
-		}
+			return action;
+		}).filter(action -> action != EMPTY_ACTION).map(Action.class::cast).collect(Collectors.toList());
 		return actions.size() == 0 ? EMPTY_ACTION : actions.size() == 1 ? actions.get(0) : new MultiAction(actions);
 	}
-	
+
 	public static IAction wrap(IAction action, ICondition condition) {
-		return event -> {if (condition.test(event)) action.accept(event);};
+		return event -> {
+			if (condition.test(event))
+				action.accept(event);
+		};
 	}
-	
-	
 
 }

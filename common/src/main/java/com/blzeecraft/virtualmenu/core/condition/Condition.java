@@ -4,11 +4,10 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
+import com.blzeecraft.virtualmenu.core.Command;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
-import com.blzeecraft.virtualmenu.core.conf.line.LineConfigObject;
 import com.blzeecraft.virtualmenu.core.conf.line.ResolvedLineConfig;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.ClickType;
 
@@ -24,13 +23,13 @@ import com.blzeecraft.virtualmenu.core.menu.ClickType;
  * @author colors_wind
  * @date 2020-02-10
  */
-public abstract class Condition extends LineConfigObject implements ICondition, LoggerObject {
+public abstract class Condition extends Command {
 
 	protected final String message;
 	protected final Set<ClickType> types;
 
 	public Condition(LogNode node, ResolvedLineConfig rlc) {
-		super(node);
+		super(node, rlc);
 		this.message = rlc.getAsOptString("msg").orElse("");
 		this.types = rlc.getAsOptEnumSet("click", ClickType.class).orElse(EnumSet.allOf(ClickType.class));
 	}
@@ -45,11 +44,9 @@ public abstract class Condition extends LineConfigObject implements ICondition, 
 	public LogNode getLogNode() {
 		return node;
 	}
-	
-	
 
 	@Override
-	public Optional<String> apply(MenuEvent event) {
+	public final Optional<String> apply(MenuEvent event) {
 		if (types.contains(event.getClickType())) {
 			return Optional.of(message);
 		}
@@ -69,6 +66,9 @@ public abstract class Condition extends LineConfigObject implements ICondition, 
 		return !this.apply(event).isPresent();
 	}
 
+
+
+	
 	
 	
 }

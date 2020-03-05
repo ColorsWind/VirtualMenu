@@ -1,8 +1,9 @@
 package com.blzeecraft.virtualmenu.core.condition;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.blzeecraft.virtualmenu.core.conf.InvalidConfigException;
 import com.blzeecraft.virtualmenu.core.conf.line.LineConfigParser;
@@ -47,16 +48,13 @@ public class ConditionUtils {
 	 * @param line 待解析的字符串列表
 	 * @return 解析结果, 如果没有任何结果, 返回 {@link #EMPTY_CONDITION}
 	 */
-	public static ICondition parse(LogNode node, List<String> lines) {
-		List<ICondition> cds = new ArrayList<>(lines.size());
-		for (int i = 0; i < lines.size(); i++) {
-			val subNode = node.sub("L" + i);
-			val cd = parse(subNode, lines.get(i));
-			if (cd != EMPTY_CONDITION) {
-				cds.add(cd);
-			} 
-		}
-		return cds.size() == 0 ? EMPTY_CONDITION : cds.size() == 1 ? cds.get(0) : new MultiCondition(cds);
+	public static ICondition  parse(LogNode node, List<String> lines) {
+		List<Condition> condtions = IntStream.range(0, lines.size()).mapToObj(i -> {
+			val subNode = node.sub("L" + (i + 1));
+			val condition = parse(subNode, lines.get(i));
+			return condition;
+		}).filter(action -> action != EMPTY_CONDITION).map(Condition.class::cast).collect(Collectors.toList());
+		return condtions.size() == 0 ? EMPTY_CONDITION : condtions.size() == 1 ? condtions.get(0) : new MultiCondition(condtions);
 	}
 
 }

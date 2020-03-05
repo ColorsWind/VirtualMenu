@@ -139,7 +139,7 @@ public class LineConfigParser {
 	 * @throws InvalidLineObjectException 如果尝试读取解析的配置中无效的对象
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T parseFull(LogNode node, String s, Class<T> clazz)
+	public static <T extends LineConfigObject> T parseFull(LogNode node, String s, Class<T> clazz)
 			throws InvalidConfigException {
 		int index = s.indexOf("{");
 		if (index < 0) {

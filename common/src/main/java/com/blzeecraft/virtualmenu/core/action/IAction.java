@@ -11,7 +11,4 @@ import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
  */
 public interface IAction extends Consumer<MenuEvent> {
 	
-	default String getKey() {
-		return null;
-	}
 }

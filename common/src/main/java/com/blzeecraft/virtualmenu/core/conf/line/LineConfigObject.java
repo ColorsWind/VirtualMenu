@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.conf.line;
 
+import java.util.LinkedHashMap;
+
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 
@@ -11,14 +13,16 @@ import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
 public abstract class LineConfigObject implements LoggerObject {
 
 	protected final LogNode node;
+	protected final ResolvedLineConfig rlc;
 
 	
 	public LineConfigObject(LogNode node, ResolvedLineConfig rlc) {
-		this(node);
+		this.rlc = rlc;
+		this.node = node;
 	}
 	
 	public LineConfigObject(LogNode node) {
-		this.node = node;
+		this(node, new ResolvedLineConfig(new LinkedHashMap<>()));
 	}
 	
 	@Override

@@ -3,7 +3,9 @@ package com.blzeecraft.virtualmenu.core.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blzeecraft.virtualmenu.core.Command;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.conf.StringSerializable;
 
 import lombok.val;
 
@@ -13,11 +15,11 @@ import lombok.val;
  * @author colors_wind
  * @date 2020-02-07
  */
-public class MultiAction implements IAction {
+public class MultiAction implements IAction, StringSerializable  {
 	
-	protected final List<IAction> actions;
+	protected final List<Action> actions;
 
-	public MultiAction(List<IAction> actions) {
+	public MultiAction(List<Action> actions) {
 		this.actions = new ArrayList<>(actions);
 	}
 
@@ -26,6 +28,15 @@ public class MultiAction implements IAction {
 		for(val action : actions) {
 			action.accept(e);
 		}
-		
+	}
+	
+	@Override
+	public String[] seriablizeAll() {
+		return actions.stream().map(Command::serialize).toArray(String[]::new);
+	}
+
+	@Override
+	public String serialize() {
+		throw new UnsupportedOperationException();
 	}
 }

@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.blzeecraft.virtualmenu.core.Command;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
+import com.blzeecraft.virtualmenu.core.conf.StringSerializable;
 
 import lombok.val;
 
@@ -15,15 +17,15 @@ import lombok.val;
  * @author colors_wind
  * @date 2020-02-07
  */
-public class MultiCondition implements ICondition {
+public class MultiCondition implements ICondition, StringSerializable {
 	
-	protected final List<ICondition> conditions;
+	protected final List<Condition> conditions;
 	
 	/**
 	 * 包装多个条件, 条件的顺序会被保留.
 	 * @param conditions 多个条件
 	 */
-	public MultiCondition(List<ICondition> conditions) {
+	public MultiCondition(List<Condition> conditions) {
 		this.conditions = new ArrayList<>(conditions);
 	}
 
@@ -49,6 +51,19 @@ public class MultiCondition implements ICondition {
 	public List<ICondition> getConditions() {
 		return Collections.unmodifiableList(conditions);
 	}
+
+	@Override
+	public String[] seriablizeAll() {
+		return conditions.stream().map(Command::serialize).toArray(String[]::new);
+	}
+
+	@Override
+	public String serialize() {
+		throw new UnsupportedOperationException();
+	}
+	
+	
+	
 	
 
 

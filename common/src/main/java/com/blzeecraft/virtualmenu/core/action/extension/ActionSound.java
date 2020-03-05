@@ -26,6 +26,12 @@ public class ActionSound extends Action {
 		user.playSound(sound, volume, pitch);
 		
 	}
+
+
+	@Override
+	public String getKey() {
+		return "sound";
+	}
 	
 	
 

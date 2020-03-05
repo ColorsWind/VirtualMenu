@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -20,7 +21,10 @@ import lombok.NonNull;
 import lombok.val;
 
 /**
- * 代表一个已解析的单行配置 ,
+ * 代表一个已解析的单行配置(LineConfig).
+ * e.g {s=字符串,i=100}.
+ * 支持的数据类型有:字符串,数字,布尔类型,枚举.
+ * 特殊符号",=/"需要用"/"转义.
  * 
  * @author colors_wind
  *
@@ -33,6 +37,10 @@ public class ResolvedLineConfig {
 	public ResolvedLineConfig(@NonNull Map<String, String> values) {
 		this.values = new HashMap<>();
 		values.forEach((k, v) -> this.values.put(k.toLowerCase(), v));
+	}
+
+	public ResolvedLineConfig() {
+		this.values = new LinkedHashMap<>();
 	}
 
 	public boolean isSet(@NonNull String key) {
