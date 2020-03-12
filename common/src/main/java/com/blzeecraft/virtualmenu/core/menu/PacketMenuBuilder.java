@@ -11,7 +11,7 @@ import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.icon.EmptyIcon;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
-import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
+import com.blzeecraft.virtualmenu.core.variable.UpdateDelay;
 
 import lombok.NonNull;
 
@@ -22,7 +22,7 @@ public class PacketMenuBuilder {
 	protected IMenuType type;
 	protected Icon[] icons;
 	protected Map<EventType, Consumer<MenuEvent>> menuAction;
-	protected EnumUpdateDelay updateDelay;
+	protected UpdateDelay updateDelay;
 	protected String title;
 
 	public PacketMenuBuilder(LogNode node) {
@@ -43,7 +43,7 @@ public class PacketMenuBuilder {
 		return this;
 	}
 
-	public PacketMenuBuilder refresh(EnumUpdateDelay delay) {
+	public PacketMenuBuilder refresh(UpdateDelay delay) {
 		this.updateDelay = delay;
 		return this;
 	}

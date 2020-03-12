@@ -13,7 +13,7 @@ import com.blzeecraft.virtualmenu.core.conf.menu.ChestCommandsAdapter;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
-import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
+import com.blzeecraft.virtualmenu.core.variable.UpdateDelay;
 
 import lombok.val;
 
@@ -38,7 +38,7 @@ public class ChestCommandsConf {
 					PluginLogger.warning(node, "无法匹配MenuType, 请检查rows是否为=9,18,27,36,45,54中的一个.");
 					return VirtualMenu.getMenuTypes()[0];
 				}).getType();
-		conf.global.refresh = Optional.of(EnumUpdateDelay
+		conf.global.refresh = Optional.of(UpdateDelay
 				.saftyGet(new ObjectWrapper(global.get("auto-refresh")).asOptInteger().orElse(20)).name());
 		val eConf = new StandardConf.EventConf();
 		eConf.action = new ObjectWrapper(global.get("open-action")).asStringList().stream().map(ChestCommandsAdapter::remap)

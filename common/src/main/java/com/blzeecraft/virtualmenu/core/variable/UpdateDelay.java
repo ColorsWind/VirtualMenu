@@ -13,14 +13,14 @@ import lombok.ToString;
  * @date 2020-02-10
  */
 @ToString
-public enum EnumUpdateDelay {
+public enum UpdateDelay {
 
 	FAST(5L), NORMAL(10L), SLOW(20L), VERY_SLOT(50L), NEVER(-1L);
 
 	@Getter
 	private final long delay;
 
-	private EnumUpdateDelay(long delay) {
+	private UpdateDelay(long delay) {
 		this.delay = delay;
 	}
 
@@ -28,7 +28,7 @@ public enum EnumUpdateDelay {
 		return this.delay > 0;
 	}
 
-	public static Optional<EnumUpdateDelay> get(String refresh) {
+	public static Optional<UpdateDelay> get(String refresh) {
 		try {
 			return Optional.of(valueOf(refresh));
 		} catch (IllegalArgumentException | NullPointerException e) {
@@ -36,7 +36,7 @@ public enum EnumUpdateDelay {
 		return Optional.empty();
 	}
 
-	public static EnumUpdateDelay saftyGet(int refresh) {
+	public static UpdateDelay saftyGet(int refresh) {
 		if (refresh <= 0) {
 			return NEVER;
 		}

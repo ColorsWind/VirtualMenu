@@ -20,6 +20,8 @@ import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 
+import lombok.val;
+
 /**
  * 有关菜单配置读取/保存的逻辑.
  * @author colors_wind
@@ -38,6 +40,14 @@ public class MenuManager {
 		return file;
 	}
 	
+	public static File getChestCommandsFolder() {
+		val file = new File(VirtualMenu.getDataFolder(), "chestcommands");
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		return file;
+	}
+	
 	public static void reloadMenu() {
 		MENU.clear();
 		Arrays.stream(getMenuFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
@@ -49,6 +59,18 @@ public class MenuManager {
 				}
 			} catch (IOException e) {
 				PluginLogger.severe(LOG_NODE, "读取 " + file.getName() + " 时发送IO异常.");
+				e.printStackTrace();
+			}
+		});
+		Arrays.stream(getChestCommandsFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
+			try {
+				PacketMenu menu = ChestCommandsAdapter.parse(file);
+				String name = FileMapFactory.getFileNameNoEx(file);
+				if (MENU.putIfAbsent(name, menu) != null) {
+					PluginLogger.warning(LogNode.of(file.getName()), "已经存在名称为 " + name + " 的菜单, 忽略.");
+				}
+			} catch (IOException e) {
+				PluginLogger.severe(LOG_NODE, "读取ChestCommands格式文件 " + file.getName() + " 时发送IO异常.");
 				e.printStackTrace();
 			}
 		});

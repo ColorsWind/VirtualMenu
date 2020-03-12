@@ -28,7 +28,7 @@ import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
-import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
+import com.blzeecraft.virtualmenu.core.variable.UpdateDelay;
 import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
 
 import lombok.Getter;
@@ -48,18 +48,18 @@ public abstract class AbstractPacketMenu implements IPacketMenu, ConfSerializabl
 	@Getter
 	protected final IMenuType type;
 	@Getter
-	protected final EnumUpdateDelay updateDelay;
+	protected final UpdateDelay updateDelay;
 
 	protected final Icon[] icons; // not null
 	protected final Map<EventType, Consumer<MenuEvent>> menuAction; // not null
 
 	protected final Set<UserSession> sessions;
 
-	public AbstractPacketMenu(EnumUpdateDelay updateDelay, String title, IMenuType type) {
+	public AbstractPacketMenu(UpdateDelay updateDelay, String title, IMenuType type) {
 		this(updateDelay, title, type, new Icon[type.getSize()], new EnumMap<>(EventType.class));
 	}
 
-	public AbstractPacketMenu(EnumUpdateDelay updateDelay, String title, IMenuType type, Icon[] icons,
+	public AbstractPacketMenu(UpdateDelay updateDelay, String title, IMenuType type, Icon[] icons,
 			Map<EventType, ? extends Consumer<MenuEvent>> events) {
 		this.updateDelay = updateDelay;
 		this.title = title;

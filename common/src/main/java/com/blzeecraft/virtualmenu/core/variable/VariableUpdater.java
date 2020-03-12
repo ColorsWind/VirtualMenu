@@ -19,12 +19,12 @@ import lombok.val;
 
 public class VariableUpdater implements Runnable {
 	public static LogNode LOG_NODE = LogNode.of("#VariableUpdater");
-	private final EnumUpdateDelay delay;
+	private final UpdateDelay delay;
 	private final Set<UserSession> sessions;
 	private final IPacketAdapter packetAdapter;
 	private AbstractTask<?> task;
 
-	public VariableUpdater(EnumUpdateDelay delay) {
+	public VariableUpdater(UpdateDelay delay) {
 		this.delay = delay;
 		sessions = new HashSet<>();
 		this.packetAdapter = VirtualMenu.getPacketAdapter();
@@ -58,14 +58,14 @@ public class VariableUpdater implements Runnable {
 	}
 	
 	
-	public static Map<EnumUpdateDelay, VariableUpdater> UPDATER_MAP = new EnumMap<>(EnumUpdateDelay.class);
+	public static Map<UpdateDelay, VariableUpdater> UPDATER_MAP = new EnumMap<>(UpdateDelay.class);
 	
 	public static void startUpdate() {
 		if (UPDATER_MAP.size() != 0) {
 			PluginLogger.warning(LOG_NODE, "刷新菜单任务已经开始. 无法重复开始.");
 			throw new IllegalArgumentException();
 		}
-		Arrays.stream(EnumUpdateDelay.values()).filter(updateDelay -> updateDelay.getDelay() > 0).forEach(delay -> {
+		Arrays.stream(UpdateDelay.values()).filter(updateDelay -> updateDelay.getDelay() > 0).forEach(delay -> {
 			val updater = new VariableUpdater(delay).start();
 			UPDATER_MAP.put(delay, updater);
 		});

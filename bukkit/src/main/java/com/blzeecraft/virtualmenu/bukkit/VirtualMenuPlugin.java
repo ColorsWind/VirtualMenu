@@ -1,8 +1,6 @@
 package com.blzeecraft.virtualmenu.bukkit;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -13,6 +11,7 @@ import com.blzeecraft.virtualmenu.bukkit.conf.Settings;
 import com.blzeecraft.virtualmenu.bukkit.economy.IEconomyHook;
 import com.blzeecraft.virtualmenu.bukkit.packet.ProtocolLibAdapter;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
+import com.blzeecraft.virtualmenu.core.VirtualMenuUtils;
 import com.blzeecraft.virtualmenu.core.conf.menu.MenuManager;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
@@ -92,30 +91,10 @@ public class VirtualMenuPlugin extends JavaPlugin {
 	@SneakyThrows
 	public void generate() {
 		// generate resource
-		File menuFolder = new File(getDataFolder(), "menu");
-		if (!menuFolder.exists()) {
-			menuFolder.mkdirs();
-		}
-		File logFolder = new File(getDataFolder(), "logs");
-		if (!logFolder.exists()) {
-			logFolder.mkdirs();
-		}
+		VirtualMenuUtils.generateResources(getDataFolder());
 		File confFile = new File(getDataFolder(), "config.yml");
 		if (!confFile.exists()) {
 			this.saveDefaultConfig();
-		}
-		File exampleFile = new File(menuFolder, "example.yml");
-		if (!exampleFile.exists()) {
-			BufferedInputStream in = new BufferedInputStream(this.getResource("example.yml"));
-			FileOutputStream out = new FileOutputStream(exampleFile);
-			byte[] buff = new byte[1024];
-			int len;
-			while ((len = in.read(buff)) != -1) {
-				out.write(buff, 0, len);
-			}
-			out.flush();
-			out.close();
-			in.close();
 		}
 	}
 
