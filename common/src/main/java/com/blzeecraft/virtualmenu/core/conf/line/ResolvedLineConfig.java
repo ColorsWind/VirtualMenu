@@ -21,9 +21,7 @@ import lombok.val;
 
 /**
  * 代表一个已解析的单行配置(LineConfig).
- * e.g {s=字符串,i=100}.
  * 支持的数据类型有:字符串,数字,布尔类型,枚举.
- * 特殊符号",=/"需要用"/"转义.
  * 
  * @author colors_wind
  *

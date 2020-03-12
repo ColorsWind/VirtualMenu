@@ -14,7 +14,7 @@ import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
 import com.blzeecraft.virtualmenu.core.conf.StringSerializable;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.user.UserSession;

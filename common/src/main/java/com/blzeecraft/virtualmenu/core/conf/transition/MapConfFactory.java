@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf.standardize;
+package com.blzeecraft.virtualmenu.core.conf.transition;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import lombok.val;
  * @author colors_wind
  *
  */
-public class MapAndConfFactory {
+public class MapConfFactory {
 	// 可直接储存在文件中的类型.
 	public static final Set<Class<?>> DIRECT_TYPE;
 	static {

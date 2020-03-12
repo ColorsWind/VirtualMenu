@@ -23,7 +23,7 @@ import lombok.val;
 import lombok.var;
 
 /**
- * 元素解析器
+ * Object 解析器.
  * @author colors_wind
  *
  */

@@ -25,11 +25,11 @@ import lombok.NonNull;
 import lombok.val;
 
 /**
- * 用于解析单行配置
- * 
+ * 用于解析单行配置.
  * @author colors_wind
  *
  */
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LineConfigParser {
 	// 常量池 单行配置解析器提示信息
@@ -56,8 +56,8 @@ public class LineConfigParser {
 		registerLineCommand("level", ConditionLevel::new);
 	}
 	/**
-	 * 用于解析被大括号括起来的字符串如{s=Testing,b=boolean}
-	 * 
+	 * 用于解析被大括号括起来的字符串. 如{s=Testing,b=boolean}
+	 * 特殊符号",=/"需要用"\"转义.
 	 * @param s 待解析的字符串
 	 * @return 解析结果
 	 * @throws InvalidLineFormatException 如果无法解析该字符串
@@ -77,8 +77,8 @@ public class LineConfigParser {
 
 
 	/**
-	 * 用于解析单行字符串如s=Testing,b=boolean
-	 * 
+	 * 用于解析单行字符串如s=Testing,b=boolean.
+	 * 特殊符号",=/"需要用"\"转义.
 	 * @param s 待解析的字符串
 	 * @return 解析结果
 	 * @throws InvalidLineFormatException 如果无法解析该字符串
@@ -128,7 +128,8 @@ public class LineConfigParser {
 	}
 
 	/**
-	 * 用于解析完整字符串
+	 * 用于解析完整字符串. 如console{command=say <player>}
+	 * 特殊符号",=/"需要用"\"转义.
 	 * 
 	 * @param <T>   预期的对象类型
 	 * @param node  日志节点

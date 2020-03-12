@@ -12,8 +12,8 @@ import com.blzeecraft.virtualmenu.core.action.IAction;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.condition.ConditionUtils;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.IconBuilder;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
@@ -29,7 +29,7 @@ import com.blzeecraft.virtualmenu.core.menu.PacketMenuBuilder;
 import lombok.val;
 import net.md_5.bungee.api.ChatColor;
 
-public class ConfToMenuFactory {
+public class ConfMenuFactory {
 	public static Map<ClickType, ICondition> EMPTY_CONDITION = Arrays.stream(ClickType.values()).map(type -> {
 		val m = new EnumMap<ClickType, ICondition>(ClickType.class);
 		m.put(type, ConditionUtils.EMPTY_CONDITION);

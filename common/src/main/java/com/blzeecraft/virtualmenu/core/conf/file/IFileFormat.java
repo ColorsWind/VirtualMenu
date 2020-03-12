@@ -16,7 +16,7 @@ public interface IFileFormat {
 	Map<String, Object> read(LogNode node, Reader reader) throws IOException;
 	
 	default Map<String, Object> read(LogNode node, File file) throws IOException {
-		Reader reader = FileAndMapFactory.inputFromFile(file);
+		Reader reader = FileMapFactory.inputFromFile(file);
 		return read(node, reader);
 	}
 	

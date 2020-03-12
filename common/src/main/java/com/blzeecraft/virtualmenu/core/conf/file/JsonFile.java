@@ -15,8 +15,6 @@ public class JsonFile implements IFileFormat {
 		return new String[] {"json"};
 	}
 
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, Object> read(LogNode node, Reader reader) throws IOException {

@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf.standardize;
+package com.blzeecraft.virtualmenu.core.conf.transition;
 
 import java.util.List;
 import java.util.Map;

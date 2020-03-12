@@ -1,13 +1,12 @@
 package com.blzeecraft.virtualmenu.core.conf;
 
 /**
- * 表示尝试加载无效的配置时出现的异常.
+ * 表示尝试加载无效的配置时出现的异常. 例如一个配置文件不满足 YAML 的语法要求.
+ * 
  * @author colors_wind
  *
  */
 public class InvalidConfigException extends RuntimeException {
-
-
 
 	/**
 	 * 
@@ -34,7 +33,5 @@ public class InvalidConfigException extends RuntimeException {
 	public InvalidConfigException(Throwable cause) {
 		super(cause);
 	}
-	
-	
 
 }

@@ -18,7 +18,12 @@ import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 
 import lombok.val;
 
-public class FileAndMapFactory {
+/**
+ * 读取/写入文件的工具类.
+ * @author colors_wind
+ *
+ */
+public class FileMapFactory {
 	public static final String ENCODE = "utf-8";
 	public static final LogNode NODE = LogNode.of("#FileToMapFactory");
 	private static final Map<String, IFileFormat> SUPPORT_FORMAT = new HashMap<>();
@@ -33,10 +38,10 @@ public class FileAndMapFactory {
 	public static void register(IFileFormat reader) {
 		for (String type : reader.supportTypes()) {
 			type = type.toLowerCase();
-			if (SUPPORT_FORMAT.putIfAbsent(type, reader) == null) {
-				PluginLogger.info(NODE, "成功添加 ." + type + " 类型文件的支持.");
+			if (SUPPORT_FORMAT.put(type, reader) == null) {
+				PluginLogger.info(NODE, "成功添加 ." + type + " 类型文件的解析器.");
 			} else {
-				PluginLogger.warning(NODE, reader.name() + " 尝试覆盖 ." + type + " 类型文件读取设置失败.");
+				PluginLogger.warning(NODE, reader.name() + " 成功覆盖 ." + type + " 类型文件的解析器.");
 			}
 		}
 	}

@@ -8,7 +8,7 @@ import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
 import com.blzeecraft.virtualmenu.core.conf.StringSerializable;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.EventConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.EventConf;
 
 import lombok.AllArgsConstructor;
 

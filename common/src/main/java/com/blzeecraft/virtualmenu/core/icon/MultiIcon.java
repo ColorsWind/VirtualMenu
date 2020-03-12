@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.IconConf;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
 

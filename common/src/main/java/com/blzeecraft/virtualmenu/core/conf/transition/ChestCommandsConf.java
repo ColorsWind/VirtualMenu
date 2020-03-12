@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf.cformat;
+package com.blzeecraft.virtualmenu.core.conf.transition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.conf.ObjectWrapper;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
+import com.blzeecraft.virtualmenu.core.conf.menu.ChestCommandsAdapter;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
@@ -41,7 +41,7 @@ public class ChestCommandsConf {
 		conf.global.refresh = Optional.of(EnumUpdateDelay
 				.saftyGet(new ObjectWrapper(global.get("auto-refresh")).asOptInteger().orElse(20)).name());
 		val eConf = new StandardConf.EventConf();
-		eConf.action = new ObjectWrapper(global.get("open-action")).asStringList().stream().map(IconCommand::remap)
+		eConf.action = new ObjectWrapper(global.get("open-action")).asStringList().stream().map(ChestCommandsAdapter::remap)
 				.collect(Collectors.toCollection(ArrayList::new));
 		conf.events.put(EventType.OPEN_MENU.name(), eConf);
 		// icons
@@ -52,7 +52,7 @@ public class ChestCommandsConf {
 			val iconConf = new StandardConf.IconConf();
 			val iconNode = node.sub(key);
 			try {
-				iconConf.action = value.getValue("COMMAND").asStringList().stream().map(IconCommand::remap)
+				iconConf.action = value.getValue("COMMAND").asStringList().stream().map(ChestCommandsAdapter::remap)
 						.collect(Collectors.toList());
 				iconConf.name = value.getValue("NAME").asOptString();
 				iconConf.lore = value.getValue("LORE").asStringList();

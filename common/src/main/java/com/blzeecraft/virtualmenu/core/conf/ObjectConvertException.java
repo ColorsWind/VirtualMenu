@@ -1,14 +1,14 @@
 package com.blzeecraft.virtualmenu.core.conf;
 
-import com.blzeecraft.virtualmenu.core.conf.line.InvalidObjectException;
+import com.blzeecraft.virtualmenu.core.PluginExecption;
 
 /**
- * 表示 {@link ObjectWrapper} 进行不同类型元素转换时发生的异常.
- * 如将 "String" 转换成数字时.
+ * 表示不同类型元素转换时发生的异常. 如尝试将 "string" 转换成 Integer时.
+ * 
  * @author colors_wind
  *
  */
-public class ObjectConvertException extends InvalidObjectException {
+public class ObjectConvertException extends PluginExecption {
 
 	/**
 	 * 

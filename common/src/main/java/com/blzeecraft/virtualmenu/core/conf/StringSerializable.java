@@ -1,14 +1,15 @@
 package com.blzeecraft.virtualmenu.core.conf;
 
+/**
+ * 代表这个类可以被序列化成 {@link String}.
+ * @author colors_wind
+ *
+ */
 public interface StringSerializable {
 	
 	String serialize();
 	
 	default String[] seriablizeAll() {
-		String s = serialize();
-		if (s == null) {
-			return new String[0];
-		}
-		return new String[] {s};
+		return new String[] {serialize()};
 	}
 }

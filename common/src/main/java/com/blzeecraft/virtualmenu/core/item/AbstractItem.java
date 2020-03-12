@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 
 import com.blzeecraft.virtualmenu.core.IWrappedObject;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf.IconConf;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.IconConf;
 
 import lombok.Data;
 

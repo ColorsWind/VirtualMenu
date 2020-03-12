@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.conf.file.FileAndMapFactory;
-import com.blzeecraft.virtualmenu.core.conf.standardize.MapAndConfFactory;
-import com.blzeecraft.virtualmenu.core.conf.standardize.StandardConf;
+import com.blzeecraft.virtualmenu.core.conf.file.FileMapFactory;
+import com.blzeecraft.virtualmenu.core.conf.transition.MapConfFactory;
+import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
@@ -40,10 +40,10 @@ public class MenuManager {
 	
 	public static void reloadMenu() {
 		MENU.clear();
-		Arrays.stream(getMenuFolder().listFiles()).filter(FileAndMapFactory::vaildFileType).forEach(file -> {
+		Arrays.stream(getMenuFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
 			try {
 				PacketMenu menu = parse(file);
-				String name = FileAndMapFactory.getFileNameNoEx(file);
+				String name = FileMapFactory.getFileNameNoEx(file);
 				if (MENU.putIfAbsent(name, menu) != null) {
 					PluginLogger.warning(LogNode.of(file.getName()), "已经存在名称为 " + name + " 的菜单, 忽略.");
 				}
@@ -61,16 +61,17 @@ public class MenuManager {
 	
 	public static PacketMenu parse(File file) throws IOException {
 		LogNode node = LogNode.of(file.getName());
-		Map<String, Object> map = FileAndMapFactory.read(node, file);
-		StandardConf conf = MapAndConfFactory.read(node, map);
-		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
+		Map<String, Object> map = FileMapFactory.read(node, file);
+		StandardConf conf = MapConfFactory.read(node, map);
+		PacketMenu menu = ConfMenuFactory.convert(node, conf);
 		return menu;
 	}
+	
 
 	public static PacketMenu parse(LogNode node, String type, Reader reader) throws IOException {
-		Map<String, Object> map = FileAndMapFactory.read(node, type, reader);
-		StandardConf conf = MapAndConfFactory.read(node, map);
-		PacketMenu menu = ConfToMenuFactory.convert(node, conf);
+		Map<String, Object> map = FileMapFactory.read(node, type, reader);
+		StandardConf conf = MapConfFactory.read(node, map);
+		PacketMenu menu = ConfMenuFactory.convert(node, conf);
 		return menu;
 		
 	}
