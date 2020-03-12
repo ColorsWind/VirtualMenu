@@ -9,7 +9,6 @@ import java.util.OptionalInt;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.IAction;
-import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.condition.ConditionUtils;
 import com.blzeecraft.virtualmenu.core.condition.ICondition;
 import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
@@ -25,6 +24,7 @@ import com.blzeecraft.virtualmenu.core.menu.EventType;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenuBuilder;
+import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
 
 import lombok.val;
 import net.md_5.bungee.api.ChatColor;

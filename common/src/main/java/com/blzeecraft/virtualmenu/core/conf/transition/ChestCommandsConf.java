@@ -8,12 +8,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
-import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.conf.ObjectWrapper;
 import com.blzeecraft.virtualmenu.core.conf.menu.ChestCommandsAdapter;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
+import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
 
 import lombok.val;
 

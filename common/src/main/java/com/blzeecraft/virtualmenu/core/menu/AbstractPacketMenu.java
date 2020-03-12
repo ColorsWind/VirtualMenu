@@ -19,7 +19,6 @@ import com.blzeecraft.virtualmenu.core.action.ActionUtils;
 import com.blzeecraft.virtualmenu.core.action.event.IconActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuActionEvent;
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
-import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.conf.ConfSerializable;
 import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
 import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf.EventConf;
@@ -29,6 +28,7 @@ import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.icon.MultiIcon;
 import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
+import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.variable.VariableUpdater;
 
 import lombok.Getter;

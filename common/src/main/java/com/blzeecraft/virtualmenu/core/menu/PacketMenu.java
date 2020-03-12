@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.blzeecraft.virtualmenu.core.action.event.MenuEvent;
-import com.blzeecraft.virtualmenu.core.animation.EnumUpdateDelay;
 import com.blzeecraft.virtualmenu.core.icon.Icon;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.LoggerObject;
+import com.blzeecraft.virtualmenu.core.variable.EnumUpdateDelay;
 
 public class PacketMenu extends AbstractPacketMenu implements LoggerObject {
 	protected final LogNode node;

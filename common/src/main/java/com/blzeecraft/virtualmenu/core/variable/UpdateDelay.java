@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.animation;
+package com.blzeecraft.virtualmenu.core.variable;
 
 import java.util.Arrays;
 import java.util.Optional;
