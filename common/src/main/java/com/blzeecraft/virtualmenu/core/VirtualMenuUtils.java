@@ -53,7 +53,7 @@ public class VirtualMenuUtils {
 	}
 	
 	public static boolean ensureFolder(File folder) {
-		if (folder.exists()) {
+		if (!folder.exists()) {
 			folder.mkdirs();
 			return false;
 		}
