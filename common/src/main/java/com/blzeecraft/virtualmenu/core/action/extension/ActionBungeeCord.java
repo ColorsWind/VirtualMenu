@@ -14,6 +14,7 @@ import lombok.ToString;
 
 @ToString
 public class ActionBungeeCord extends Action {
+	public static final String KEY = "server";
 	protected final String toServer;
 
 
@@ -39,7 +40,11 @@ public class ActionBungeeCord extends Action {
 
 	@Override
 	public String getKey() {
-		return "server";
+		return KEY;
+	}
+
+	public static String remap(String value) {
+		return KEY + new ResolvedLineConfig("server", value).toString();
 	}
 
 }

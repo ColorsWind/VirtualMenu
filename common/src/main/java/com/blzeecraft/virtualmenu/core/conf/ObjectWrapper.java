@@ -218,7 +218,10 @@ public final class ObjectWrapper {
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> asObjectList() {
 		return origin.isPresent() ? (List<Map<String, Object>>) origin.get() : Collections.emptyList();
-
+	}
+	
+	public ObjectWrapper getValue(String key) {
+		return new ObjectWrapper(asS2ObjectMap().get(key));
 	}
 
 }

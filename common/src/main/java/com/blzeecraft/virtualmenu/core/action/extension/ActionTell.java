@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @ToString
 public class ActionTell extends Action {
-
+	public static final String KEY = "tell";
 	protected final String message;
 
 	public ActionTell(LogNode node, ResolvedLineConfig rlc) {
@@ -24,7 +24,11 @@ public class ActionTell extends Action {
 
 	@Override
 	public String getKey() {
-		return "tell";
+		return KEY;
+	}
+
+	public static String remap(String value) {
+		return KEY + new ResolvedLineConfig("tell", value).toString();
 	}
 
 	

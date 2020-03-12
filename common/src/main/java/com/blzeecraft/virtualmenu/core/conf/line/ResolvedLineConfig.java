@@ -2,7 +2,6 @@ package com.blzeecraft.virtualmenu.core.conf.line;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,12 +34,17 @@ public class ResolvedLineConfig {
 	private final Map<String, String> values;
 
 	public ResolvedLineConfig(@NonNull Map<String, String> values) {
-		this.values = new HashMap<>();
+		this();
 		values.forEach((k, v) -> this.values.put(k.toLowerCase(), v));
 	}
 
 	public ResolvedLineConfig() {
 		this.values = new LinkedHashMap<>();
+	}
+	
+	public ResolvedLineConfig(String key, String value) {
+		this();
+		this.values.put(key, value);
 	}
 
 	public boolean isSet(@NonNull String key) {

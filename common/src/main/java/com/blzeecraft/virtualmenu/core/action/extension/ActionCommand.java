@@ -10,6 +10,7 @@ import lombok.ToString;
 
 @ToString
 public class ActionCommand extends Action {
+	public static final String KEY = "command";
 	protected final String command;
 
 	public ActionCommand(LogNode node, ResolvedLineConfig rlc) {
@@ -24,7 +25,11 @@ public class ActionCommand extends Action {
 
 	@Override
 	public String getKey() {
-		return "command";
+		return KEY;
+	}
+	
+	public static String remap(String s) {
+		return KEY + new ResolvedLineConfig("command", s).toString();
 	}
 
 

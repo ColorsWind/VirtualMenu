@@ -36,6 +36,13 @@ public enum EnumUpdateDelay {
 		return Optional.empty();
 	}
 
+	public static EnumUpdateDelay saftyGet(int refresh) {
+		if (refresh <= 0) {
+			return NEVER;
+		}
+		return Arrays.stream(values()).filter(ud -> ud.delay <= refresh).findFirst().orElse(NORMAL);
+	}
+
 	public static String typesToString() {
 		return Arrays.stream(values())
 				.map(updateDelay -> new StringBuilder(updateDelay.name()).append("(")

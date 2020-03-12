@@ -9,6 +9,7 @@ import com.blzeecraft.virtualmenu.core.user.IUser;
 import lombok.val;
 
 public class ActionOpenMenu extends Action {
+	public static final String KEY = "open";
 	protected final String menu;
 	
 	public ActionOpenMenu(LogNode node, ResolvedLineConfig rlc) {
@@ -28,8 +29,13 @@ public class ActionOpenMenu extends Action {
 
 	@Override
 	public String getKey() {
-		return "open";
+		return KEY;
 	}
+
+	public static String remap(String value) {
+		return KEY + new ResolvedLineConfig("menu", value).toString();
+	}
+	
 	
 	
 
