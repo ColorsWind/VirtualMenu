@@ -31,7 +31,7 @@ public class ConvertFunctions {
 	public static final FuncMap TO_MAP = new FuncMap();
 	
 	@SuppressWarnings("unchecked")
-	public static Object convertObject(@NonNull Object obj, @NonNull Class<?> type) {
+	public static Object convertObject(Object obj, @NonNull Class<?> type) {
 		if (SubConf.class.isAssignableFrom(type)) {
 			return TO_SUBCONF.apply((Class<? extends SubConf>) type, TO_S2OBJECT_MAP.apply(obj));
 		} if (String.class == type) {
@@ -49,11 +49,11 @@ public class ConvertFunctions {
 		} else if (OptionalDouble.class == type) {
 			return TO_OPTIONAL_DOUBLE.apply(obj);
 		} 
-			throw new ObjectConvertException("不支持的字段类型: " + type.getTypeName() + " (#1)");
+		throw new ObjectConvertException("不支持的字段类型: " + type.getTypeName() + " (#1)");
 		
 	}
 	
-	public static Object convertObject(@NonNull Object obj, @NonNull Class<?> type, @NonNull Class<?> genericType) {
+	public static Object convertObject(Object obj, @NonNull Class<?> type, @NonNull Class<?> genericType) {
 		try {
 			return convertObject(obj, type);
 		} catch (ObjectConvertException e) {

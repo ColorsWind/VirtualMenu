@@ -1,4 +1,4 @@
-package com.blzeecraft.virtualmenu.core.conf.menu;
+package com.blzeecraft.virtualmenu.core.conf.transition;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,8 +14,7 @@ import com.blzeecraft.virtualmenu.core.action.extension.ActionOpenMenu;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionSound;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionTell;
 import com.blzeecraft.virtualmenu.core.conf.file.FileMapFactory;
-import com.blzeecraft.virtualmenu.core.conf.transition.ChestCommandsConf;
-import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
+import com.blzeecraft.virtualmenu.core.conf.menu.ConfMenuFactory;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
@@ -93,8 +92,8 @@ public class ChestCommandsAdapter {
 				val name = FileMapFactory.getFileNameNoEx(file);
 				val menu = parse(file);
 				menuMap.put(name, menu);
-			} catch (IOException e) {
-				PluginLogger.severe(LOG_NODE, "处理 ChestCommands 格式文件 " + file.getName() + " 时发送IO异常.");
+			} catch (Exception e) {
+				PluginLogger.severe(LOG_NODE, "处理 ChestCommands 格式文件 " + file.getName() + " 时发生异常.");
 				e.printStackTrace();
 			}
 		});

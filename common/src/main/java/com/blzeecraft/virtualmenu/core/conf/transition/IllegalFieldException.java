@@ -1,7 +1,5 @@
 package com.blzeecraft.virtualmenu.core.conf.transition;
 
-import java.lang.reflect.Field;
-
 import com.blzeecraft.virtualmenu.core.PluginExecption;
 
 /**
@@ -10,12 +8,27 @@ import com.blzeecraft.virtualmenu.core.PluginExecption;
  * @author colors_wind
  *
  */
-@SuppressWarnings("serial")
 public class IllegalFieldException extends PluginExecption {
 
-	public IllegalFieldException(Field field) {
-		super("类型 " + field.getDeclaringClass().getSimpleName() + " 中有字段 " + field.getType() + " " + field.getName()
-				+ " 不可参与序列化/反序列化.");
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1386394777530647500L;
+
+	public IllegalFieldException() {
+		super();
+	}
+
+	public IllegalFieldException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public IllegalFieldException(String message) {
+		super(message);
+	}
+
+	public IllegalFieldException(Throwable cause) {
+		super(cause);
 	}
 
 }

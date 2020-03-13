@@ -153,7 +153,7 @@ public class LineConfigParser {
 		String prefix = s.substring(0, index);
 		val supplier = REGISTERED.get(prefix.toLowerCase());
 		if (supplier == null) {
-			throw new InvalidLineCommandException("前缀为: " + prefix + " 的命令不存在, 请检查.");
+			throw new InvalidLineCommandException("命令名为: " + prefix + " 的命令不存在, 请检查.");
 		}
 		ResolvedLineConfig lc;
 		try {

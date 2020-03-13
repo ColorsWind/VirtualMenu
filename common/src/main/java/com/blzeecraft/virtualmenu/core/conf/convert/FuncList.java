@@ -29,7 +29,11 @@ public class FuncList implements BiFunction<Object, Class<?>, List<?>> {
 	}
 	
 
+	@SuppressWarnings("unchecked")
 	private List<String> asStringList(Object obj) {
+		if (obj instanceof List) {
+			return (List<String>)obj;
+		}
 		// 以";"分隔, 支持转义"\;"
 		val list = new ArrayList<String>();
 		val chars = obj.toString().toCharArray();

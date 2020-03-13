@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentMap;
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.convert.ConvertFunctions;
 import com.blzeecraft.virtualmenu.core.conf.file.FileMapFactory;
+import com.blzeecraft.virtualmenu.core.conf.transition.ChestCommandsAdapter;
 import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
@@ -82,8 +83,8 @@ public class MenuManager {
 				PacketMenu menu = parse(file);
 				String name = FileMapFactory.getFileNameNoEx(file);
 				putMenu(name, menu);
-			} catch (IOException e) {
-				PluginLogger.severe(LOG_NODE, "读取 " + file.getName() + " 时发送IO异常.");
+			} catch (Exception e) {
+				PluginLogger.severe(LOG_NODE, "读取 " + file.getName() + " 时发生异常.");
 				e.printStackTrace();
 			}
 		});

@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.conf.convert.ConvertFunctions;
-import com.blzeecraft.virtualmenu.core.conf.menu.ChestCommandsAdapter;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.EventType;
@@ -35,34 +34,36 @@ public class ChestCommandsConf {
 		MenuSettings settings = (MenuSettings) ConvertFunctions.TO_SUBCONF.apply(MenuSettings.class,
 				ConvertFunctions.TO_S2OBJECT_MAP.apply(map.get("menu-settings")));
 		conf.global = settings.remapGlobal(node.sub("menu-settings"));
+		conf.events = new LinkedHashMap<>();
 		conf.events.put(EventType.OPEN_MENU.name(), settings.remapOpenAction(node.sub("open-actions")));
 		conf.icons = new LinkedHashMap<>();
-		ConvertFunctions.TO_S2OBJECT_MAP.apply(map.entrySet()).entrySet().stream().filter(entry -> ! "menu-settings".equals(entry.getKey())).forEach(entry -> {
-			val key = entry.getKey();
-			val sect = ConvertFunctions.TO_S2OBJECT_MAP.apply(entry.getValue());
-			val icon = (Icon)ConvertFunctions.TO_SUBCONF.apply(Icon.class, sect);
-			val iconConf = icon.remapIcon(node.sub(key));
-			conf.icons.put(key, iconConf);
-		});
+		ConvertFunctions.TO_S2OBJECT_MAP.apply(map.entrySet()).entrySet().stream()
+				.filter(entry -> !"menu-settings".equals(entry.getKey())).forEach(entry -> {
+					val key = entry.getKey();
+					val sect = ConvertFunctions.TO_S2OBJECT_MAP.apply(entry.getValue());
+					val icon = (Icon) ConvertFunctions.TO_SUBCONF.apply(Icon.class, sect);
+					val iconConf = icon.remapIcon(node.sub(key));
+					conf.icons.put(key, iconConf);
+				});
 		return conf;
 	}
 
 	public static class MenuSettings extends SubConf {
-		public String title;
+		public String name;
 		public int rows;
-		public int auto_refresh;
+		public Optional<Integer> auto_refresh;
 		public List<String> open_action;
 
 		public StandardConf.GlobalConf remapGlobal(LogNode node) {
 			val conf = new StandardConf.GlobalConf();
-			conf.title = this.title;
+			conf.title = this.name;
 			conf.type = Arrays.stream(VirtualMenu.getMenuTypes()).filter(menu -> menu.getSize() == this.rows)
 					.findFirst().orElseGet(() -> {
 						PluginLogger.warning(node, "无法匹配MenuType, 请检查rows是否为=9,18,27,36,45,54中的一个.");
 						return VirtualMenu.getMenuTypes()[0];
 					}).getType();
-			conf.refresh = Optional.of(UpdatePeriod.saftyGet(auto_refresh).orElseGet(() -> {
-				PluginLogger.warning(node, "无法匹配UpdateDelay, 将会使用: " + UpdatePeriod.NORMAL.toString());
+			conf.refresh = Optional.of(auto_refresh.flatMap(UpdatePeriod::saftyGet).orElseGet(() -> {
+				PluginLogger.warning(node, "无法匹配 UpdateDelay,将会使用: " + UpdatePeriod.NORMAL.toString());
 				return UpdatePeriod.NORMAL;
 			}).name());
 			return conf;
