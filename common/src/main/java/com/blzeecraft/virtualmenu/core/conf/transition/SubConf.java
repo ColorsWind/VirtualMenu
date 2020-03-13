@@ -36,6 +36,8 @@ public class SubConf {
 				map.put(key, unWrapMap(value));
 			} else if (value instanceof Optional) {
 				map.put(key, unWrapOptional(value));
+			} else if (value instanceof SubConf) {
+				map.put(key, ((SubConf) value).serialize());
 			} else {
 				map.put(key, unWrapObject(value));
 			}

@@ -41,6 +41,9 @@ public class ChestCommandsAdapter {
 
 	public static void updateFile(File file, StandardConf conf) throws IOException {
 		val updateFile = new File(file.getParentFile(), file.getName() + ".update");
+		if (updateFile.exists()) {
+			updateFile.delete();
+		}
 		val map = conf.serialize();
 		FileMapFactory.getFileFormat("yml").write(LOG_NODE, updateFile, map);
 	}

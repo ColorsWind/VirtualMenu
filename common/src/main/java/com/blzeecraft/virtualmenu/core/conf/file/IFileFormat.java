@@ -9,6 +9,8 @@ import java.util.Map;
 
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 
+import lombok.val;
+
 public interface IFileFormat {
 	
 	String[] supportTypes();
@@ -17,7 +19,9 @@ public interface IFileFormat {
 	
 	default Map<String, Object> read(LogNode node, File file) throws IOException {
 		Reader reader = FileMapFactory.inputFromFile(file);
-		return read(node, reader);
+		val result = read(node, reader);
+		reader.close();
+		return result;
 	}
 	
 	void write(LogNode node, Writer writer, Map<String, Object> map) throws IOException;
@@ -25,6 +29,7 @@ public interface IFileFormat {
 	default void write(LogNode node, File file, Map<String, Object> map) throws IOException {
 		Writer writer = new FileWriter(file);
 		write(node, writer, map);
+		writer.close();
 	}
 	
 	
