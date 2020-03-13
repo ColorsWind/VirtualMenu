@@ -9,7 +9,7 @@ import com.blzeecraft.virtualmenu.core.item.AbstractItem;
 import com.blzeecraft.virtualmenu.core.user.IUser;
 import com.blzeecraft.virtualmenu.core.user.UserManager;
 import com.blzeecraft.virtualmenu.core.user.UserSession;
-import com.blzeecraft.virtualmenu.core.variable.UpdateDelay;
+import com.blzeecraft.virtualmenu.core.variable.UpdatePeriod;
 
 import lombok.val;
 
@@ -159,7 +159,7 @@ public interface IPacketMenu {
 	 * 
 	 * @return 更新延时(间隔)
 	 */
-	UpdateDelay getUpdateDelay();
+	UpdatePeriod getUpdateDelay();
 
 	
 

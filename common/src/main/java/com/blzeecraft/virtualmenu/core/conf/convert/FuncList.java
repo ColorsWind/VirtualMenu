@@ -25,9 +25,9 @@ public class FuncList implements BiFunction<Object, Class<?>, List<?>> {
 			val list = (List<?>) obj;
 			return list.stream().map(element -> ConvertFunctions.convertObject(element, type)).collect(Collectors.toList());
 		} 
-		throw new ObjectConvertException("无法将" + obj + "转换为类型 " + type + ".");
-		
+		throw new ObjectConvertException("无法将" + obj + "转换为类型 " + type + ".");	
 	}
+	
 
 	private List<String> asStringList(Object obj) {
 		// 以";"分隔, 支持转义"\;"

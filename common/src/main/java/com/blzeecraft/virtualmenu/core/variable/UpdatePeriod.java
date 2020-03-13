@@ -13,40 +13,41 @@ import lombok.ToString;
  * @date 2020-02-10
  */
 @ToString
-public enum UpdateDelay {
+public enum UpdatePeriod {
 
 	FAST(5L), NORMAL(10L), SLOW(20L), VERY_SLOT(50L), NEVER(-1L);
 
 	@Getter
-	private final long delay;
+	private final long period;
 
-	private UpdateDelay(long delay) {
-		this.delay = delay;
+	private UpdatePeriod(long period) {
+		this.period = period;
 	}
 
 	public boolean autoUpdate() {
-		return this.delay > 0;
+		return this.period > 0;
 	}
 
-	public static Optional<UpdateDelay> get(String refresh) {
+	public static Optional<UpdatePeriod> get(String refresh) {
 		try {
 			return Optional.of(valueOf(refresh));
 		} catch (IllegalArgumentException | NullPointerException e) {
 		}
 		return Optional.empty();
 	}
+	
 
-	public static UpdateDelay saftyGet(int refresh) {
+	public static Optional<UpdatePeriod> saftyGet(int refresh) {
 		if (refresh <= 0) {
-			return NEVER;
+			return Optional.of(NEVER);
 		}
-		return Arrays.stream(values()).filter(ud -> ud.delay <= refresh).findFirst().orElse(NORMAL);
+		return Arrays.stream(values()).filter(ud -> ud.period <= refresh).findFirst();
 	}
 
 	public static String typesToString() {
 		return Arrays.stream(values())
 				.map(updateDelay -> new StringBuilder(updateDelay.name()).append("(")
-						.append((String.format("%.2f", ((double) updateDelay.delay) / 20))).append("s)").toString())
+						.append((String.format("%.2f", ((double) updateDelay.period) / 20))).append("s)").toString())
 				.reduce((s1, s2) -> String.join(", ", s1, s2)).orElse("null");
 	}
 

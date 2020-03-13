@@ -19,12 +19,12 @@ import lombok.val;
 
 public class VariableUpdater implements Runnable {
 	public static LogNode LOG_NODE = LogNode.of("#VariableUpdater");
-	private final UpdateDelay delay;
+	private final UpdatePeriod delay;
 	private final Set<UserSession> sessions;
 	private final IPacketAdapter packetAdapter;
 	private AbstractTask<?> task;
 
-	public VariableUpdater(UpdateDelay delay) {
+	public VariableUpdater(UpdatePeriod delay) {
 		this.delay = delay;
 		sessions = new HashSet<>();
 		this.packetAdapter = VirtualMenu.getPacketAdapter();
@@ -47,7 +47,7 @@ public class VariableUpdater implements Runnable {
 	}
 
 	public VariableUpdater start() {
-		task = VirtualMenu.getScheduler().runTaskTimer(this, delay.getDelay() / 2, delay.getDelay());
+		task = VirtualMenu.getScheduler().runTaskTimer(this, delay.getPeriod() / 2, delay.getPeriod());
 		return this;
 	}
 	
@@ -58,14 +58,14 @@ public class VariableUpdater implements Runnable {
 	}
 	
 	
-	public static Map<UpdateDelay, VariableUpdater> UPDATER_MAP = new EnumMap<>(UpdateDelay.class);
+	public static Map<UpdatePeriod, VariableUpdater> UPDATER_MAP = new EnumMap<>(UpdatePeriod.class);
 	
 	public static void startUpdate() {
 		if (UPDATER_MAP.size() != 0) {
 			PluginLogger.warning(LOG_NODE, "刷新菜单任务已经开始. 无法重复开始.");
 			throw new IllegalArgumentException();
 		}
-		Arrays.stream(UpdateDelay.values()).filter(updateDelay -> updateDelay.getDelay() > 0).forEach(delay -> {
+		Arrays.stream(UpdatePeriod.values()).filter(updateDelay -> updateDelay.getPeriod() > 0).forEach(delay -> {
 			val updater = new VariableUpdater(delay).start();
 			UPDATER_MAP.put(delay, updater);
 		});

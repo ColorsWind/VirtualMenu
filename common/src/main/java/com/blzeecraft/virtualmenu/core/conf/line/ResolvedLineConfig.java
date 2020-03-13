@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.conf.line;
 
+import static com.blzeecraft.virtualmenu.core.conf.convert.ConvertFunctions.*;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -14,7 +16,6 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 import com.blzeecraft.virtualmenu.core.conf.ObjectConvertException;
-import com.blzeecraft.virtualmenu.core.conf.ObjectWrapper;
 
 import lombok.NonNull;
 import lombok.val;
@@ -62,27 +63,27 @@ public class ResolvedLineConfig {
 	}
 
 	public OptionalInt getAsOptInt(@NonNull String key) {
-		return new ObjectWrapper(getAsString(key)).asOptInteger();
+		return TO_OPTIONAL_INT.apply(getAsString(key));
 	}
 
 	public int getAsInt(@NonNull String key) throws ObjectConvertException {
-		return new ObjectWrapper(getAsString(key)).asInteger();
+		return TO_INTEGER.apply(getAsString(key));
 	}
 
 	public OptionalLong getAsOptLong(@NonNull String key) {
-		return new ObjectWrapper(getAsString(key)).asOptLong();
+		return TO_OPTIONAL_LONG.apply(getAsString(key));
 	}
 
 	public long getAsLong(@NonNull String key) throws ObjectConvertException {
-		return new ObjectWrapper(getAsString(key)).asLong();
+		return TO_LONG.apply(getAsString(key));
 	}
 
 	public OptionalDouble getAsOptDouble(@NonNull String key) {
-		return new ObjectWrapper(getAsString(key)).asOptDouble();
+		return TO_OPTIONAL_DOUBLE.apply(getAsString(key));
 	}
 
 	public double getAsDouble(@NonNull String key) throws ObjectConvertException {
-		return new ObjectWrapper(getAsString(key)).asDouble();
+		return TO_DOUBLE.apply(getAsString(key));
 	}
 
 	public boolean getAsBoolean(@NonNull String key) {

@@ -24,7 +24,7 @@ import com.blzeecraft.virtualmenu.core.menu.EventType;
 import com.blzeecraft.virtualmenu.core.menu.IMenuType;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenuBuilder;
-import com.blzeecraft.virtualmenu.core.variable.UpdateDelay;
+import com.blzeecraft.virtualmenu.core.variable.UpdatePeriod;
 
 import lombok.val;
 import net.md_5.bungee.api.ChatColor;
@@ -54,10 +54,10 @@ public class ConfMenuFactory {
 		});
 		builder.type(type);
 		// refresh
-		String refresh = conf.global.refresh.orElse(UpdateDelay.NEVER.name());
-		builder.refresh(UpdateDelay.get(refresh).orElseGet(() -> {
-			PluginLogger.warning(node, "找不到刷新间隔类型: " + refresh + " 可用的类型: " + UpdateDelay.typesToString());
-			return UpdateDelay.NORMAL;
+		String refresh = conf.global.refresh.orElse(UpdatePeriod.NEVER.name());
+		builder.refresh(UpdatePeriod.get(refresh).orElseGet(() -> {
+			PluginLogger.warning(node, "找不到刷新间隔类型: " + refresh + " 可用的类型: " + UpdatePeriod.typesToString());
+			return UpdatePeriod.NORMAL;
 		}));
 		// bound not yet
 
