@@ -26,7 +26,8 @@ public class YamlFile implements IFileFormat {
 	@Override
 	public void write(LogNode node, Writer writer, Map<String, Object> map) throws IOException {
 		Yaml yaml = new Yaml();
-		yaml.dump(map, writer);
+		String yamlString = yaml.dumpAsMap(map);
+		writer.append(yamlString);
 	}
 
 }

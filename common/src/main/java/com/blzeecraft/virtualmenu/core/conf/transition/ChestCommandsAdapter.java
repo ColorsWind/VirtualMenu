@@ -45,7 +45,7 @@ public class ChestCommandsAdapter {
 			updateFile.delete();
 		}
 		val map = conf.serialize();
-		FileMapFactory.getFileFormat("yml").write(LOG_NODE, updateFile, map);
+		FileMapFactory.getFileFormat("yaml").write(LOG_NODE, updateFile, map);
 	}
 
 	public static StandardConf load(LogNode node, Map<String, Object> map) {

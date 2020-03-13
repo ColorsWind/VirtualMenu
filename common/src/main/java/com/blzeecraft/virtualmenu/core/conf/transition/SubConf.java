@@ -49,8 +49,10 @@ public class SubConf {
 		return ((List<?>)value).stream().map(this::unWrapObject).collect(Collectors.toList());
 	}
 	
-	public Map<?, ?> unWrapMap(Object value) {
-		return ((Map<?, ?>)value).entrySet().stream().collect(Collectors.toMap(k -> k, this::unWrapObject));
+	public Map<String, ?> unWrapMap(Object value) {
+		val map = new LinkedHashMap<String, Object>();
+		((Map<?, ?>)value).forEach((k,v) -> map.put((String) k, unWrapObject(v)));
+		return map;
 	}
 	
 	public Object unWrapOptional(Object value) {
