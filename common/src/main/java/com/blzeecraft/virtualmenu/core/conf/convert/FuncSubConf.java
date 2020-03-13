@@ -1,7 +1,6 @@
 package com.blzeecraft.virtualmenu.core.conf.convert;
 
 import java.awt.List;
-import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -24,13 +23,11 @@ public class FuncSubConf implements BiFunction<Class<? extends SubConf>, Map<Str
 				val fieldName = toFieldName(field.getName());
 				val dataValue = map.get(fieldName);
 				if (fieldType == Optional.class || fieldType == List.class) {
-					val generic = (ParameterizedType)field.getGenericType();
-					val actually = (Class<?>)generic.getActualTypeArguments()[1];
+					val actually = ConvertFunctions.getGerericType(field, 0);
 				    val obj = ConvertFunctions.convertObject(dataValue, fieldType, actually);
 				    field.set(instance, obj);
 				} else if (fieldType == Map.class){
-					val generic = (ParameterizedType)field.getGenericType();
-					val actually = (Class<?>)generic.getActualTypeArguments()[0];
+					val actually = ConvertFunctions.getGerericType(field, 1);
 				    val obj = ConvertFunctions.convertObject(dataValue, fieldType, actually);
 				    field.set(instance, obj);
 				} else {

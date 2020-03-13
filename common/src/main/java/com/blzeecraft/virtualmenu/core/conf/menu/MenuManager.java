@@ -3,6 +3,7 @@ package com.blzeecraft.virtualmenu.core.conf.menu;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -19,7 +20,9 @@ import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
 import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
+import com.blzeecraft.virtualmenu.core.user.UserManager;
 
+import lombok.NonNull;
 import lombok.val;
 
 /**
@@ -29,7 +32,7 @@ import lombok.val;
  */
 public class MenuManager {
 
-	public static final ConcurrentMap<String, PacketMenu> MENU = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, PacketMenu> MENU = new ConcurrentHashMap<>();
 	public static final LogNode LOG_NODE = LogNode.of("#MenuManager");
 	
 	public static File getMenuFolder() {
@@ -40,40 +43,52 @@ public class MenuManager {
 		return file;
 	}
 	
-	public static File getChestCommandsFolder() {
-		val file = new File(VirtualMenu.getDataFolder(), "chestcommands");
-		if (!file.exists()) {
-			file.mkdirs();
+
+	
+	public static PacketMenu addMenuIfAbsent(@NonNull String name,@NonNull  PacketMenu menu) {
+		return MENU.putIfAbsent(name, menu);
+	}
+	
+	public static PacketMenu addMenu(@NonNull String name,@NonNull  PacketMenu menu) {
+		return MENU.put(name, menu);
+	}
+	
+	public static PacketMenu removeMenu(@NonNull String name) {
+		val menu = MENU.get(name);
+		if (menu == null) {
+			return null;
 		}
-		return file;
+		val copy = new ArrayList<>(menu.getSessions());
+		copy.forEach(UserManager::closePacketMenu);
+		MENU.remove(name);
+		return menu;
+	}
+	
+	private static void putMenu(@NonNull String name, @NonNull PacketMenu menu) {
+		if (addMenuIfAbsent(name, menu) != null) {
+			PluginLogger.warning(LogNode.of(name), "已经存在名称为 " + name + " 的菜单, 忽略.");
+		}
+	}
+	
+	private static void putMenu(@NonNull Map<String, PacketMenu> map) {
+		map.forEach((k,v) -> putMenu(k,v));
 	}
 	
 	public static void reloadMenu() {
+		UserManager.closeAllMenu();
 		MENU.clear();
 		Arrays.stream(getMenuFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
 			try {
 				PacketMenu menu = parse(file);
 				String name = FileMapFactory.getFileNameNoEx(file);
-				if (MENU.putIfAbsent(name, menu) != null) {
-					PluginLogger.warning(LogNode.of(file.getName()), "已经存在名称为 " + name + " 的菜单, 忽略.");
-				}
+				putMenu(name, menu);
 			} catch (IOException e) {
 				PluginLogger.severe(LOG_NODE, "读取 " + file.getName() + " 时发送IO异常.");
 				e.printStackTrace();
 			}
 		});
-		Arrays.stream(getChestCommandsFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
-			try {
-				PacketMenu menu = ChestCommandsAdapter.parse(file);
-				String name = FileMapFactory.getFileNameNoEx(file);
-				if (MENU.putIfAbsent(name, menu) != null) {
-					PluginLogger.warning(LogNode.of(file.getName()), "已经存在名称为 " + name + " 的菜单, 忽略.");
-				}
-			} catch (IOException e) {
-				PluginLogger.severe(LOG_NODE, "读取ChestCommands格式文件 " + file.getName() + " 时发送IO异常.");
-				e.printStackTrace();
-			}
-		});
+		val ccMenus = ChestCommandsAdapter.loadAll();
+		putMenu(ccMenus);
 		PluginLogger.info(LOG_NODE, "读取菜单完成, 已加载 " + MENU.size() + " 个菜单.");
 	}
 	
@@ -109,5 +124,6 @@ public class MenuManager {
 	public static Set<String> getMenusName() {
 		return MENU.keySet();
 	}
+	
 
 }

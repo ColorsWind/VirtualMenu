@@ -1,5 +1,7 @@
 package com.blzeecraft.virtualmenu.core.conf.convert;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import java.util.OptionalDouble;
@@ -11,6 +13,7 @@ import com.blzeecraft.virtualmenu.core.conf.transition.SubConf;
 import com.google.common.base.Optional;
 
 import lombok.NonNull;
+import lombok.val;
 
 public class ConvertFunctions {
 	public static final FuncString TO_STRING = new FuncString();
@@ -64,4 +67,12 @@ public class ConvertFunctions {
 		}
 		throw new ObjectConvertException("不支持的字段类型: " + type.getTypeName() + " (#2不是基本类型)");
 	}
+	
+	public static Class<?> getGerericType(Field field, int index) {
+		val generic = (ParameterizedType)field.getGenericType();
+		val actually = (Class<?>)generic.getActualTypeArguments()[index];
+		return actually;
+	}
+	
+	
 }

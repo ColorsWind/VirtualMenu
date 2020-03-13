@@ -2,8 +2,10 @@ package com.blzeecraft.virtualmenu.core.conf.menu;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
-
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionBungeeCord;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionCommand;
 import com.blzeecraft.virtualmenu.core.action.extension.ActionConsoleCommand;
@@ -15,6 +17,7 @@ import com.blzeecraft.virtualmenu.core.conf.file.FileMapFactory;
 import com.blzeecraft.virtualmenu.core.conf.transition.ChestCommandsConf;
 import com.blzeecraft.virtualmenu.core.conf.transition.StandardConf;
 import com.blzeecraft.virtualmenu.core.logger.LogNode;
+import com.blzeecraft.virtualmenu.core.logger.PluginLogger;
 import com.blzeecraft.virtualmenu.core.menu.PacketMenu;
 
 import lombok.val;
@@ -27,8 +30,20 @@ public class ChestCommandsAdapter {
 		val map = FileMapFactory.read(LOG_NODE, file);
 		val node = LogNode.of(String.join("|", "cc", FileMapFactory.getFileNameNoEx(file)));
 		val conf = load(node, map);
+		try {
+			updateFile(file, conf);
+			PluginLogger.info(node, "转换为 VirtualMenu 格式.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		val menu = ConfMenuFactory.convert(node, conf);
 		return menu;
+	}
+
+	public static void updateFile(File file, StandardConf conf) throws IOException {
+		val updateFile = new File(file.getParentFile(), file.getName() + ".update");
+		val map = conf.serialize();
+		FileMapFactory.getFileFormat("yml").write(LOG_NODE, updateFile, map);
 	}
 
 	public static StandardConf load(LogNode node, Map<String, Object> map) {
@@ -62,6 +77,28 @@ public class ChestCommandsAdapter {
 		default:
 			return "console{command=say 不支持ChestCommands命令类型 " + value + " \\,请检查.}";
 		}
+	}
+	public static File getChestCommandsFolder() {
+		val file = new File(VirtualMenu.getDataFolder(), "chestcommands");
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+		return file;
+	}
+
+	public static Map<String, PacketMenu> loadAll() {
+		val menuMap = new HashMap<String, PacketMenu>();
+		Arrays.stream(getChestCommandsFolder().listFiles()).filter(FileMapFactory::vaildFileType).forEach(file -> {
+			try {
+				val name = FileMapFactory.getFileNameNoEx(file);
+				val menu = parse(file);
+				menuMap.put(name, menu);
+			} catch (IOException e) {
+				PluginLogger.severe(LOG_NODE, "处理 ChestCommands 格式文件 " + file.getName() + " 时发送IO异常.");
+				e.printStackTrace();
+			}
+		});
+		return menuMap;
 	}
 
 }
