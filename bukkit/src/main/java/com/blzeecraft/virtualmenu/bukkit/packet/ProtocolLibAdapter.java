@@ -1,5 +1,6 @@
 package com.blzeecraft.virtualmenu.bukkit.packet;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -9,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.blzeecraft.virtualmenu.bukkit.VirtualMenuPlugin;
 import com.blzeecraft.virtualmenu.bukkit.item.XMaterial;
+import com.blzeecraft.virtualmenu.core.VirtualMenu;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInCloseWindow;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketInWindowClick;
 import com.blzeecraft.virtualmenu.core.packet.AbstractPacketOutCloseWindow;
@@ -123,8 +125,9 @@ public class ProtocolLibAdapter implements IPacketAdapter {
 		protocolManager.addPacketListener(packetListener);
 		Bukkit.getPluginManager().registerEvents(packetListener, plugin);
 		// for debug
-		protocolManager.addPacketListener(new PacketDebugHandler(plugin));
-
+		if (new File(VirtualMenu.getDataFolder(), "debug").exists()) {
+			protocolManager.addPacketListener(new PacketDebugHandler(plugin));
+		}
 	}
 
 }
