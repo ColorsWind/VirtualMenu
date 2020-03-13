@@ -4,13 +4,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
 import com.blzeecraft.virtualmenu.core.conf.ObjectConvertException;
 import com.blzeecraft.virtualmenu.core.conf.transition.SubConf;
-import com.google.common.base.Optional;
 
 import lombok.NonNull;
 import lombok.val;
