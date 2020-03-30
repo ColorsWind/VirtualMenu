@@ -6,7 +6,7 @@ AntiSpam: 200
 SupportNBT: true
 # 全局语言，菜单设置的语言会覆盖全局设定
 Lang:
-  NoEnoughMoney: '金钱不足,你需要 %d 来执行这个动作'
+  NoEnoughMoney: '金钱不足,你需要 %.2f 来执行这个动作'
   NoEnoughPoint: '点券不足,你需要 %d 来执行这个动作'
   NoEnoughtItem: '物品不足,你需要 %d 个 %s 来执行这个动作'
   NoEnoughtLevel: '经验不足,你需要到达 %d 级执行这个动作'
